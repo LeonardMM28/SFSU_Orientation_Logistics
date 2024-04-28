@@ -1,0 +1,67 @@
+/* Login.css */
+
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #313e50ff; /* Charcoal */
+}
+
+.login-form-container {
+  width: 300px;
+  padding: 20px;
+  border: 1px solid #3a435eff; /* Delft blue */
+  border-radius: 5px;
+  background-color: #455561ff; /* Charcoal-2 */
+}
+
+.login-form-container h2 {
+  font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #f1dac4ff; /* Lavender web */
+}
+
+.login-form-container .form-group {
+  margin-bottom: 20px;
+}
+
+.login-form-container label {
+  display: block;
+  margin-bottom: 5px;
+  color: #f1dac4ff; /* Platinum */
+}
+
+.login-form-container input {
+  width: calc(100% - 22px);
+  padding: 10px;
+  border: 1px solid #d8d5dbff; /* Platinum */
+  border-radius: 3px;
+  background-color: #eae8ffff; /* Lavender web */
+  color: #2d3142ff; /* Gunmetal */
+}
+
+.login-form-container button {
+  width: 100%;
+  padding: 20px 40px;
+  background-color: #5c6672ff; /* Paynes gray */
+  color: #f1dac4ff; /* Almond */
+  border: none;
+  border-radius: 10px; /* Increased border radius for a more rounded look */
+  font-size: 20px; /* Increased font size for buttons */
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.login-form-container button:hover {
+  background-color: #6c6f7fff; /* Slate gray */
+}
+
+.login-form-container img {
+  width: 300px;
+  margin: 0 auto;
+  display: block;
+}

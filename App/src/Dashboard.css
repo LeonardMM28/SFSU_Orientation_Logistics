@@ -1,0 +1,47 @@
+/* Dashboard container */
+* {
+  font-family: "Quicksand", sans-serif;
+}
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background-color: #313e50ff; /* Charcoal */
+}
+
+/* Dashboard title */
+.dashboard h1 {
+  font-size: 28px; /* Increased font size for title */
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #f1dac4ff; /* Almond */
+}
+
+/* Button container */
+.button-container {
+  display: flex;
+  flex-direction: column; /* Buttons ordered vertically */
+  align-items: center;
+}
+
+/* Dashboard button */
+.dashboard .button {
+  width: 300px; /* Equal width for all buttons */
+  background-color: #5c6672ff; /* Paynes gray */
+  color: #f1dac4ff; /* Almond */
+  border: none;
+  border-radius: 10px; /* Increased border radius for a more rounded look */
+  padding: 20px 40px; /* Increased padding for larger buttons */
+  font-size: 20px; /* Increased font size for buttons */
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Dashboard button hover effect */
+.dashboard .button:hover {
+  background-color: #6c6f7fff; /* Slate gray */
+}
