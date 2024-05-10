@@ -1,0 +1,67 @@
+/* Specific CSS for OL_Uniforms_Inventory */
+
+/* Dashboard container */
+.inventory {
+  position: relative; /* Set position to relative */
+  width: 100%;
+  height: 100vh;
+  padding: 20px; /* Add padding for space */
+  box-sizing: border-box; /* Ensure padding doesn't affect width/height */
+  background-color: #313e50ff; /* Charcoal */
+}
+
+/* Dashboard title */
+.title {
+  font-size: 28px; /* Increased font size for title */
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  color: #f1dac4ff; /* Almond */
+}
+
+/* Search container */
+.search-container {
+  display: flex;
+  align-items: center; /* Align items vertically */
+  justify-content: center; 
+  margin-top: 20px; /* Add margin to separate from title */
+}
+
+/* Search input */
+.search-input {
+  font-size: large;
+  width: 200px; /* Adjust width as needed */
+  padding: 10px; /* Adjust padding as needed */
+}
+
+/* Dashboard button */
+.button {
+  background-color: #5c6672ff; /* Paynes gray */
+  color: #f1dac4ff; /* Almond */
+  border: none;
+  border-radius: 10px; /* Increased border radius for a more rounded look */
+  padding: 10px 20px; /* Adjust padding as needed */
+  font-size: 16px; /* Adjust font size as needed */
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  margin-left: 10px; /* Add margin to separate from search input */
+}
+
+/* Dashboard button hover effect */
+.button:hover {
+  background-color: #6c6f7fff; /* Slate gray */
+}
+
+/* Back icon container */
+.back-icon-container {
+  display: flex; /* Ensure both arrow and title are aligned horizontally */
+  align-items: center; /* Align items vertically */
+}
+
+/* Back icon */
+.back-icon {
+  font-size: 40px; /* Adjust icon size as needed */
+  cursor: pointer;
+  color: #ffffff; /* Adjust icon color as needed */
+  margin-right: 10px; /* Add margin to separate from title */
+}

@@ -5,16 +5,16 @@ import "./Dashboard.css";
 function Dashboard() {
   const navigate = useNavigate();
 
-  const goToAddEditOLUniforms = () => {
-    navigate("/add-edit-ol-uniforms");
+  const goToOLUniformsInventory = () => {
+    navigate("/ol-uniforms-inventory");
   };
 
-  const goToAddEditOrientationResources = () => {
-    navigate("/add-edit-orientation-resources");
+  const goToOrientaitonResourcesInventory = () => {
+    navigate("/orientation-resources-inventory");
   };
 
-  const goToAddEditPlanner = () => {
-    navigate("/add-edit-planner");
+  const goToPlannerInventory = () => {
+    navigate("/planner-inventory");
   };
 
   const goToOther = () => {
@@ -25,9 +25,9 @@ function Dashboard() {
     <div className="dashboard">
       <h1>Logistics Dashboard</h1>
       <div className="button-container">
-        <button className="button" onClick={goToAddEditOLUniforms}>OL Uniforms</button>
-        <button className="button" onClick={goToAddEditOrientationResources}>Orientation Resources</button>
-        <button className="button" onClick={goToAddEditPlanner}>Planner</button>
+        <button className="button" onClick={goToOLUniformsInventory}>OL Uniforms</button>
+        <button className="button" onClick={goToOrientaitonResourcesInventory}>Orientation Resources</button>
+        <button className="button" onClick={goToPlannerInventory}>Session Planner</button>
         <button className="button" onClick={goToOther}>Other</button>
       </div>
     </div>
