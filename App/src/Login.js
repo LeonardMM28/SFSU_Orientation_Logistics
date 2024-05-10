@@ -33,6 +33,10 @@ function Login() {
     }
   };
 
+  const goToDashboard = () => {
+    navigate("/dashboard");
+  };
+
   return (
     <div className="login-page">
       <div className="login-form-container">
@@ -59,7 +63,7 @@ function Login() {
               onChange={handleChange}
             />
           </div>
-          <button type="submit">Login</button>
+          <button type="submit" onClick={goToDashboard}>Login</button>
         </form>
       </div>
     </div>

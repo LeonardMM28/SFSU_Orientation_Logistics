@@ -23,12 +23,21 @@ function Dashboard() {
 
   return (
     <div className="dashboard">
+      <h1>NSFP Orientation 2024</h1>
       <h1>Logistics Dashboard</h1>
       <div className="button-container">
-        <button className="button" onClick={goToOLUniformsInventory}>OL Uniforms</button>
-        <button className="button" onClick={goToOrientaitonResourcesInventory}>Orientation Resources</button>
-        <button className="button" onClick={goToPlannerInventory}>Session Planner</button>
-        <button className="button" onClick={goToOther}>Other</button>
+        <button className="button" onClick={goToOLUniformsInventory}>
+          OL Uniforms
+        </button>
+        <button className="button" onClick={goToOrientaitonResourcesInventory}>
+          Orientation Resources
+        </button>
+        <button className="button" onClick={goToPlannerInventory}>
+          Session Planner
+        </button>
+        <button className="button" onClick={goToOther}>
+          Other
+        </button>
       </div>
     </div>
   );
