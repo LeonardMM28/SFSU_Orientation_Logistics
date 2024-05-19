@@ -1,0 +1,112 @@
+.add-edit-orientation-resources {
+  position: relative;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #313e50ff;
+  color: #f1dac4ff;
+}
+
+.add-edit-orientation-resources .title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #f1dac4ff;
+  margin-left: 10px;
+}
+
+.add-edit-orientation-resources .form-container {
+  margin-top: 20px;
+}
+
+.add-edit-orientation-resources .back-icon-container {
+  display: flex;
+  align-items: center;
+}
+
+.add-edit-orientation-resources .back-icon {
+  font-size: 40px;
+  cursor: pointer;
+  color: #eae8ffff;
+  margin-right: 10px;
+}
+
+.add-edit-orientation-resources .form-group {
+  display: flex;
+  flex-direction: column; /* Adjusted for smaller screens */
+  margin-bottom: 20px;
+}
+
+.add-edit-orientation-resources .form-fields {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.add-edit-orientation-resources label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.add-edit-orientation-resources input[type="text"],
+.add-edit-orientation-resources input[type="file"],
+.add-edit-orientation-resources input[type="number"] {
+  padding: 10px;
+  font-size: 16px;
+  margin-top: 5px;
+  border: 1px solid #5c6672ff;
+  border-radius: 5px;
+  background-color: #eae8ffff; /* Lavender web */
+  color: #313e50ff;
+}
+
+.add-edit-orientation-resources .image-preview {
+  margin: auto;
+  width: 150px;
+  height:auto;
+  object-fit: cover;
+  border: 1px solid #5c6672ff;
+  border-radius: 5px;
+}
+
+.add-edit-orientation-resources .location-quantity {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px; /* Added margin to separate from previous section */
+}
+
+.add-edit-orientation-resources .location-quantity label {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.add-edit-orientation-resources button[type="submit"] {
+  width: 100%;
+  background-color: #5c6672ff;
+  color: #f1dac4ff;
+  border: none;
+  border-radius: 10px;
+  padding: 20px 0;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-edit-orientation-resources button[type="submit"]:hover {
+  background-color: #6c6f7fff;
+}
+
+@media (min-width: 600px) {
+  .add-edit-orientation-resources .form-group {
+    flex-direction: row;
+  }
+
+  .add-edit-orientation-resources .location-quantity {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .add-edit-orientation-resources .location-quantity label {
+    width: 48%;
+  }
+}

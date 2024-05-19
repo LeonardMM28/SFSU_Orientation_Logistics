@@ -9,6 +9,8 @@ import PlannerInventory from "./Planner_Inventory";
 import OLUniformsInventory from "./OL_Uniforms_Inventory";
 import OrientationResourcesInventory from "./Orientation_Resources_Inventory";
 import Dashboard from "./Dashboard";
+import CreateUser from "./CreateUser";
+import History from "./History";
 // import Registration from "./Registration";
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
         <Route path="/planner-inventory" element={<PlannerInventory />} />
         <Route path="/ol-uniforms-inventory" element={<OLUniformsInventory />} />
         <Route path="/orientation-resources-inventory" element={<OrientationResourcesInventory />} />
+        <Route path="/create-user" element={<CreateUser />} />
+        <Route path="/history" element={<History />} />
         
         {/* <Route path="/register" element={<Registration />} /> */}
       </Routes>

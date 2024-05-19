@@ -17,8 +17,15 @@ function Dashboard() {
     navigate("/planner-inventory");
   };
 
+  const goToCreateUser = () => {
+    navigate("/create-user");
+  };
+
   const goToOther = () => {
     navigate("/other");
+  };
+  const goToHistory = () => {
+    navigate("/history");
   };
 
   return (
@@ -34,6 +41,12 @@ function Dashboard() {
         </button>
         <button className="button" onClick={goToPlannerInventory}>
           Session Planner
+        </button>
+        <button className="button" onClick={goToCreateUser}>
+          Create User
+        </button>
+        <button className="button" onClick={goToHistory}>
+          History
         </button>
         <button className="button" onClick={goToOther}>
           Other
