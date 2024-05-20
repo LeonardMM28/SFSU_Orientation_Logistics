@@ -28,26 +28,6 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(cors());
 
-// Create the sessions table if it doesn't exist
-connection.query(
-  `
-  CREATE TABLE IF NOT EXISTS sessions (
-    session_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    token VARCHAR(255) NOT NULL,
-    expires_at TIMESTAMP NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
-  )
-`,
-  (err) => {
-    if (err) {
-      console.error("Error creating Sessions table:", err);
-      return;
-    }
-    console.log("Sessions table created successfully");
-  }
-);
-
 // Create the users table if it doesn't exist
 connection.query(
   `
@@ -65,6 +45,26 @@ connection.query(
       return;
     }
     console.log("Users table created successfully");
+  }
+);
+
+// Create the sessions table if it doesn't exist
+connection.query(
+  `
+  CREATE TABLE IF NOT EXISTS sessions (
+    session_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    token VARCHAR(255) NOT NULL,
+    expires_at TIMESTAMP NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+  )
+`,
+  (err) => {
+    if (err) {
+      console.error("Error creating Sessions table:", err);
+      return;
+    }
+    console.log("Sessions table created successfully");
   }
 );
 
@@ -134,26 +134,26 @@ connection.query(
 app.use("/", userRouter); // Update the endpoint to use the imported router middleware
 app.use("/", itemsRouter); // Add the product router middleware
 
-const privateKey = fs.readFileSync("./keycertbot.pem", "utf8");
-const certificate = fs.readFileSync("./certificate.pem", "utf8");
+// const privateKey = fs.readFileSync("./keycertbot.pem", "utf8");
+// const certificate = fs.readFileSync("./certificate.pem", "utf8");
 
-const httpsServer = https.createServer(
-  {
-    key: privateKey,
-    cert: certificate,
-  },
-  app
-);
+// const httpsServer = https.createServer(
+//   {
+//     key: privateKey,
+//     cert: certificate,
+//   },
+//   app
+// );
 
 app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "../public/index.html")); // Update the path to your index.html file
 });
 
-httpsServer.listen(PORT, () => {
-  console.log(`Server is running on https://localhost:${PORT}`);
-});
-
-// app.listen(PORT, () => {
-//   console.log(`Server listening on port ${PORT}`);
+// httpsServer.listen(PORT, () => {
+//   console.log(`Server is running on https://localhost:${PORT}`);
 // });
+
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
 
