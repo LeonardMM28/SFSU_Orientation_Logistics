@@ -8,19 +8,19 @@
   padding: 20px; /* Add padding for space */
   box-sizing: border-box; /* Ensure padding doesn't affect width/height */
   background-color: #313e50ff; /* Charcoal */
+  color: #f1dac4ff; /* Almond */
 }
 
 /* Dashboard title */
-.title {
+.inventory .title {
   font-size: 28px; /* Increased font size for title */
   font-weight: bold;
   margin-bottom: 20px;
   margin-left: 10px;
-  color: #f1dac4ff; /* Almond */
 }
 
 /* Search container */
-.search-container {
+.inventory .search-container {
   display: flex;
   align-items: center; /* Align items vertically */
   justify-content: center; 
@@ -28,17 +28,18 @@
 }
 
 /* Search input */
-.search-input {
+.inventory .search-input {
   font-size: 20px; /* Adjust font size as needed */
   width: 200px; /* Adjust width as needed */
   padding: 8px; /* Adjust padding as needed */
   background-color: #eae8ffff;
   border: none;
   border-radius: 10px; /* Increased border radius for a more rounded look */
+  margin-right: 10px; /* Add margin to separate from button */
 }
 
 /* Dashboard button */
-.button {
+.inventory .button {
   background-color: #5c6672ff; /* Paynes gray */
   color: #f1dac4ff; /* Almond */
   border: none;
@@ -47,24 +48,76 @@
   font-size: 16px; /* Adjust font size as needed */
   cursor: pointer;
   transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-  margin-left: 10px; /* Add margin to separate from search input */
 }
 
 /* Dashboard button hover effect */
-.button:hover {
+.inventory .button:hover {
   background-color: #6c6f7fff; /* Slate gray */
 }
 
 /* Back icon container */
-.back-icon-container {
+.inventory .back-icon-container {
   display: flex; /* Ensure both arrow and title are aligned horizontally */
   align-items: center; /* Align items vertically */
 }
 
 /* Back icon */
-.back-icon {
+.inventory .back-icon {
   font-size: 40px; /* Adjust icon size as needed */
   cursor: pointer;
   color: #eae8ffff; /* Adjust icon color as needed */
   margin-right: 10px; /* Add margin to separate from title */
+}
+
+/* Items container */
+.inventory .items-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px;
+  margin-top: 20px; /* Add margin to separate from search container */
+}
+/* Specific CSS for OL_Uniforms_Inventory */
+
+/* Individual item */
+.inventory .item {
+  width: 100%; /* Each item occupies the full width */
+  background-color: #f1dac4ff; /* Almond */
+  color: #313e50ff; /* Charcoal */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  margin-bottom: 20px; /* Add margin between items */
+}
+
+.inventory .item:hover {
+  transform: translateY(-5px);
+}
+
+/* Item title */
+.inventory .item-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+/* Item image */
+.inventory .item-image {
+  width: 50px; /* Set a small width for the image */
+  height: auto;
+  border-radius: 10px;
+  margin-right: 10px; /* Add margin between the image and details */
+  flex-shrink: 0; /* Prevent the image from shrinking */
+}
+
+/* Item details container */
+.inventory .item-details {
+  display: flex; /* Display item details horizontally */
+  flex-wrap: wrap; /* Wrap item details if they exceed the width */
+}
+
+/* Item detail */
+.inventory .item-detail {
+  font-size: 16px;
+  margin-right: 20px; /* Add margin between item details */
 }

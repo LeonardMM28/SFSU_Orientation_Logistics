@@ -62,8 +62,8 @@
 
 .add-edit-orientation-resources .image-preview {
   margin: auto;
-  width: 150px;
-  height:auto;
+  width: auto;
+  height:150px;
   object-fit: cover;
   border: 1px solid #5c6672ff;
   border-radius: 5px;

@@ -20,7 +20,7 @@ function Orientation_Resources_Inventory() {
           onClick={goToDashboard}
           className="back-icon"
         />
-        <h1 className="title">ORIENTATION RESOURCES</h1>
+        <h1 className="title">ORIENTATION SUPPLIES</h1>
       </div>
       <div className="search-container">
         <input type="text" className="search-input" placeholder="Search..." />

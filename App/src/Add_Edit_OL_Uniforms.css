@@ -62,7 +62,7 @@
 
 .add-edit-ol-uniforms .image-preview {
   margin: auto;
-  width: 150px;
+  width: auto;
   height: 150px;
   object-fit: cover;
   border: 1px solid #5c6672ff;

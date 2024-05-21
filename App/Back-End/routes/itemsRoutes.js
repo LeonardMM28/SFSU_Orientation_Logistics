@@ -33,7 +33,6 @@ const uploadFileToS3 = async (file) => {
     Bucket: process.env.AWS_S3_BUCKET_NAME,
     Key: `${Date.now()}_${file.originalname}`,
     Body: file.buffer,
-    ACL: "public-read",
   };
   const upload = new Upload({
     client: s3,
@@ -53,37 +52,98 @@ function authenticateToken(req, res, next) {
     req.user = user;
 
     // Check if the token exists in the database
-    connection.query("SELECT * FROM sessions WHERE token = ?", [token], (error, results) => {
-      if (error) {
-        console.error("Error checking token in database:", error);
-        return res.status(500).json({ message: "Internal server error" });
-      }
+    connection.query(
+      "SELECT * FROM sessions WHERE token = ?",
+      [token],
+      (error, results) => {
+        if (error) {
+          console.error("Error checking token in database:", error);
+          return res.status(500).json({ message: "Internal server error" });
+        }
 
-      // If token not found in database, set it to expire immediately
-      if (results.length === 0) {
-        console.log("Token not found in database, expiring token");
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-
-      // Token exists in database, check expiration
-      const expiration = new Date(results[0].expires_at).getTime();
-      const now = new Date().getTime();
-      if (now > expiration) {
-        console.log("Token expired, deleting from database");
-        // Remove the token from the database
-        connection.query("DELETE FROM sessions WHERE token = ?", [token], (deleteError) => {
-          if (deleteError) {
-            console.error("Error deleting expired token:", deleteError);
-            return res.status(500).json({ message: "Internal server error" });
-          }
+        // If token not found in database, set it to expire immediately
+        if (results.length === 0) {
+          console.log("Token not found in database, expiring token");
           return res.status(401).json({ message: "Unauthorized" });
-        });
-      } else {
-        // Token is valid, continue with the request
-        next();
+        }
+
+        // Token exists in database, check expiration
+        const expiration = new Date(results[0].expires_at).getTime();
+        const now = new Date().getTime();
+        if (now > expiration) {
+          console.log("Token expired, deleting from database");
+          // Remove the token from the database
+          connection.query(
+            "DELETE FROM sessions WHERE token = ?",
+            [token],
+            (deleteError) => {
+              if (deleteError) {
+                console.error("Error deleting expired token:", deleteError);
+                return res
+                  .status(500)
+                  .json({ message: "Internal server error" });
+              }
+              return res.status(401).json({ message: "Unauthorized" });
+            }
+          );
+        } else {
+          // Token is valid, continue with the request
+          next();
+        }
       }
-    });
+    );
   });
 }
+
+router.get("/auth-check", authenticateToken, (req, res) => {
+  res.sendStatus(200); // Send a success response if token authentication is successful
+});
+
+router.get("/items/uniforms", authenticateToken, (req, res) => {
+  connection.query(
+    "SELECT * FROM items WHERE category = 'UNIFORMS'",
+    (error, results) => {
+      if (error) {
+        console.error("Error retrieving uniforms:", error);
+        return res.status(500).json({ message: "Internal server error" });
+      }
+      res.json(results);
+    }
+  );
+});
+
+router.post(
+  "/add/items",
+  authenticateToken,
+  upload.single("picture"),
+  async (req, res) => {
+    try {
+      const { name, category, locationAnnex, quantityAnnex, locationHQ, quantityHQ } =
+        req.body;
+      let imageUrl = null;
+      if (req.file) {
+        const s3Response = await uploadFileToS3(req.file);
+        imageUrl = s3Response.Location; // Use only the Location property
+      }
+
+      const query =
+        "INSERT INTO items (name, image, category, location_annex, quantity_annex, location_hq, quantity_hq) VALUES (?, ?, ?, ?, ?, ?, ?)";
+      connection.query(
+        query,
+        [name, imageUrl, category, locationAnnex, quantityAnnex, locationHQ, quantityHQ],
+        (error, results) => {
+          if (error) {
+            console.error("Error adding item:", error);
+            return res.status(500).json({ message: "Internal server error" });
+          }
+          res.status(201).json({ message: "Item added successfully" });
+        }
+      );
+    } catch (error) {
+      console.error("Error processing request:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+);
 
 module.exports = router;

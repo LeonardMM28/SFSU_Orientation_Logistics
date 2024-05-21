@@ -74,7 +74,6 @@ connection.query(
   CREATE TABLE IF NOT EXISTS items (
       id INT AUTO_INCREMENT PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
-      quantity INT NOT NULL,
       image VARCHAR(255),
       category VARCHAR(255) NOT NULL,
       location_annex VARCHAR(255),

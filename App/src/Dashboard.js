@@ -110,7 +110,7 @@ function Dashboard() {
           OL Uniforms
         </button>
         <button className="button" onClick={goToOrientaitonResourcesInventory}>
-          Orientation Resources
+          Orientation Supplies
         </button>
         <button className="button" onClick={goToPlannerInventory}>
           Session Planner
