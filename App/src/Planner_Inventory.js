@@ -18,50 +18,64 @@ function Planner_Inventory() {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
+        const sessionsData = response.data;
 
-        const sessions = response.data;
-        await Promise.all(
-          sessions.map(async (session) => {
-            const checklist = await axios
-              .get(`http://localhost:3000/session/${session.id}`, {
+        for (const session of sessionsData) {
+          const response = await axios.get(
+            `http://localhost:3000/session/${session.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
+          const checklist = response.data.checklist;
+          let allItemsInStock = true;
+
+          for (const item of checklist) {
+            const itemResponse = await axios.get(
+              `http://localhost:3000/items/${item.id}`,
+              {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
-              })
-              .then((res) => res.data.checklist);
-
-            const allItemsInStock = await Promise.all(
-              checklist.map(async (item) => {
-                const itemResponse = await axios.get(
-                  `http://localhost:3000/items/${item.id}`,
-                  {
-                    headers: {
-                      Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    },
-                  }
-                );
-                const availableQuantity = itemResponse.data.quantity_hq;
-                const neededQuantity = item.amount;
-                return availableQuantity >= neededQuantity;
-              })
+              }
             );
+            const availableQuantity = itemResponse.data.quantity_hq;
+            const neededQuantity = item.amount;
 
-            const isAllInStock = allItemsInStock.every((status) => status);
-            if (isAllInStock) {
-              await axios.put(
-                `http://localhost:3000/update-session-ES/${session.id}`,
-                {},
-                {
-                  headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                  },
-                }
-              );
+            if (availableQuantity < neededQuantity) {
+              allItemsInStock = false;
+              break;
             }
-          })
-        );
+          }
 
-        setSessions(sessions);
+          if (allItemsInStock && session.status !== "ES") {
+            await axios.put(
+              `http://localhost:3000/update-session-ES/${session.id}`,
+              {},
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              }
+            );
+            session.status = "ES"; // Update the session status in the state
+          } else if (!allItemsInStock && session.status !== "NES") {
+            await axios.put(
+              `http://localhost:3000/update-session-NES/${session.id}`,
+              {},
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              }
+            );
+            session.status = "NES"; // Update the session status in the state
+          }
+        }
+
+        setSessions(sessionsData); // Update the state with the modified sessions data
       } catch (error) {
         console.error("Error fetching sessions:", error);
       }
