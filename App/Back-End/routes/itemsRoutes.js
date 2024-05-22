@@ -211,6 +211,25 @@ router.put("/edit/session/:sessionId", authenticateToken, (req, res) => {
   );
 });
 
+router.put(
+  "/update-session-ES/:sessionId",
+  authenticateToken,
+  (req, res) => {
+    const { sessionId } = req.params;
+
+    // Update session status in the database to 'ES'
+    const query = "UPDATE OLSessions SET status = 'ES' WHERE id = ?";
+    connection.query(query, [sessionId], (error, results) => {
+      if (error) {
+        console.error("Error updating session status:", error);
+        return res.status(500).json({ message: "Internal server error" });
+      }
+      res.json({ message: "Session status updated to 'ES' successfully" });
+    });
+  }
+);
+
+
 router.post(
   "/add/items",
   authenticateToken,

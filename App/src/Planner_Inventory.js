@@ -18,7 +18,50 @@ function Planner_Inventory() {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        setSessions(response.data);
+
+        const sessions = response.data;
+        await Promise.all(
+          sessions.map(async (session) => {
+            const checklist = await axios
+              .get(`http://localhost:3000/session/${session.id}`, {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              })
+              .then((res) => res.data.checklist);
+
+            const allItemsInStock = await Promise.all(
+              checklist.map(async (item) => {
+                const itemResponse = await axios.get(
+                  `http://localhost:3000/items/${item.id}`,
+                  {
+                    headers: {
+                      Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                  }
+                );
+                const availableQuantity = itemResponse.data.quantity_hq;
+                const neededQuantity = item.amount;
+                return availableQuantity >= neededQuantity;
+              })
+            );
+
+            const isAllInStock = allItemsInStock.every((status) => status);
+            if (isAllInStock) {
+              await axios.put(
+                `http://localhost:3000/update-session-ES/${session.id}`,
+                {},
+                {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                  },
+                }
+              );
+            }
+          })
+        );
+
+        setSessions(sessions);
       } catch (error) {
         console.error("Error fetching sessions:", error);
       }
