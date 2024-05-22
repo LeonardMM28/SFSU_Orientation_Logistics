@@ -1,6 +1,9 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react"; // Import React hooks
-import axios from "axios"; 
+import { QrReader } from "react-qr-reader";
 import { useNavigate } from "react-router-dom";
+import { BrowserBarcodeReader } from "@zxing/library";
+
 import "./Dashboard.css";
 
 function Dashboard() {
@@ -8,6 +11,32 @@ function Dashboard() {
   const [userId, setUserId] = useState("");
   const [userTier, setUserTier] = useState(""); // State to store user's tier
   const navigate = useNavigate();
+  const [scanResult, setScanResult] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleExtractBarcode = async () => {
+    if (selectedFile) {
+      try {
+        const reader = new BrowserBarcodeReader();
+        const result = await reader.decodeFromImageUrl(
+          URL.createObjectURL(selectedFile)
+        );
+        setScanResult(result.text);
+        alert("Barcode extracted successfully!");
+      } catch (error) {
+        console.error(error);
+        alert(
+          "Error occurred while extracting barcode. Please ensure the selected file contains a valid barcode."
+        );
+      }
+    } else {
+      alert("Please select a file first.");
+    }
+  };
 
   useEffect(() => {
     // Function to authenticate token on component mount
@@ -116,9 +145,9 @@ function Dashboard() {
           Session Planner
         </button>
         {userTier === "2" && ( // Show the "Create User" button only if user's tier is 1}
-        <button className="button" onClick={goToCreateUser}>
-          Create User
-          </button> 
+          <button className="button" onClick={goToCreateUser}>
+            Create User
+          </button>
         )}
         {userTier === "2" && ( // Show the "History" button only if user's tier is 2
           <button className="button" onClick={goToHistory}>
@@ -127,6 +156,21 @@ function Dashboard() {
         )}
         <button className="button" onClick={goToOther}>
           Other
+        </button>
+      </div>
+      <div className="barcode-scanner">
+        <input type="file" accept="image/*" onChange={handleFileChange} />
+        <button className="button" onClick={handleExtractBarcode}>
+          Extract Barcode
+        </button>
+        <input
+          type="text"
+          value={scanResult}
+          readOnly
+          placeholder="Extracted Barcode"
+        />
+        <button className="button" onClick={() => setScanResult("")}>
+          Clear
         </button>
       </div>
     </div>

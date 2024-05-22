@@ -112,6 +112,29 @@ router.get("/items/uniforms", authenticateToken, (req, res) => {
   );
 });
 
+router.get("/items/supplies", authenticateToken, (req, res) => {
+  connection.query(
+    "SELECT * FROM items WHERE category = 'SUPPLIES'",
+    (error, results) => {
+      if (error) {
+        console.error("Error retrieving uniforms:", error);
+        return res.status(500).json({ message: "Internal server error" });
+      }
+      res.json(results);
+    }
+  );
+});
+
+router.get("/sessions", authenticateToken, (req, res) => {
+  connection.query("SELECT * FROM OLSessions", (error, results) => {
+    if (error) {
+      console.error("Error retrieving sessions:", error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+    res.json(results);
+  });
+});
+
 router.post(
   "/add/items",
   authenticateToken,
@@ -145,5 +168,34 @@ router.post(
     }
   }
 );
+
+router.post("/add/session", authenticateToken, (req, res) => {
+  const { date, type, attendees, checklist } = req.body;
+
+  // Validate the input
+  if (!date || !type || attendees == null || !checklist) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  // Insert the new session into the OLSessions table
+  const query =
+    "INSERT INTO OLSessions (date, type, attendees, checklist) VALUES (?, ?, ?, ?)";
+  connection.query(
+    query,
+    [date, type, attendees, JSON.stringify(checklist)],
+    (error, results) => {
+      if (error) {
+        console.error("Error inserting session:", error);
+        return res.status(500).json({ message: "Internal server error" });
+      }
+      res.status(201).json({
+        message: "Session added successfully",
+        sessionId: results.insertId,
+      });
+    }
+  );
+});
+
+
 
 module.exports = router;

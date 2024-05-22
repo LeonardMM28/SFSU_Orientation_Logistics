@@ -97,8 +97,10 @@ connection.query(
   CREATE TABLE IF NOT EXISTS OLSessions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     date DATE NOT NULL,
-    category VARCHAR(255) NOT NULL,
-    checklist JSON
+    type VARCHAR(255) NOT NULL,
+    attendees INT,
+    checklist JSON,
+    status ENUM('NES', 'ES', 'READY') NOT NULL DEFAULT 'NES'
   )
 `,
   (err) => {

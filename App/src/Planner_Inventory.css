@@ -1,0 +1,159 @@
+.sessions {
+  position: relative; /* Set position to relative */
+  width: 100%;
+  height: 100vh;
+  padding: 20px; /* Add padding for space */
+  box-sizing: border-box; /* Ensure padding doesn't affect width/height */
+  background-color: #313e50ff; /* Charcoal */
+  color: #f1dac4ff; /* Almond */
+}
+
+/* Dashboard title */
+.sessions .title {
+  font-size: 28px; /* Increased font size for title */
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-left: 10px;
+}
+
+/* Search container */
+.sessions .search-container {
+  display: flex;
+  align-items: center; /* Align items vertically */
+  justify-content: center; 
+  margin-top: 20px; /* Add margin to separate from title */
+}
+
+/* Search input */
+.sessions .search-input {
+  font-size: 20px; /* Adjust font size as needed */
+  width: 200px; /* Adjust width as needed */
+  padding: 8px; /* Adjust padding as needed */
+  background-color: #eae8ffff;
+  border: none;
+  border-radius: 10px; /* Increased border radius for a more rounded look */
+  margin-right: 10px; /* Add margin to separate from button */
+}
+
+/* Dashboard button */
+.sessions .button {
+  background-color: #5c6672ff; /* Paynes gray */
+  color: #f1dac4ff; /* Almond */
+  border: none;
+  border-radius: 10px; /* Increased border radius for a more rounded look */
+  padding: 10px 20px; /* Adjust padding as needed */
+  font-size: 16px; /* Adjust font size as needed */
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Dashboard button hover effect */
+.sessions .button:hover {
+  background-color: #6c6f7fff; /* Slate gray */
+}
+
+/* Back icon container */
+.sessions .back-icon-container {
+  display: flex; /* Ensure both arrow and title are aligned horizontally */
+  align-items: center; /* Align items vertically */
+}
+
+/* Back icon */
+.sessions .back-icon {
+  font-size: 40px; /* Adjust icon size as needed */
+  cursor: pointer;
+  color: #eae8ffff; /* Adjust icon color as needed */
+  margin-right: 10px; /* Add margin to separate from title */
+}
+
+/* Items container */
+.sessions .items-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px;
+  margin-top: 20px; /* Add margin to separate from search container */
+}
+/* Specific CSS for OL_Uniforms_Inventory */
+
+/* Individual item */
+.sessions .item {
+  width: 100%; /* Each item occupies the full width */
+  background-color: #f1dac4ff; /* Almond */
+  color: #313e50ff; /* Charcoal */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  margin-bottom: 20px; /* Add margin between items */
+}
+
+.sessions .item:hover {
+  transform: translateY(-5px);
+}
+
+/* Item title */
+.sessions .item-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+/* Item image */
+.sessions .item-image {
+  width: 50px; /* Set a small width for the image */
+  height: auto;
+  border-radius: 10px;
+  margin-right: 10px; /* Add margin between the image and details */
+  flex-shrink: 0; /* Prevent the image from shrinking */
+}
+
+/* Item details container */
+.sessions .item-details {
+  display: flex; /* Display item details horizontally */
+  flex-wrap: wrap; /* Wrap item details if they exceed the width */
+}
+
+/* Item detail */
+.sessions .item-detail {
+  font-size: 16px;
+  margin-right: 20px; /* Add margin between item details */
+}
+
+
+.sessions .sessions-table {
+  margin-top: 20px;
+}
+
+.sessions table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.sessions th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.sessions th {
+  background-color: #f2f2f2;
+}
+
+.sessions .status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.sessions .red {
+  background-color: red;
+}
+
+.sessions .yellow {
+  background-color: yellow;
+}
+
+.sessions .green {
+  background-color: green;
+}

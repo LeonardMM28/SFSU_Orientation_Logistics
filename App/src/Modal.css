@@ -1,0 +1,45 @@
+/* Modal.css */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.modal-image {
+  max-width: 100%;
+  max-height: 80vh; /* Limit height to 80% of viewport height */
+  object-fit: contain;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color:#6c6f7fff;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #333;
+  padding-top: 5px;
+}
+
+.close-button:hover {
+  color: #f00;
+}
