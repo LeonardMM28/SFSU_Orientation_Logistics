@@ -125,6 +125,28 @@ router.get("/items/supplies", authenticateToken, (req, res) => {
   );
 });
 
+router.get("/items/:itemId", authenticateToken, (req, res) => {
+  const { itemId } = req.params;
+
+  // Query to retrieve item data from the database
+  connection.query(
+    "SELECT * FROM items WHERE id = ?",
+    [itemId],
+    (error, results) => {
+      if (error) {
+        console.error("Error retrieving item:", error);
+        return res.status(500).json({ message: "Internal server error" });
+      }
+      if (results.length === 0) {
+        return res.status(404).json({ message: "Item not found" });
+      }
+      const item = results[0];
+      res.json(item);
+    }
+  );
+});
+
+
 router.get("/sessions", authenticateToken, (req, res) => {
   connection.query("SELECT * FROM OLSessions", (error, results) => {
     if (error) {
