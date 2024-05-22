@@ -259,6 +259,9 @@ function Edit_Session() {
               const item = supplies.find(
                 (supply) => supply.id === parseInt(id)
               );
+              if (!item) {
+                return null; // Skip if the item is not found
+              }
               return (
                 <li key={id} className="checklist-item">
                   <img
@@ -270,7 +273,12 @@ function Edit_Session() {
                   <div className="item-details">
                     <span className="item-name">{item.name}</span>
                     <span className="item-amount">Amount: {amount}</span>
-                    <button className="remove-button" onClick={() => handleRemoveItem(id)}>Remove</button>
+                    <button
+                      className="remove-button"
+                      onClick={() => handleRemoveItem(id)}
+                    >
+                      Remove
+                    </button>
                   </div>
                 </li>
               );
