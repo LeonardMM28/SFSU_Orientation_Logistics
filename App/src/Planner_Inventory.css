@@ -130,13 +130,14 @@
 }
 
 .sessions th, td {
-  border: 1px solid #ddd;
+  border: 1px solid #f1dac4ff;
   padding: 8px;
   text-align: left;
 }
 
 .sessions th {
-  background-color: #f2f2f2;
+  background-color:#6c6f7fff;
+  color: black;
 }
 
 .sessions .status-dot {

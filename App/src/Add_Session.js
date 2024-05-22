@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react"; // Import React hooks
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal"; // Import the Modal component
-import "./Add_Edit_Planner.css";
+import "./Add_Session.css";
 
-function Add_Edit_Planner() {
+function Add_Session() {
   const [selectedButton, setSelectedButton] = useState(null);
   const [supplies, setSupplies] = useState([]);
   const [checklist, setChecklist] = useState({});
@@ -226,4 +226,4 @@ function Add_Edit_Planner() {
   );
 }
 
-export default Add_Edit_Planner;
+export default Add_Session;

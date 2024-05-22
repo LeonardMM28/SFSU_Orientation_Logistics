@@ -135,6 +135,60 @@ router.get("/sessions", authenticateToken, (req, res) => {
   });
 });
 
+router.get("/session/:sessionId", authenticateToken, (req, res) => {
+  const { sessionId } = req.params;
+
+  // Query to retrieve session data from the database
+  connection.query(
+    "SELECT * FROM OLSessions WHERE id = ?",
+    [sessionId],
+    (error, results) => {
+      if (error) {
+        console.error("Error retrieving session:", error);
+        return res.status(500).json({ message: "Internal server error" });
+      }
+      if (results.length === 0) {
+        return res.status(404).json({ message: "Session not found" });
+      }
+      const session = results[0];
+      try {
+        // Ensure the checklist is parsed from JSON to an array
+        session.checklist = JSON.parse(session.checklist);
+      } catch (parseError) {
+        console.error("Error parsing checklist:", parseError);
+        session.checklist = [];
+      }
+      res.json(session);
+    }
+  );
+});
+
+
+router.put("/edit/session/:sessionId", authenticateToken, (req, res) => {
+  const { sessionId } = req.params;
+  const { date, type, attendees, checklist } = req.body;
+
+  // Validate input data
+  if (!date || !type || attendees == null || !checklist) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  // Update session data in the database
+  const query =
+    "UPDATE OLSessions SET date = ?, type = ?, attendees = ?, checklist = ? WHERE id = ?";
+  connection.query(
+    query,
+    [date, type, attendees, JSON.stringify(checklist), sessionId],
+    (error, results) => {
+      if (error) {
+        console.error("Error updating session:", error);
+        return res.status(500).json({ message: "Internal server error" });
+      }
+      res.json({ message: "Session updated successfully" });
+    }
+  );
+});
+
 router.post(
   "/add/items",
   authenticateToken,

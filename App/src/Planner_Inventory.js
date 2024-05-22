@@ -26,17 +26,21 @@ function Planner_Inventory() {
   }, []);
 
   const goToAddEdit = () => {
-    navigate("/add-edit-planner");
+    navigate("/add-session");
+  };
+
+  const goToEditSession = (sessionId) => {
+    navigate(`/edit-session/${sessionId}`);
   };
 
   const goToDashboard = () => {
     navigate("/dashboard");
   };
 
-    const formatDate = (dateString) => {
-      const date = new Date(dateString);
-      return date.toISOString().split("T")[0];
-    };
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().split("T")[0];
+  };
 
   const getStatusDot = (status) => {
     switch (status) {
@@ -71,6 +75,7 @@ function Planner_Inventory() {
               <th>Type</th>
               <th>Attendees</th>
               <th>Status</th>
+              <th>Actions</th> {/* New column for Edit button */}
             </tr>
           </thead>
           <tbody>
@@ -80,6 +85,12 @@ function Planner_Inventory() {
                 <td>{session.type}</td>
                 <td>{session.attendees}</td>
                 <td>{getStatusDot(session.status)}</td>
+                <td>
+                  <button onClick={() => goToEditSession(session.id)}>
+                    Edit
+                  </button>
+                </td>{" "}
+                {/* Edit button */}
               </tr>
             ))}
           </tbody>
