@@ -8,6 +8,7 @@ function Planner_Inventory() {
   const [sessions, setSessions] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState([]);
+  const [currentSessionId, setCurrentSessionId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,18 +51,31 @@ function Planner_Inventory() {
             }
           }
 
-          if (allItemsInStock && session.status !== "ES") {
-            await axios.put(
-              `http://localhost:3000/update-session-ES/${session.id}`,
-              {},
-              {
-                headers: {
-                  Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-              }
-            );
-            session.status = "ES"; // Update the session status in the state
-          } else if (!allItemsInStock && session.status !== "NES") {
+          if (session.status !== "READY") {
+            if (allItemsInStock && session.status !== "ES") {
+              await axios.put(
+                `http://localhost:3000/update-session-ES/${session.id}`,
+                {},
+                {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                  },
+                }
+              );
+              session.status = "ES"; // Update the session status in the state
+            } else if (!allItemsInStock && session.status !== "NES") {
+              await axios.put(
+                `http://localhost:3000/update-session-NES/${session.id}`,
+                {},
+                {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                  },
+                }
+              );
+              session.status = "NES"; // Update the session status in the state
+            }
+          } else if (!allItemsInStock && session.status === "READY") {
             await axios.put(
               `http://localhost:3000/update-session-NES/${session.id}`,
               {},
@@ -114,7 +128,6 @@ function Planner_Inventory() {
     }
   };
 
-  // Inside handleViewSession function
   const handleViewSession = async (sessionId) => {
     try {
       const response = await axios.get(
@@ -159,6 +172,35 @@ function Planner_Inventory() {
     setShowModal(false);
   };
 
+  const handlePrepareButtonClick = (sessionId) => {
+    setCurrentSessionId(sessionId);
+    setShowModal(true);
+  };
+
+  const handleConfirmPrep = async () => {
+    try {
+      await axios.put(
+        `http://localhost:3000/update-session-READY/${currentSessionId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      setSessions((prevSessions) =>
+        prevSessions.map((session) =>
+          session.id === currentSessionId
+            ? { ...session, status: "READY" }
+            : session
+        )
+      );
+      setShowModal(false);
+    } catch (error) {
+      console.error("Error updating session status:", error);
+    }
+  };
+
   return (
     <div className="sessions">
       <div className="back-icon-container">
@@ -196,6 +238,13 @@ function Planner_Inventory() {
                   <button onClick={() => handleViewSession(session.id)}>
                     View
                   </button>
+                  {session.status === "ES" && (
+                    <button
+                      onClick={() => handlePrepareButtonClick(session.id)}
+                    >
+                      PREPARED
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
@@ -208,29 +257,42 @@ function Planner_Inventory() {
             <span className="close" onClick={handleCloseModal}>
               &times;
             </span>
-            <h2>Checklist Items</h2>
-            <ul>
-              {modalContent.map((item) => (
-                <li key={item.id}>
-                  <div className="item-details-container">
-                    <img
-                      src={item.details.image}
-                      alt={item.details.name}
-                      className="item-image"
-                    />
-                    <div className="item-details">
-                      <span className="item-title">{item.details.name}</span>
-                      <span className={`item-detail ${item.quantityStatus}`}>
-                        {item.availableQuantity >= item.amount
-                          ? `${item.amount}/${item.amount}`
-                          : `${item.availableQuantity}/${item.amount}`}
-                      </span>
-                      {/* Add other item details here */}
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            {currentSessionId ? (
+              <>
+                <h2>Are you sure this session prep is good to go?</h2>
+                <button onClick={handleConfirmPrep}>YES</button>
+                <button onClick={handleCloseModal}>NOT YET</button>
+              </>
+            ) : (
+              <>
+                <h2>Checklist Items</h2>
+                <ul>
+                  {modalContent.map((item) => (
+                    <li key={item.id}>
+                      <div className="item-details-container">
+                        <img
+                          src={item.details.image}
+                          alt={item.details.name}
+                          className="item-image"
+                        />
+                        <div className="item-details">
+                          <span className="item-title">
+                            {item.details.name}
+                          </span>
+                          <span
+                            className={`item-detail ${item.quantityStatus}`}
+                          >
+                            {item.availableQuantity >= item.amount
+                              ? `${item.amount}/${item.amount}`
+                              : `${item.availableQuantity}/${item.amount}`}
+                          </span>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
           </div>
         </div>
       )}

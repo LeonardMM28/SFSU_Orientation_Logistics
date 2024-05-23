@@ -243,6 +243,20 @@ router.put("/update-session-NES/:sessionId", authenticateToken, (req, res) => {
   });
 });
 
+router.put("/update-session-READY/:sessionId", authenticateToken, (req, res) => {
+  const { sessionId } = req.params;
+
+  // Update session status in the database to 'READY'
+  const query = "UPDATE OLSessions SET status = 'READY' WHERE id = ?";
+  connection.query(query, [sessionId], (error, results) => {
+    if (error) {
+      console.error("Error updating session status:", error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+    res.json({ message: "Session status updated to 'ES' successfully" });
+  });
+});
+
 router.post(
   "/add/items",
   authenticateToken,
