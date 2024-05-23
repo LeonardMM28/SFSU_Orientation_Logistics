@@ -1,11 +1,12 @@
-import React, { useState } from "react"; // Import React hooks
+// Edit_OL_Uniforms.js
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import { useParams, useNavigate } from "react-router-dom";
 import { FiArrowLeftCircle } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
 import "./Add_Edit_OL_Uniforms.css";
 
-function Add_Edit_OL_Uniforms() {
+function Edit_OL_Uniforms() {
+const { itemId } = useParams();
   const [name, setName] = useState("");
   const [picture, setPicture] = useState(null);
   const category = "UNIFORMS";
@@ -16,17 +17,40 @@ function Add_Edit_OL_Uniforms() {
   const [imagePreview, setImagePreview] = useState(null);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchItem = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/items/${itemId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        const item = response.data;
+        setName(item.name);
+        setLocationAnnex(item.location_annex);
+        setQuantityAnnex(item.quantity_annex);
+        setLocationHQ(item.location_hq);
+        setQuantityHQ(item.quantity_hq);
+        setImagePreview(item.image);
+      } catch (error) {
+        console.error("Error fetching item:", error);
+      }
+    };
+
+    fetchItem();
+  }, [itemId]);
+
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setPicture(file); // Update picture state
+      setPicture(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
       };
       reader.readAsDataURL(file);
     } else {
-      setPicture(null); // Clear picture state
+      setPicture(null);
       setImagePreview(null);
     }
   };
@@ -43,16 +67,15 @@ function Add_Edit_OL_Uniforms() {
     formData.append("quantityHQ", quantityHQ);
 
     try {
-      await axios.post("http://localhost:3000/add/items", formData, {
+      await axios.put(`http://localhost:3000/edit/item/${itemId}`, formData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming token is stored in local storage
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "multipart/form-data",
         },
       });
       navigate("/ol-uniforms-inventory");
     } catch (error) {
-      console.error("Error adding item:", error);
-      // Handle error appropriately
+      console.error("Error updating item:", error);
     }
   };
 
@@ -64,7 +87,7 @@ function Add_Edit_OL_Uniforms() {
     <div className="add-edit-ol-uniforms">
       <div className="back-icon-container">
         <FiArrowLeftCircle onClick={goToInventory} className="back-icon" />
-        <h1 className="title">Add/Edit OL Uniforms</h1>
+        <h1 className="title">Edit OL Uniforms</h1>
       </div>
       <div className="form-container">
         <form onSubmit={handleSubmit}>
@@ -144,4 +167,4 @@ function Add_Edit_OL_Uniforms() {
   );
 }
 
-export default Add_Edit_OL_Uniforms;
+export default Edit_OL_Uniforms;

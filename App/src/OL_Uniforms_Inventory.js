@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react"; // Import React hooks
+// OL_Uniforms_Inventory.js
+import React, { useEffect, useState } from "react";
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import "./OL_Uniforms_Inventory.css";
 
 function OL_Uniforms_Inventory() {
   const [items, setItems] = useState([]);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +16,7 @@ function OL_Uniforms_Inventory() {
           "http://localhost:3000/items/uniforms",
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming token is stored in localStorage
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
         );
@@ -30,12 +29,16 @@ function OL_Uniforms_Inventory() {
     fetchItems();
   }, []);
 
-  const goToAddEdit = () => {
-    navigate("/add-edit-ol-uniforms");
+  const goToAdd = () => {
+    navigate("/add-ol-uniforms");
   };
 
   const goToDashboard = () => {
     navigate("/dashboard");
+  };
+
+  const goToEdit = (id) => {
+    navigate(`/edit-ol-uniforms/${id}`);
   };
 
   return (
@@ -46,7 +49,7 @@ function OL_Uniforms_Inventory() {
       </div>
       <div className="search-container">
         <input type="text" className="search-input" placeholder="Search..." />
-        <button className="button" onClick={goToAddEdit}>
+        <button className="button" onClick={goToAdd}>
           ADD ITEM
         </button>
       </div>
@@ -67,6 +70,12 @@ function OL_Uniforms_Inventory() {
                 </p>
                 <p className="item-detail">Location HQ: {item.location_hq}</p>
                 <p className="item-detail">Quantity HQ: {item.quantity_hq}</p>
+                <button
+                  onClick={() => goToEdit(item.id)}
+                  className="edit-button"
+                >
+                  Edit
+                </button>
               </div>
             </div>
           ))

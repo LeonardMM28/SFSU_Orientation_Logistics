@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import AddEditOLUniforms from "./Add_Edit_OL_Uniforms";
+import Add_OL_Uniforms from "./Add_OL_Uniforms";
+import Edit_OL_Uniforms from "./Edit_OL_Uniforms";
 import AddEditOrientationResources from "./Add_Edit_Orientation_Resources";
 import Add_Session from "./Add_Session";
 import "./App.css";
@@ -20,7 +21,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/add-edit-ol-uniforms" element={<AddEditOLUniforms />} />
+        <Route path="/add-ol-uniforms" element={<Add_OL_Uniforms />} />
+        <Route path="/edit-ol-uniforms/:itemId" element={<Edit_OL_Uniforms />} />
         <Route
           path="/add-edit-orientation-resources"
           element={<AddEditOrientationResources />}

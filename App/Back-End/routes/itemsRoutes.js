@@ -146,6 +146,55 @@ router.get("/items/:itemId", authenticateToken, (req, res) => {
   );
 });
 
+// itemsRoutes.js
+router.put(
+  "/edit/item/:itemId",
+  authenticateToken,
+  upload.single("picture"),
+  async (req, res) => {
+    const { itemId } = req.params;
+    const { name, locationAnnex, quantityAnnex, locationHQ, quantityHQ } =
+      req.body;
+    let imageUrl = null;
+
+    try {
+      if (req.file) {
+        const s3Response = await uploadFileToS3(req.file);
+        imageUrl = s3Response.Location; // Use only the Location property
+      }
+
+      const query = `
+      UPDATE items
+      SET name = ?, image = IFNULL(?, image), location_annex = ?, quantity_annex = ?, location_hq = ?, quantity_hq = ?
+      WHERE id = ?
+    `;
+
+      const values = [
+        name,
+        imageUrl,
+        locationAnnex,
+        quantityAnnex,
+        locationHQ,
+        quantityHQ,
+        itemId,
+      ];
+
+      connection.query(query, values, (error, results) => {
+        if (error) {
+          console.error("Error updating item:", error);
+          return res.status(500).json({ error: "Error updating item" });
+        }
+        res.json({ message: "Item updated successfully" });
+      });
+    } catch (error) {
+      console.error("Error processing request:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+);
+
+
+
 
 router.get("/sessions", authenticateToken, (req, res) => {
   connection.query("SELECT * FROM OLSessions", (error, results) => {
