@@ -1,4 +1,3 @@
-// OL_Uniforms_Inventory.js
 import React, { useEffect, useState } from "react";
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
@@ -42,7 +41,7 @@ function OL_Uniforms_Inventory() {
   };
 
   return (
-    <div className="inventory">
+    <div className="uniform-inventory">
       <div className="back-icon-container">
         <FiArrowLeftCircle onClick={goToDashboard} className="back-icon" />
         <h1 className="title">OL UNIFORMS</h1>
@@ -65,11 +64,21 @@ function OL_Uniforms_Inventory() {
                 <p className="item-detail">
                   Location Annex: {item.location_annex}
                 </p>
-                <p className="item-detail">
-                  Quantity Annex: {item.quantity_annex}
-                </p>
                 <p className="item-detail">Location HQ: {item.location_hq}</p>
-                <p className="item-detail">Quantity HQ: {item.quantity_hq}</p>
+              </div>
+              <div className="item-actions">
+                <div className="item-quantities">
+                  <button className="retrieve-button" onClick={() => {}}>
+                    &#9664; RETRIEVE
+                  </button>
+                  <div className="quantities">
+                    <p className="quantity">HQ: {item.quantity_hq}</p>
+                    <p className="quantity">Annex: {item.quantity_annex}</p>
+                  </div>
+                  <button className="store-button" onClick={() => {}}>
+                    STORE &#9654;
+                  </button>
+                </div>
                 <button
                   onClick={() => goToEdit(item.id)}
                   className="edit-button"
