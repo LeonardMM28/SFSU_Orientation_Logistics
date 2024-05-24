@@ -37,7 +37,7 @@ function Orientation_Resources_Inventory() {
   };
 
   return (
-    <div className="inventory">
+    <div className="uniform-inventory">
       <div className="back-icon-container">
         <FiArrowLeftCircle onClick={goToDashboard} className="back-icon" />
         <h1 className="title">ORIENTATION SUPPLIES</h1>

@@ -1,0 +1,265 @@
+/* Specific CSS for OL_Uniforms_Inventory */
+
+/* Dashboard container */
+.items-inventory {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #313e50ff; /* Charcoal */
+  color: #f1dac4ff; /* Almond */
+}
+
+/* Dashboard title */
+.items-inventory .title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-left: 10px;
+}
+
+/* Search container */
+.items-inventory .search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Search input */
+.items-inventory .search-input {
+  font-size: 20px;
+  width: 200px;
+  padding: 8px;
+  background-color: #eae8ffff;
+  border: none;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+/* Dashboard button */
+.items-inventory .button {
+  background-color: #5c6672ff;
+  color: #f1dac4ff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.items-inventory .button:hover {
+  background-color: #6c6f7fff;
+}
+
+/* Icon inside buttons */
+.items-inventory .button .button-icon {
+  margin-right: 5px;
+  color: azure;
+  font-size: 25px;
+}
+
+/* Back icon container */
+.items-inventory .back-icon-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Back icon */
+.items-inventory .back-icon {
+  font-size: 40px;
+  cursor: pointer;
+  color: #eae8ffff;
+  margin-right: 10px;
+}
+
+/* Items container */
+.items-inventory .items-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+/* Individual item */
+.items-inventory .item {
+  width: 100%;
+  background-color: #f1dac4ff;
+  color: #313e50ff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.items-inventory .item:hover {
+  transform: translateY(-5px);
+}
+
+/* Item title */
+.items-inventory .item-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+/* Item image */
+.items-inventory .item-image {
+  max-width: 100px; /* Set a max width for the image */
+  height: auto;
+  border-radius: 10px;
+  margin-right: 10px;
+  flex-shrink: 0;
+  object-fit: contain; /* Ensure the image keeps its aspect ratio */
+}
+
+/* Item details container */
+.items-inventory .item-details {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Item detail */
+.uniform-inventory .item-detail {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+/* Item actions container */
+.uniform-inventory .item-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* Item quantities container */
+.uniform-inventory .item-quantities {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Quantities container */
+.uniform-inventory .quantities {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10px;
+}
+
+/* Quantity */
+.uniform-inventory .quantity {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+/* Store button */
+.uniform-inventory .store-button {
+  background-color: #6c6f7fff;
+  color: #f1dac4ff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.uniform-inventory .store-button:hover {
+  background-color: #7a828aff;
+}
+
+/* Retrieve button */
+.uniform-inventory .retrieve-button {
+  background-color: #6c6f7fff;
+  color: #f1dac4ff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.uniform-inventory .retrieve-button:hover {
+  background-color: #7a828aff;
+}
+
+/* Edit button */
+.uniform-inventory .edit-button {
+  background-color: #5c6672ff;
+  color: #f1dac4ff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.uniform-inventory .edit-button:hover {
+  background-color: #6c6f7fff;
+}
+
+/* No uniforms message */
+.uniform-inventory .no-uniforms {
+  font-size: 18px;
+  color: #f1dac4ff;
+}
+
+/* Modal.css */
+
+.modal-overlay-uniform {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-overlay-uniform .modal-content {
+  background-color:#313e50ff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.modal-overlay-uniform .modal-image {
+  max-width: 100%;
+  max-height: 80vh; /* Limit height to 80% of viewport height */
+  object-fit: contain;
+}
+
+.modal-overlay-uniform .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color:#6c6f7fff;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #333;
+  padding-top: 5px;
+}
+
+.modal-overlay-uniform .close-button:hover {
+  color: #f00;
+}
