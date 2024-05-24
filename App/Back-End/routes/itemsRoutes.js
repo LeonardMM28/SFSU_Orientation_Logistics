@@ -193,8 +193,76 @@ router.put(
   }
 );
 
+router.post("/store/item", authenticateToken, (req, res) => {
+  const { itemId, amount } = req.body;
+
+  connection.query(
+    "SELECT * FROM items WHERE id = ?",
+    [itemId],
+    (error, results) => {
+      if (error) {
+        console.error("Error retrieving item:", error);
+        return res.status(500).json({ message: "Internal server error" });
+      }
+      if (results.length === 0) {
+        return res.status(404).json({ message: "Item not found" });
+      }
+      const item = results[0];
+      if (item.quantity_hq < amount) {
+        return res.status(400).json({ message: "Not enough quantity at HQ" });
+      }
+
+      connection.query(
+        "UPDATE items SET quantity_hq = quantity_hq - ?, quantity_annex = quantity_annex + ? WHERE id = ?",
+        [amount, amount, itemId],
+        (updateError) => {
+          if (updateError) {
+            console.error("Error updating item:", updateError);
+            return res.status(500).json({ message: "Internal server error" });
+          }
+          res.json({ message: "Item stored successfully" });
+        }
+      );
+    }
+  );
+});
 
 
+router.post("/retrieve/item", authenticateToken, (req, res) => {
+  const { itemId, amount } = req.body;
+
+  connection.query(
+    "SELECT * FROM items WHERE id = ?",
+    [itemId],
+    (error, results) => {
+      if (error) {
+        console.error("Error retrieving item:", error);
+        return res.status(500).json({ message: "Internal server error" });
+      }
+      if (results.length === 0) {
+        return res.status(404).json({ message: "Item not found" });
+      }
+      const item = results[0];
+      if (item.quantity_annex < amount) {
+        return res
+          .status(400)
+          .json({ message: "Not enough quantity at Annex" });
+      }
+
+      connection.query(
+        "UPDATE items SET quantity_annex = quantity_annex - ?, quantity_hq = quantity_hq + ? WHERE id = ?",
+        [amount, amount, itemId],
+        (updateError) => {
+          if (updateError) {
+            console.error("Error updating item:", updateError);
+            return res.status(500).json({ message: "Internal server error" });
+          }
+          res.json({ message: "Item retrieved successfully" });
+        }
+      );
+    }
+  );
+});
 
 router.get("/sessions", authenticateToken, (req, res) => {
   connection.query("SELECT * FROM OLSessions", (error, results) => {

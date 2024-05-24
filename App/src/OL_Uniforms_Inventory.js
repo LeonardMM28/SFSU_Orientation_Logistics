@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import {
+  PiArrowSquareDownRightFill,
+  PiArrowSquareUpRightFill,
+} from "react-icons/pi";
 import axios from "axios";
 import "./OL_Uniforms_Inventory.css";
 
 function OL_Uniforms_Inventory() {
   const [items, setItems] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalType, setModalType] = useState("");
+  const [currentItem, setCurrentItem] = useState(null);
+  const [amount, setAmount] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,6 +48,37 @@ function OL_Uniforms_Inventory() {
     navigate(`/edit-ol-uniforms/${id}`);
   };
 
+  const handleActionClick = (item, type) => {
+    setCurrentItem(item);
+    setModalType(type);
+    setModalOpen(true);
+  };
+
+  const handleAmountChange = (e) => {
+    setAmount(e.target.value);
+  };
+
+  const handleActionConfirm = async () => {
+    try {
+      const endpoint = modalType === "store" ? "store/item" : "retrieve/item";
+      const response = await axios.post(
+        `http://localhost:3000/${endpoint}`,
+        { itemId: currentItem.id, amount: Number(amount) },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      alert(response.data.message);
+      setModalOpen(false);
+      window.location.reload(); // To fetch updated items
+    } catch (error) {
+      console.error(`Error ${modalType}ing item:`, error);
+      alert(error.response.data.message || "Error processing request");
+    }
+  };
+
   return (
     <div className="uniform-inventory">
       <div className="back-icon-container">
@@ -68,15 +107,22 @@ function OL_Uniforms_Inventory() {
               </div>
               <div className="item-actions">
                 <div className="item-quantities">
-                  <button className="retrieve-button" onClick={() => {}}>
-                    &#9664; RETRIEVE
+                  <button
+                    className="button"
+                    onClick={() => handleActionClick(item, "retrieve")}
+                  >
+                    <PiArrowSquareUpRightFill className="button-icon" />
+                    RETRIEVE
                   </button>
                   <div className="quantities">
                     <p className="quantity">HQ: {item.quantity_hq}</p>
                     <p className="quantity">Annex: {item.quantity_annex}</p>
                   </div>
-                  <button className="store-button" onClick={() => {}}>
-                    STORE &#9654;
+                  <button
+                    className="button"
+                    onClick={() => handleActionClick(item, "store")}
+                  >
+                    STORE <PiArrowSquareDownRightFill className="button-icon" />
                   </button>
                 </div>
                 <button
@@ -92,6 +138,30 @@ function OL_Uniforms_Inventory() {
           <p className="no-uniforms">No uniforms available.</p>
         )}
       </div>
+
+      {modalOpen && (
+        <div className="modal-overlay-uniform">
+          <div className="modal-content">
+            <h2>{modalType === "store" ? "Store Item" : "Retrieve Item"}</h2>
+            <p>Amount to {modalType === "store" ? "Store" : "Retrieve"}:</p>
+            <input
+              type="number"
+              value={amount}
+              onChange={handleAmountChange}
+              min="0"
+            />
+            <button className="button" onClick={handleActionConfirm}>
+              Confirm
+            </button>
+            <button
+              className="button close-button"
+              onClick={() => setModalOpen(false)}
+            >
+              &times;
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
