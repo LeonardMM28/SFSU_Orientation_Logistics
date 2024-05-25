@@ -1,59 +1,29 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react"; // Import React hooks
+import React, { useEffect, useState } from "react";
 import { QrReader } from "react-qr-reader";
 import { useNavigate } from "react-router-dom";
-import { BrowserBarcodeReader } from "@zxing/library";
+import axios from "axios";
 
 import "./Dashboard.css";
 
 function Dashboard() {
   const [username, setUsername] = useState("");
   const [userId, setUserId] = useState("");
-  const [userTier, setUserTier] = useState(""); // State to store user's tier
+  const [userTier, setUserTier] = useState("");
   const navigate = useNavigate();
   const [scanResult, setScanResult] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
-
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
-
-  const handleExtractBarcode = async () => {
-    if (selectedFile) {
-      try {
-        const reader = new BrowserBarcodeReader();
-        const result = await reader.decodeFromImageUrl(
-          URL.createObjectURL(selectedFile)
-        );
-        setScanResult(result.text);
-        alert("Barcode extracted successfully!");
-      } catch (error) {
-        console.error(error);
-        alert(
-          "Error occurred while extracting barcode. Please ensure the selected file contains a valid barcode."
-        );
-      }
-    } else {
-      alert("Please select a file first.");
-    }
-  };
+  const [showCamera, setShowCamera] = useState(false);
+  const [captureClicked, setCaptureClicked] = useState(false);
 
   useEffect(() => {
-    // Function to authenticate token on component mount
     const authenticateToken = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:3000/auth-check",
-          // "https://thelockerroom.world:3000/auth-check",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+        const response = await fetch("http://localhost:3000/auth-check", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
         if (response.status === 401) {
-          // Unauthorized, clear token and redirect to login page
           localStorage.removeItem("token");
           navigate("/");
         }
@@ -62,7 +32,7 @@ function Dashboard() {
       }
     };
 
-    authenticateToken(); // Call the authentication function on component mount
+    authenticateToken();
   }, [navigate]);
 
   useEffect(() => {
@@ -76,7 +46,7 @@ function Dashboard() {
           const response = await axios.get(
             `http://localhost:3000/getUser/${decodedToken.userId}`
           );
-          setUserTier(response.data.tier); // Assuming your backend sends back user's tier
+          setUserTier(response.data.tier);
         } catch (error) {
           console.error("Error fetching user information:", error);
         }
@@ -87,46 +57,42 @@ function Dashboard() {
   }, []);
 
   useEffect(() => {
-    // Function to retrieve the user information from the backend
     const getUserInfo = async () => {
       try {
-        // Make a GET request to fetch user information based on user ID
-
         const response = await axios.get(
           `http://localhost:3000/getUser/${userId}`
         );
-        // const response = await axios.get(
-        //   `https://thelockerroom.world:3000/getUser/${userId}`
-        // );
       } catch (error) {
         console.error("Error fetching user information:", error);
       }
     };
 
-    getUserInfo(); // Call the function to fetch user information
+    if (userId) {
+      getUserInfo();
+    }
   }, [userId]);
 
-  const goToOLUniformsInventory = () => {
-    navigate("/ol-uniforms-inventory");
+  const handleScan = (result) => {
+    if (result) {
+      setScanResult(result.text);
+    }
   };
 
-  const goToOrientaitonResourcesInventory = () => {
-    navigate("/orientation-resources-inventory");
+  const handleError = (error) => {
+    console.error("Error scanning barcode:", error);
   };
 
-  const goToPlannerInventory = () => {
-    navigate("/planner-inventory");
+  const handleOpenCamera = () => {
+    setShowCamera(true);
   };
 
-  const goToCreateUser = () => {
-    navigate("/create-user");
+  const handleCloseCamera = () => {
+    setShowCamera(false);
+    setScanResult("");
   };
 
-  const goToOther = () => {
-    navigate("/other");
-  };
-  const goToHistory = () => {
-    navigate("/history");
+  const handleCapture = () => {
+    setCaptureClicked(true);
   };
 
   return (
@@ -135,43 +101,63 @@ function Dashboard() {
       <h1>NSFP Orientation 2024</h1>
       <h1>Logistics Dashboard</h1>
       <div className="button-container">
-        <button className="button" onClick={goToOLUniformsInventory}>
+        <button
+          className="button"
+          onClick={() => navigate("/ol-uniforms-inventory")}
+        >
           OL Uniforms
         </button>
-        <button className="button" onClick={goToOrientaitonResourcesInventory}>
+        <button
+          className="button"
+          onClick={() => navigate("/orientation-resources-inventory")}
+        >
           Orientation Supplies
         </button>
-        <button className="button" onClick={goToPlannerInventory}>
+        <button
+          className="button"
+          onClick={() => navigate("/planner-inventory")}
+        >
           Session Planner
         </button>
-        {userTier === "2" && ( // Show the "Create User" button only if user's tier is 1}
-          <button className="button" onClick={goToCreateUser}>
+        {userTier === "2" && (
+          <button className="button" onClick={() => navigate("/create-user")}>
             Create User
           </button>
         )}
-        {userTier === "2" && ( // Show the "History" button only if user's tier is 2
-          <button className="button" onClick={goToHistory}>
+        {userTier === "2" && (
+          <button className="button" onClick={() => navigate("/history")}>
             History
           </button>
         )}
-        <button className="button" onClick={goToOther}>
+        <button className="button" onClick={() => navigate("/other")}>
           Other
         </button>
+        {showCamera ? (
+          <div>
+            <button className="button" onClick={handleCloseCamera}>
+              Close Camera
+            </button>
+            <button className="button" onClick={handleCapture}>
+              Capture
+            </button>
+          </div>
+        ) : (
+          <button className="button" onClick={handleOpenCamera}>
+            Open Camera
+          </button>
+        )}
       </div>
       <div className="barcode-scanner">
-        <input type="file" accept="image/*" onChange={handleFileChange} />
-        <button className="button" onClick={handleExtractBarcode}>
-          Extract Barcode
-        </button>
-        <input
-          type="text"
-          value={scanResult}
-          readOnly
-          placeholder="Extracted Barcode"
-        />
-        <button className="button" onClick={() => setScanResult("")}>
-          Clear
-        </button>
+        {showCamera && (
+          <QrReader
+            delay={300}
+            onResult={handleScan}
+            onError={handleError}
+            style={{ width: "100%" }}
+          />
+        )}
+        {scanResult && <p>Scanned barcode: {scanResult}</p>}
+        {captureClicked && !scanResult && <p>No barcode captured.</p>}
       </div>
     </div>
   );
