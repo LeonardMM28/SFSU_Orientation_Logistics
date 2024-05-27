@@ -147,7 +147,6 @@ router.get("/items/:itemId", authenticateToken, (req, res) => {
   );
 });
 
-// itemsRoutes.js
 router.put(
   "/edit/item/:itemId",
   authenticateToken,
@@ -159,40 +158,111 @@ router.put(
     let imageUrl = null;
 
     try {
+      // Check if there's a file upload
       if (req.file) {
         const s3Response = await uploadFileToS3(req.file);
         imageUrl = s3Response.Location; // Use only the Location property
       }
 
-      const query = `
-      UPDATE items
-      SET name = ?, image = IFNULL(?, image), location_annex = ?, quantity_annex = ?, location_hq = ?, quantity_hq = ?
-      WHERE id = ?
-    `;
+      // Retrieve the current item data from the database
+      connection.query(
+        "SELECT * FROM items WHERE id = ?",
+        [itemId],
+        async (error, results) => {
+          if (error) {
+            console.error("Error retrieving item:", error);
+            return res.status(500).json({ error: "Internal server error" });
+          }
 
-      const values = [
-        name,
-        imageUrl,
-        locationAnnex,
-        quantityAnnex,
-        locationHQ,
-        quantityHQ,
-        itemId,
-      ];
+          if (results.length === 0) {
+            return res.status(404).json({ message: "Item not found" });
+          }
 
-      connection.query(query, values, (error, results) => {
-        if (error) {
-          console.error("Error updating item:", error);
-          return res.status(500).json({ error: "Error updating item" });
+          const currentItem = results[0];
+
+          // Compare the updated values with the current values
+          const changes = [];
+          if (name !== currentItem.name) {
+            changes.push(`Name changed from ${currentItem.name} to ${name}`);
+          }
+          if (String(locationAnnex) !== String(currentItem.location_annex)) {
+            changes.push(
+              `Location at Annex changed from ${currentItem.location_annex} to ${locationAnnex}`
+            );
+          }
+          if (String(quantityAnnex) !== String(currentItem.quantity_annex)) {
+            changes.push(
+              `Quantity at Annex changed from ${currentItem.quantity_annex} to ${quantityAnnex}`
+            );
+          }
+          if (String(locationHQ) !== String(currentItem.location_hq)) {
+            changes.push(
+              `Location at HQ changed from ${currentItem.location_hq} to ${locationHQ}`
+            );
+          }
+          if (String(quantityHQ) !== String(currentItem.quantity_hq)) {
+            changes.push(
+              `Quantity at HQ changed from ${currentItem.quantity_hq} to ${quantityHQ}`
+            );
+          }
+
+          // Construct the action message
+          const action = `Item "${
+            currentItem.name
+          }" was edited: ${changes.join(", ")}`;
+
+          // Update the item in the database
+          const query = `
+            UPDATE items
+            SET name = ?, image = IFNULL(?, image), location_annex = ?, quantity_annex = ?, location_hq = ?, quantity_hq = ?
+            WHERE id = ?
+          `;
+          const values = [
+            name,
+            imageUrl || currentItem.image,
+            locationAnnex,
+            quantityAnnex,
+            locationHQ,
+            quantityHQ,
+            itemId,
+          ];
+
+          connection.query(query, values, (updateError, updateResults) => {
+            if (updateError) {
+              console.error("Error updating item:", updateError);
+              return res.status(500).json({ error: "Error updating item" });
+            }
+
+            // Log the action in the history table
+            const userId = req.user.userId;
+            const date = moment()
+              .tz("America/Los_Angeles")
+              .format("YYYY-MM-DD HH:mm:ss");
+            const logQuery =
+              "INSERT INTO history (date, action, user_id) VALUES (?, ?, ?)";
+            connection.query(
+              logQuery,
+              [date, action, userId],
+              (logError, logResults) => {
+                if (logError) {
+                  console.error("Error logging action:", logError);
+                  return res
+                    .status(500)
+                    .json({ message: "Internal server error" });
+                }
+                res.json({ message: "Item updated successfully" });
+              }
+            );
+          });
         }
-        res.json({ message: "Item updated successfully" });
-      });
+      );
     } catch (error) {
       console.error("Error processing request:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   }
 );
+
 
 router.post("/store/item", authenticateToken, (req, res) => {
   const { itemId, amount } = req.body;
@@ -415,7 +485,7 @@ router.post(
           }
 
           // Log the action in the history table
-          const action = `${name} was added`;
+          const action = `${name} was added to inventory`;
           const userId = req.user.userId;
           const date = moment()
             .tz("America/Los_Angeles")
