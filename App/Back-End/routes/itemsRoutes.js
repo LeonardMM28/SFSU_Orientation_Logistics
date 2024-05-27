@@ -470,32 +470,53 @@ router.put(
       }
 
       try {
-        // Update session status in the database to 'READY'
-        const query = "UPDATE OLSessions SET status = 'READY' WHERE id = ?";
-        await connection.query(query, [sessionId]);
+        // Retrieve the session date from the database
+        connection.query(
+          "SELECT date FROM OLSessions WHERE id = ?",
+          [sessionId],
+          async (error, results) => {
+            if (error) {
+              console.error("Error retrieving session date:", error);
+              return res.status(500).json({ error: "Internal server error" });
+            }
+            if (results.length === 0) {
+              return res.status(404).json({ message: "Session not found" });
+            }
 
-        // Log the action in the history table
-        const userId = req.user.userId;
-        const action = `Session for ${date} status changed to 'READY'`;
-        const dateLogged = moment()
-          .tz("America/Los_Angeles")
-          .format("YYYY-MM-DD HH:mm:ss");
-        const logQuery =
-          "INSERT INTO history (date, action, user_id) VALUES (?, ?, ?)";
-        await connection.query(logQuery, [dateLogged, action, userId]);
+            const sessionDate = moment(results[0].date).format("YYYY-MM-DD");
 
-        // Commit transaction
-        await connection.commit();
+            // Update session status in the database to 'READY'
+            const updateQuery =
+              "UPDATE OLSessions SET status = 'READY' WHERE id = ?";
+            await connection.query(updateQuery, [sessionId]);
 
-        res.json({ message: "Session status updated to 'READY' successfully" });
+            // Log the action in the history table with the session date
+            const userId = req.user.userId;
+            const action = `Session for ${sessionDate} status changed to 'READY'`;
+            const dateLogged = moment()
+              .tz("America/Los_Angeles")
+              .format("YYYY-MM-DD HH:mm:ss");
+            const logQuery =
+              "INSERT INTO history (date, action, user_id) VALUES (?, ?, ?)";
+            await connection.query(logQuery, [dateLogged, action, userId]);
+
+            // Commit transaction
+            await connection.commit();
+
+            res.json({
+              message: "Session status updated to 'READY' successfully",
+            });
+          }
+        );
       } catch (error) {
-        console.error("Error updatingsession status to 'READY':", error);
+        console.error("Error updating session status to 'READY':", error);
         await connection.rollback();
         res.status(500).json({ message: "Internal server error" });
       }
     });
   }
 );
+
 
 router.post(
   "/add/items",

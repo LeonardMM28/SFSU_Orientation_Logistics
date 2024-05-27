@@ -131,7 +131,7 @@ function Dashboard() {
         </button>
         <button
           className="button"
-          onClick={() => navigate("/orientation-resources-inventory")}
+          onClick={() => navigate("/orientation-supplies-inventory")}
         >
           Orientation Supplies
         </button>

@@ -2,7 +2,8 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Add_OL_Uniforms from "./Add_OL_Uniforms";
 import Edit_OL_Uniforms from "./Edit_OL_Uniforms";
-import AddEditOrientationResources from "./Add_Edit_Orientation_Resources";
+import Add_Orientation_Supplies from "./Add_Orientation_Supplies";
+import Edit_Orientation_Supplies from "./Edit_Orientation_Supplies";
 import Add_Session from "./Add_Session";
 import "./App.css";
 import CreateUser from "./CreateUser";
@@ -11,7 +12,7 @@ import Edit_Session from "./Edit_Session";
 import History from "./History";
 import Login from "./Login";
 import OLUniformsInventory from "./OL_Uniforms_Inventory";
-import OrientationResourcesInventory from "./Orientation_Resources_Inventory";
+import OrientationResourcesInventory from "./Orientation_Supplies_Inventory";
 import PlannerInventory from "./Planner_Inventory";
 // import Registration from "./Registration";
 
@@ -23,10 +24,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/add-ol-uniforms" element={<Add_OL_Uniforms />} />
         <Route path="/edit-ol-uniforms/:itemId" element={<Edit_OL_Uniforms />} />
-        <Route
-          path="/add-edit-orientation-resources"
-          element={<AddEditOrientationResources />}
-        />
+        <Route path="/add-orientation-supplies" element={<Add_Orientation_Supplies />} />
+        <Route path="/edit-orientation-supplies/:itemId" element={<Edit_Orientation_Supplies />} />
         <Route path="/add-session" element={<Add_Session />} />
         <Route path="/edit-session/:sessionId" element={<Edit_Session />} />
         <Route path="/planner-inventory" element={<PlannerInventory />} />
@@ -35,7 +34,7 @@ function App() {
           element={<OLUniformsInventory />}
         />
         <Route
-          path="/orientation-resources-inventory"
+          path="/orientation-supplies-inventory"
           element={<OrientationResourcesInventory />}
         />
         <Route path="/create-user" element={<CreateUser />} />

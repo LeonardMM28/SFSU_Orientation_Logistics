@@ -1,7 +1,7 @@
 /* Specific CSS for OL_Uniforms_Inventory */
 
 /* Dashboard container */
-.items-inventory {
+.orientation-inventory {
   position: relative;
   width: 100%;
   height: 100vh;
@@ -12,7 +12,7 @@
 }
 
 /* Dashboard title */
-.items-inventory .title {
+.orientation-inventory .title {
   font-size: 28px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -20,7 +20,7 @@
 }
 
 /* Search container */
-.items-inventory .search-container {
+.orientation-inventory .search-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,7 +28,7 @@
 }
 
 /* Search input */
-.items-inventory .search-input {
+.orientation-inventory .search-input {
   font-size: 20px;
   width: 200px;
   padding: 8px;
@@ -39,7 +39,7 @@
 }
 
 /* Dashboard button */
-.items-inventory .button {
+.orientation-inventory .button {
   background-color: #5c6672ff;
   color: #f1dac4ff;
   border: none;
@@ -52,25 +52,25 @@
   align-items: center;
 }
 
-.items-inventory .button:hover {
+.orientation-inventory .button:hover {
   background-color: #6c6f7fff;
 }
 
 /* Icon inside buttons */
-.items-inventory .button .button-icon {
+.orientation-inventory .button .button-icon {
   margin-right: 5px;
   color: azure;
   font-size: 25px;
 }
 
 /* Back icon container */
-.items-inventory .back-icon-container {
+.orientation-inventory .back-icon-container {
   display: flex;
   align-items: center;
 }
 
 /* Back icon */
-.items-inventory .back-icon {
+.orientation-inventory .back-icon {
   font-size: 40px;
   cursor: pointer;
   color: #eae8ffff;
@@ -78,7 +78,7 @@
 }
 
 /* Items container */
-.items-inventory .items-container {
+.orientation-inventory .items-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -87,7 +87,7 @@
 }
 
 /* Individual item */
-.items-inventory .item {
+.orientation-inventory .item {
   width: 100%;
   background-color: #f1dac4ff;
   color: #313e50ff;
@@ -100,18 +100,18 @@
   justify-content: space-between;
 }
 
-.items-inventory .item:hover {
+.orientation-inventory .item:hover {
   transform: translateY(-5px);
 }
 
 /* Item title */
-.items-inventory .item-title {
+.orientation-inventory .item-title {
   font-size: 20px;
   margin-bottom: 10px;
 }
 
 /* Item image */
-.items-inventory .item-image {
+.orientation-inventory .item-image {
   max-width: 100px; /* Set a max width for the image */
   height: auto;
   border-radius: 10px;
@@ -121,33 +121,33 @@
 }
 
 /* Item details container */
-.items-inventory .item-details {
+.orientation-inventory .item-details {
   display: flex;
   flex-direction: column;
 }
 
 /* Item detail */
-.uniform-inventory .item-detail {
+.orientation-inventory .item-detail {
   font-size: 16px;
   margin-bottom: 10px;
 }
 
 /* Item actions container */
-.uniform-inventory .item-actions {
+.orientation-inventory .item-actions {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
 
 /* Item quantities container */
-.uniform-inventory .item-quantities {
+.orientation-inventory .item-quantities {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 }
 
 /* Quantities container */
-.uniform-inventory .quantities {
+.orientation-inventory .quantities {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -155,14 +155,14 @@
 }
 
 /* Quantity */
-.uniform-inventory .quantity {
+.orientation-inventory .quantity {
   font-size: 16px;
   font-weight: bold;
   margin: 5px 0;
 }
 
 /* Store button */
-.uniform-inventory .store-button {
+.orientation-inventory .store-button {
   background-color: #6c6f7fff;
   color: #f1dac4ff;
   border: none;
@@ -174,12 +174,12 @@
   align-items: center;
 }
 
-.uniform-inventory .store-button:hover {
+.orientation-inventory .store-button:hover {
   background-color: #7a828aff;
 }
 
 /* Retrieve button */
-.uniform-inventory .retrieve-button {
+.orientation-inventory .retrieve-button {
   background-color: #6c6f7fff;
   color: #f1dac4ff;
   border: none;
@@ -191,12 +191,12 @@
   align-items: center;
 }
 
-.uniform-inventory .retrieve-button:hover {
+.orientation-inventory .retrieve-button:hover {
   background-color: #7a828aff;
 }
 
 /* Edit button */
-.uniform-inventory .edit-button {
+.orientation-inventory .edit-button {
   background-color: #5c6672ff;
   color: #f1dac4ff;
   border: none;
@@ -208,12 +208,12 @@
   margin-top: 10px;
 }
 
-.uniform-inventory .edit-button:hover {
+.orientation-inventory .edit-button:hover {
   background-color: #6c6f7fff;
 }
 
 /* No uniforms message */
-.uniform-inventory .no-uniforms {
+.orientation-inventory .no-uniforms {
   font-size: 18px;
   color: #f1dac4ff;
 }

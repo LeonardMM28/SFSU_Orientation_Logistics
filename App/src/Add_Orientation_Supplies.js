@@ -3,9 +3,9 @@ import axios from "axios";
 
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import "./Add_Edit_Orientation_Resources.css";
+import "./Add_Edit_Orientation_Supplies.css";
 
-function Add_Edit_Orientation_Resources() {
+function Add_Orientation_Supplies() {
   const [name, setName] = useState("");
   const [picture, setPicture] = useState(null);
   const category = "SUPPLIES";
@@ -48,7 +48,7 @@ function Add_Edit_Orientation_Resources() {
           "Content-Type": "multipart/form-data",
         },
       });
-      navigate("/orientation-resources-inventory");
+      navigate("/orientation-supplies-inventory");
     } catch (error) {
       console.error("Error adding item:", error);
       // Handle error appropriately
@@ -56,14 +56,14 @@ function Add_Edit_Orientation_Resources() {
   };
 
   const goToInventory = () => {
-    navigate("/orientation-resources-inventory");
+    navigate("/orientation-supplies-inventory");
   };
 
   return (
     <div className="add-edit-orientation-resources">
       <div className="back-icon-container">
         <FiArrowLeftCircle onClick={goToInventory} className="back-icon" />
-        <h1 className="title">Add/Edit Orientation Resources</h1>
+        <h1 className="title">Add Orientation Supplies</h1>
       </div>
       <div className="form-container">
         <form onSubmit={handleSubmit}>
@@ -142,4 +142,4 @@ function Add_Edit_Orientation_Resources() {
     </div>
   );
 }
-export default Add_Edit_Orientation_Resources;
+export default Add_Orientation_Supplies;
