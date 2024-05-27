@@ -44,21 +44,22 @@
   border-bottom: 1px solid #5c6672ff;
 }
 
-.transaction-description {
-  flex: 2;
-  color: #eae8ffff;
-}
-
-.transaction-amount {
-  flex: 1;
-  text-align: right;
-  color: #eae8ffff;
-}
-
 .transaction-date {
   flex: 1;
-  text-align: right;
   color: #eae8ffff;
+  text-align: left;
+}
+
+.transaction-username {
+  flex: 1;
+  color: #eae8ffff;
+  text-align: center;
+}
+
+.transaction-action {
+  flex: 2;
+  color: #eae8ffff;
+  text-align: right;
 }
 
 .transaction-item:hover {

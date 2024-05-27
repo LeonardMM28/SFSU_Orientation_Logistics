@@ -1,30 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import "./History.css";
 
 function History() {
+  const [transactions, setTransactions] = useState([]);
+
   const navigate = useNavigate();
 
   const goBack = () => {
     navigate("/dashboard");
   };
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/transactions", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch transactions");
+        }
+        const data = await response.json();
+        setTransactions(data);
+      } catch (error) {
+        console.error("Error fetching transactions:", error);
+      }
+    };
 
-  const transactions = [
-    {
-      id: 1,
-      description: "Purchase of office supplies",
-      amount: "$200",
-      date: "2023-01-15",
-    },
-    {
-      id: 2,
-      description: "Client payment received",
-      amount: "$1500",
-      date: "2023-01-20",
-    },
-    // Add more transactions as needed
-  ];
+    fetchTransactions();
+  }, []);
 
   return (
     <div className="history-page">
@@ -36,11 +42,11 @@ function History() {
         <ul className="transactions-list">
           {transactions.map((transaction) => (
             <li key={transaction.id} className="transaction-item">
-              <span className="transaction-description">
-                {transaction.description}
-              </span>
-              <span className="transaction-amount">{transaction.amount}</span>
               <span className="transaction-date">{transaction.date}</span>
+              <span className="transaction-username">
+                {transaction.username}
+              </span>
+              <span className="transaction-action">{transaction.action}</span>
             </li>
           ))}
         </ul>

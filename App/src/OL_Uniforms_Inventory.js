@@ -57,7 +57,6 @@ function OL_Uniforms_Inventory() {
   const handleAmountChange = (e) => {
     setAmount(e.target.value);
   };
-
   const handleActionConfirm = async () => {
     try {
       const endpoint = modalType === "store" ? "store/item" : "retrieve/item";
@@ -71,6 +70,25 @@ function OL_Uniforms_Inventory() {
         }
       );
       alert(response.data.message);
+
+      // Log the action
+      const actionDescription =
+        modalType === "store"
+          ? `Stored ${amount} of item ${currentItem.name} into the Annex`
+          : `Retrieved ${amount} of item ${currentItem.name} from the HQ`;
+
+      await axios.post(
+        `http://localhost:3000/logAction`,
+        {
+          action: actionDescription,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
       setModalOpen(false);
       window.location.reload(); // To fetch updated items
     } catch (error) {

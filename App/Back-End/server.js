@@ -117,7 +117,7 @@ connection.query(
   `
   CREATE TABLE IF NOT EXISTS history (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    date DATE NOT NULL,
+    date DATETIME NOT NULL,
     action VARCHAR(255) NOT NULL,
     user_id INT,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
@@ -128,7 +128,7 @@ connection.query(
       console.error("Error creating history table:", err);
       return;
     }
-    console.log("history table created successfully");
+    console.log("History table created successfully");
   }
 );
 

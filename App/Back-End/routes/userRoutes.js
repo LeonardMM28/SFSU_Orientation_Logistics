@@ -3,6 +3,7 @@ const router = express.Router();
 const connection = require("../dbConfig");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const moment = require("moment-timezone");
 require("dotenv").config();
 
 function authenticateToken(req, res, next) {
@@ -164,6 +165,52 @@ router.get("/getUser/:userId", (req, res) => {
     }
   );
 });
+
+
+router.post("/logAction", authenticateToken, (req, res) => {
+  const { action } = req.body;
+  const userId = req.user.userId;
+  const date = moment().tz("America/Los_Angeles").format("YYYY-MM-DD HH:mm:ss");
+
+  const query = "INSERT INTO history (date, action, user_id) VALUES (?, ?, ?)";
+  connection.query(query, [date, action, userId], (error, results) => {
+    if (error) {
+      console.error("Error logging action:", error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+    res.status(200).json({ message: "Action logged successfully" });
+  });
+});
+
+router.get("/transactions", authenticateToken, (req, res) => {
+  const query = `
+    SELECT h.id, h.date, h.action, u.username
+    FROM history h
+    JOIN users u ON h.user_id = u.user_id
+    ORDER BY h.date DESC
+  `;
+
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error("Error retrieving transactions:", error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+
+    // Format the date for each transaction
+    const formattedResults = results.map((transaction) => {
+      return {
+        ...transaction,
+        date: moment(transaction.date)
+          .tz("America/Los_Angeles")
+          .format("YYYY-MM-DD hh:mm A"),
+      };
+    });
+
+    res.status(200).json(formattedResults);
+  });
+});
+
+
 
 router.post("/logout", (req, res) => {
   const token = req.headers["authorization"].split(" ")[1]; // Extract the token from the Authorization header
