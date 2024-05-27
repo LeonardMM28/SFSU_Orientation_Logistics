@@ -383,20 +383,45 @@ router.put("/edit/session/:sessionId", authenticateToken, (req, res) => {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
-  // Update session data in the database
-  const query =
-    "UPDATE OLSessions SET date = ?, type = ?, attendees = ?, checklist = ? WHERE id = ?";
-  connection.query(
-    query,
-    [date, type, attendees, JSON.stringify(checklist), sessionId],
-    (error, results) => {
-      if (error) {
-        console.error("Error updating session:", error);
-        return res.status(500).json({ message: "Internal server error" });
-      }
-      res.json({ message: "Session updated successfully" });
+  // Begin transaction
+  connection.beginTransaction(async (transactionError) => {
+    if (transactionError) {
+      console.error("Error beginning transaction:", transactionError);
+      return res.status(500).json({ error: "Internal server error" });
     }
-  );
+
+    try {
+      // Update session data in the database
+      const query =
+        "UPDATE OLSessions SET date = ?, type = ?, attendees = ?, checklist = ? WHERE id = ?";
+      await connection.query(query, [
+        date,
+        type,
+        attendees,
+        JSON.stringify(checklist),
+        sessionId,
+      ]);
+
+      // Log the action in the history table
+      const userId = req.user.userId;
+      const action = `Session for ${date} was edited`;
+      const dateLogged = moment()
+        .tz("America/Los_Angeles")
+        .format("YYYY-MM-DD HH:mm:ss");
+      const logQuery =
+        "INSERT INTO history (date, action, user_id) VALUES (?, ?, ?)";
+      await connection.query(logQuery, [dateLogged, action, userId]);
+
+      // Commit transaction
+      await connection.commit();
+
+      res.json({ message: "Session updated successfully" });
+    } catch (error) {
+      console.error("Error updating session:", error);
+      await connection.rollback();
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
 });
 
 router.put(
@@ -431,19 +456,46 @@ router.put("/update-session-NES/:sessionId", authenticateToken, (req, res) => {
   });
 });
 
-router.put("/update-session-READY/:sessionId", authenticateToken, (req, res) => {
-  const { sessionId } = req.params;
+router.put(
+  "/update-session-READY/:sessionId",
+  authenticateToken,
+  (req, res) => {
+    const { sessionId } = req.params;
 
-  // Update session status in the database to 'READY'
-  const query = "UPDATE OLSessions SET status = 'READY' WHERE id = ?";
-  connection.query(query, [sessionId], (error, results) => {
-    if (error) {
-      console.error("Error updating session status:", error);
-      return res.status(500).json({ message: "Internal server error" });
-    }
-    res.json({ message: "Session status updated to 'ES' successfully" });
-  });
-});
+    // Begin transaction
+    connection.beginTransaction(async (transactionError) => {
+      if (transactionError) {
+        console.error("Error beginning transaction:", transactionError);
+        return res.status(500).json({ error: "Internal server error" });
+      }
+
+      try {
+        // Update session status in the database to 'READY'
+        const query = "UPDATE OLSessions SET status = 'READY' WHERE id = ?";
+        await connection.query(query, [sessionId]);
+
+        // Log the action in the history table
+        const userId = req.user.userId;
+        const action = `Session for ${date} status changed to 'READY'`;
+        const dateLogged = moment()
+          .tz("America/Los_Angeles")
+          .format("YYYY-MM-DD HH:mm:ss");
+        const logQuery =
+          "INSERT INTO history (date, action, user_id) VALUES (?, ?, ?)";
+        await connection.query(logQuery, [dateLogged, action, userId]);
+
+        // Commit transaction
+        await connection.commit();
+
+        res.json({ message: "Session status updated to 'READY' successfully" });
+      } catch (error) {
+        console.error("Error updatingsession status to 'READY':", error);
+        await connection.rollback();
+        res.status(500).json({ message: "Internal server error" });
+      }
+    });
+  }
+);
 
 router.post(
   "/add/items",
@@ -522,23 +574,49 @@ router.post("/add/session", authenticateToken, (req, res) => {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
-  // Insert the new session into the OLSessions table
-  const query =
-    "INSERT INTO OLSessions (date, type, attendees, checklist) VALUES (?, ?, ?, ?)";
-  connection.query(
-    query,
-    [date, type, attendees, JSON.stringify(checklist)],
-    (error, results) => {
-      if (error) {
-        console.error("Error inserting session:", error);
-        return res.status(500).json({ message: "Internal server error" });
-      }
+  // Begin transaction
+  connection.beginTransaction(async (transactionError) => {
+    if (transactionError) {
+      console.error("Error beginning transaction:", transactionError);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+
+    try {
+      // Insert the new session into the OLSessions table
+      const query =
+        "INSERT INTO OLSessions (date, type, attendees, checklist) VALUES (?, ?, ?, ?)";
+      const results = await connection.query(query, [
+        date,
+        type,
+        attendees,
+        JSON.stringify(checklist),
+      ]);
+
+      const sessionId = results.insertId;
+
+      // Log the action in the history table
+      const userId = req.user.userId;
+      const action = `Session for ${date} was added`;
+      const dateLogged = moment()
+        .tz("America/Los_Angeles")
+        .format("YYYY-MM-DD HH:mm:ss");
+      const logQuery =
+        "INSERT INTO history (date, action, user_id) VALUES (?, ?, ?)";
+      await connection.query(logQuery, [dateLogged, action, userId]);
+
+      // Commit transaction
+      await connection.commit();
+
       res.status(201).json({
         message: "Session added successfully",
-        sessionId: results.insertId,
+        sessionId: sessionId,
       });
+    } catch (error) {
+      console.error("Error inserting session:", error);
+      await connection.rollback();
+      res.status(500).json({ message: "Internal server error" });
     }
-  );
+  });
 });
 
 
