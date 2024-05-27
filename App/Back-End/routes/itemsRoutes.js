@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const connection = require("../dbConfig");
 const jwt = require("jsonwebtoken");
+const moment = require("moment-timezone");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 const aws = require("aws-sdk");
@@ -380,8 +381,14 @@ router.post(
   upload.single("picture"),
   async (req, res) => {
     try {
-      const { name, category, locationAnnex, quantityAnnex, locationHQ, quantityHQ } =
-        req.body;
+      const {
+        name,
+        category,
+        locationAnnex,
+        quantityAnnex,
+        locationHQ,
+        quantityHQ,
+      } = req.body;
       let imageUrl = null;
       if (req.file) {
         const s3Response = await uploadFileToS3(req.file);
@@ -392,13 +399,42 @@ router.post(
         "INSERT INTO items (name, image, category, location_annex, quantity_annex, location_hq, quantity_hq) VALUES (?, ?, ?, ?, ?, ?, ?)";
       connection.query(
         query,
-        [name, imageUrl, category, locationAnnex, quantityAnnex, locationHQ, quantityHQ],
+        [
+          name,
+          imageUrl,
+          category,
+          locationAnnex,
+          quantityAnnex,
+          locationHQ,
+          quantityHQ,
+        ],
         (error, results) => {
           if (error) {
             console.error("Error adding item:", error);
             return res.status(500).json({ message: "Internal server error" });
           }
-          res.status(201).json({ message: "Item added successfully" });
+
+          // Log the action in the history table
+          const action = `${name} was added`;
+          const userId = req.user.userId;
+          const date = moment()
+            .tz("America/Los_Angeles")
+            .format("YYYY-MM-DD HH:mm:ss");
+          const logQuery =
+            "INSERT INTO history (date, action, user_id) VALUES (?, ?, ?)";
+          connection.query(
+            logQuery,
+            [date, action, userId],
+            (logError, logResults) => {
+              if (logError) {
+                console.error("Error logging action:", logError);
+                return res
+                  .status(500)
+                  .json({ message: "Internal server error" });
+              }
+              res.status(201).json({ message: "Item added successfully" });
+            }
+          );
         }
       );
     } catch (error) {

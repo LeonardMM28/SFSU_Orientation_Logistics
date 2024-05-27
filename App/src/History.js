@@ -11,6 +11,7 @@ function History() {
   const goBack = () => {
     navigate("/dashboard");
   };
+
   useEffect(() => {
     const fetchTransactions = async () => {
       try {

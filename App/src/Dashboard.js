@@ -72,6 +72,25 @@ function Dashboard() {
     }
   }, [userId]);
 
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/logout", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (response.ok) {
+        localStorage.removeItem("token");
+        navigate("/");
+      } else {
+        console.error("Error logging out");
+      }
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
   const handleScan = (result) => {
     if (result) {
       setScanResult(result.text);
@@ -97,6 +116,9 @@ function Dashboard() {
 
   return (
     <div className="dashboard">
+      <button className="logout-button" onClick={handleLogout}>
+        Logout
+      </button>
       <h1>Welcome Back, {username}! We missed you.</h1>
       <h1>NSFP Orientation 2024</h1>
       <h1>Logistics Dashboard</h1>

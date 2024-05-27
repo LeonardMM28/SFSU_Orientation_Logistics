@@ -75,7 +75,7 @@ function OL_Uniforms_Inventory() {
       const actionDescription =
         modalType === "store"
           ? `Stored ${amount} of item ${currentItem.name} into the Annex`
-          : `Retrieved ${amount} of item ${currentItem.name} from the HQ`;
+          : `Retrieved ${amount} of item ${currentItem.name} to the HQ`;
 
       await axios.post(
         `http://localhost:3000/logAction`,

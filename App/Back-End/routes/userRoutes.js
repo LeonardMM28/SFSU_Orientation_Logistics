@@ -211,7 +211,6 @@ router.get("/transactions", authenticateToken, (req, res) => {
 });
 
 
-
 router.post("/logout", (req, res) => {
   const token = req.headers["authorization"].split(" ")[1]; // Extract the token from the Authorization header
   connection.query("DELETE FROM sessions WHERE token = ?", [token], (err) => {

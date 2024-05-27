@@ -1,7 +1,9 @@
-/* Dashboard container */
+/* General styles */
 * {
   font-family: "Quicksand", sans-serif;
 }
+
+/* Dashboard container */
 .dashboard {
   display: flex;
   flex-direction: column;
@@ -10,6 +12,7 @@
   width: 100%;
   height: 100vh;
   background-color: #313e50ff; /* Charcoal */
+  position: relative; /* Added for positioning the logout button */
 }
 
 /* Dashboard title */
@@ -44,5 +47,25 @@
 
 /* Dashboard button hover effect */
 .dashboard .button:hover {
+  background-color: #6c6f7fff; /* Slate gray */
+}
+
+/* Logout button */
+.logout-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #5c6672ff; /* Paynes gray */
+  color: #f1dac4ff; /* Almond */
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Logout button hover effect */
+.logout-button:hover {
   background-color: #6c6f7fff; /* Slate gray */
 }
