@@ -4,15 +4,19 @@
   position: relative;
   min-height: 100vh;
   padding: 20px;
-  background-color: #313e50ff;
-  color: #f1dac4ff;
+  background-color: #0e0e2c; /* Dark blue background */
+  color: #ffffff; /* White text color */
 }
 
 .history-page .title {
   font-size: 28px;
   font-weight: bold;
-  color: #f1dac4ff;
+  color: #ffffff; /* White text color */
   margin-left: 10px;
+  text-align: center;
+  text-transform: uppercase; /* Uppercase text */
+  letter-spacing: 1px; /* Slightly increased letter spacing */
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* Adjusted text shadow */
 }
 
 .history-page .back-icon-container {
@@ -23,7 +27,7 @@
 .history-page .back-icon {
   font-size: 40px;
   cursor: pointer;
-  color: #eae8ffff;
+  color: #00d4ff; /* Neon blue color */
   margin-right: 10px;
 }
 
@@ -32,59 +36,60 @@
 }
 
 .history-page .search-input {
-  background-color: #eae8ffff;
+  background-color: #1f1f4b; /* Dark blue color */
   width: 50%;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #5c6672ff;
   border-radius: 10px;
   margin-bottom: 20px;
+  color: #ffffff; /* White text color */
 }
 
-.transactions-container {
+.history-page .transactions-container {
   margin-top: 20px;
 }
 
-.transactions-list {
+.history-page .transactions-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.transaction-header {
+.history-page .transaction-header {
   display: flex;
   justify-content: space-between;
   padding: 15px;
   border-bottom: 2px solid #5c6672ff;
   font-weight: bold;
-  color: #eae8ffff;
+  color: #ffffff; /* White text color */
 }
 
-.transaction-item {
+.history-page .transaction-item {
   display: flex;
   justify-content: space-between;
   padding: 15px;
   border-bottom: 1px solid #5c6672ff;
 }
 
-.transaction-date {
+.history-page .transaction-date {
   flex: 1;
-  color: #eae8ffff;
+  color: #ffffff; /* White text color */
   text-align: left;
 }
 
-.transaction-username {
+.history-page .transaction-username {
   flex: 1;
-  color: #eae8ffff;
+  color: #ffffff; /* White text color */
   text-align: center;
 }
 
-.transaction-action {
+.history-page .transaction-action {
   flex: 2;
-  color: #eae8ffff;
+  color: #ffffff; /* White text color */
   text-align: right;
 }
 
-.transaction-item:hover {
-  background-color: #455561ff;
+.history-page .transaction-item:hover {
+  background-color: #333366; /* Lighter dark blue */
 }
