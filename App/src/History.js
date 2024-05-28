@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import "./History.css";
@@ -10,7 +10,8 @@ function History() {
   const [username, setUsername] = useState("");
   const [userId, setUserId] = useState("");
   const [userTier, setUserTier] = useState("");
-  
+  const [searchQuery, setSearchQuery] = useState("");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,35 +40,8 @@ function History() {
           }
 
           navigate("/");
-        } else if (isMounted) {
-          // Token is valid, check user tier
-          const decodedToken = JSON.parse(
-            atob(localStorage.getItem("token").split(".")[1])
-          );
-          const response = await axios.get(
-            `http://localhost:3000/getUser/${decodedToken.userId}`
-          );
-          const userTier = response.data.tier;
-          if (userTier !== "2") {
-            // User does not have the required tier, show unauthorized message and delete session
-            const token = localStorage.getItem("token");
-            if (token) {
-              localStorage.removeItem("token");
-              await axios.post("http://localhost:3000/logout", null, {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              });
-            }
-            navigate("/");
-            alert("You are not authorized to access this page.");
-          } else {
-            // Both token and user tier are valid, continue with the component
-            setUsername(decodedToken.username);
-            setUserId(decodedToken.userId);
-            setUserTier(userTier);
-            setIsAuthorized(true);
-          }
+        } else if (response.status === 200 && isMounted) {
+          setIsAuthorized(true);
         }
       } catch (error) {
         console.error("Error checking authorization:", error);
@@ -80,6 +54,28 @@ function History() {
       isMounted = false;
     };
   }, [navigate]);
+
+  useEffect(() => {
+    const getUsernameAndTierFromToken = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const decodedToken = JSON.parse(atob(token.split(".")[1]));
+          setUsername(decodedToken.username);
+          setUserId(decodedToken.userId);
+          const response = await axios.get(
+            `http://localhost:3000/getUser/${decodedToken.userId}`
+          );
+          setUserTier(response.data.tier);
+        } catch (error) {
+          console.error("Error fetching user information:", error);
+        }
+      }
+    };
+
+    getUsernameAndTierFromToken();
+  }, []);
+
   const goBack = () => {
     navigate("/dashboard");
   };
@@ -105,9 +101,15 @@ function History() {
     fetchTransactions();
   }, []);
 
-    if (!isAuthorized) {
-      return null; // Render nothing if not authorized
-    }
+  if (!isAuthorized) {
+    return null; // Render nothing if not authorized
+  }
+
+  const filteredTransactions = transactions.filter(
+    (transaction) =>
+      transaction.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      transaction.action.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="history-page">
@@ -115,14 +117,32 @@ function History() {
         <FiArrowLeftCircle onClick={goBack} className="back-icon" />
         <h1 className="title">Transaction History</h1>
       </div>
+      <div className="search-container">
+        <input
+          type="text"
+          className="search-input"
+          placeholder="Search by action or user..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
       <div className="transactions-container">
         <ul className="transactions-list">
-          {transactions.map((transaction) => (
+          <li className="transaction-header">
+            <span className="transaction-date">Date</span>
+            {userTier === "2" && (
+              <span className="transaction-username">Username</span>
+            )}
+            <span className="transaction-action">Action</span>
+          </li>
+          {filteredTransactions.map((transaction) => (
             <li key={transaction.id} className="transaction-item">
               <span className="transaction-date">{transaction.date}</span>
-              <span className="transaction-username">
-                {transaction.username}
-              </span>
+              {userTier === "2" && (
+                <span className="transaction-username">
+                  {transaction.username}
+                </span>
+              )}
               <span className="transaction-action">{transaction.action}</span>
             </li>
           ))}

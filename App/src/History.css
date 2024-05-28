@@ -27,6 +27,20 @@
   margin-right: 10px;
 }
 
+.history-page .search-container {
+  margin-top: 20px;
+}
+
+.history-page .search-input {
+  background-color: #eae8ffff;
+  width: 50%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #5c6672ff;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
 .transactions-container {
   margin-top: 20px;
 }
@@ -35,6 +49,15 @@
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+.transaction-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  border-bottom: 2px solid #5c6672ff;
+  font-weight: bold;
+  color: #eae8ffff;
 }
 
 .transaction-item {

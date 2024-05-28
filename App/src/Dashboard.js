@@ -171,11 +171,9 @@ function Dashboard() {
             Create User
           </button>
         )}
-        {userTier === "2" && (
           <button className="button" onClick={() => navigate("/history")}>
             History
           </button>
-        )}
         <button className="button" onClick={() => navigate("/other")}>
           Other
         </button>

@@ -19,46 +19,48 @@ function OL_Uniforms_Inventory() {
   const [showModal, setShowModal] = useState(false); // State to manage modal visibility
   const [modalImage, setModalImage] = useState(""); // State to store the image URL
   const [modalAltText, setModalAltText] = useState("");
+  const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
+
   const navigate = useNavigate();
 
-useEffect(() => {
-  let isMounted = true;
+  useEffect(() => {
+    let isMounted = true;
 
-  const checkAuthorization = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/auth-check", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      if (response.status === 401 && isMounted) {
-        // Invalid or expired token, show unauthorized message and delete session
-        alert("Your session has expired, please log in again.");
+    const checkAuthorization = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/auth-check", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        if (response.status === 401 && isMounted) {
+          // Invalid or expired token, show unauthorized message and delete session
+          alert("Your session has expired, please log in again.");
 
-        const token = localStorage.getItem("token");
-        if (token) {
-          localStorage.removeItem("token");
-          await axios.post("http://localhost:3000/logout", null, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          const token = localStorage.getItem("token");
+          if (token) {
+            localStorage.removeItem("token");
+            await axios.post("http://localhost:3000/logout", null, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+          }
+
+          navigate("/");
         }
-
-        navigate("/");
+      } catch (error) {
+        console.error("Error checking authorization:", error);
       }
-    } catch (error) {
-      console.error("Error checking authorization:", error);
-    }
-  };
+    };
 
-  checkAuthorization();
+    checkAuthorization();
 
-  return () => {
-    isMounted = false;
-  };
-}, [navigate]);
+    return () => {
+      isMounted = false;
+    };
+  }, [navigate]);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -141,15 +143,23 @@ useEffect(() => {
     }
   };
 
-    const handleOpenModal = (imageUrl, altText) => {
-      setModalImage(imageUrl);
-      setModalAltText(altText);
-      setShowModal(true);
-    };
+  const handleOpenModal = (imageUrl, altText) => {
+    setModalImage(imageUrl);
+    setModalAltText(altText);
+    setShowModal(true);
+  };
 
-    const handleCloseModal = () => {
-      setShowModal(false);
-    };
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredItems = items.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="uniform-inventory">
@@ -158,14 +168,20 @@ useEffect(() => {
         <h1 className="title">OL UNIFORMS</h1>
       </div>
       <div className="search-container">
-        <input type="text" className="search-input" placeholder="Search..." />
+        <input
+          type="text"
+          className="search-input"
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
         <button className="button" onClick={goToAdd}>
           ADD ITEM
         </button>
       </div>
       <div className="items-container">
-        {items.length > 0 ? (
-          items.map((item) => (
+        {filteredItems.length > 0 ? (
+          filteredItems.map((item) => (
             <div key={item.id} className="item">
               {item.image && (
                 <img
