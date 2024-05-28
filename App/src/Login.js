@@ -31,7 +31,9 @@ function Login() {
       isMounted = false;
     };
   }, [navigate]);
+
   const [formData, setFormData] = useState({ username: "", password: "" });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     setFormData({
@@ -53,6 +55,13 @@ function Login() {
       navigate("/dashboard");
     } catch (error) {
       console.error("Error during login:", error);
+      if (error.response && error.response.status === 401) {
+        setErrorMessage("Incorrect username or password. Please try again.");
+        alert("Incorrect username or password. Please try again.");
+      } else {
+        setErrorMessage("An error occurred. Please try again later.");
+        alert("An error occurred. Please try again later.");
+      }
     }
   };
 
@@ -92,6 +101,7 @@ function Login() {
               onChange={handleChange}
             />
           </div>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
           <button type="submit">Login</button>
         </form>
       </div>
