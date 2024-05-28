@@ -110,3 +110,22 @@
     width: 48%;
   }
 }
+
+.add-edit-orientation-resources .consumable-label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: rgb(87, 110, 144);
+  padding: 10px;
+  border-radius: 5px;
+  width: fit-content;
+}
+
+.add-edit-orientation-resources .consumable-label input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.add-edit-orientation-resources .consumable-label span {
+  font-size: 18px;
+}
+

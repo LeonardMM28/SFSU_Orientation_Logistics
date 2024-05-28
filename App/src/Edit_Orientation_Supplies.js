@@ -9,6 +9,8 @@ function Edit_Orientation_Supplies() {
   const { itemId } = useParams();
   const [name, setName] = useState("");
   const [picture, setPicture] = useState(null);
+  const [consumible, setConsumible] = useState(false); // Add consumable state
+
   const category = "SUPPLIES";
   const [locationAnnex, setLocationAnnex] = useState("");
   const [quantityAnnex, setQuantityAnnex] = useState(0);
@@ -76,6 +78,7 @@ function Edit_Orientation_Supplies() {
         );
         const item = response.data;
         setName(item.name);
+        setConsumible(Boolean(item.consumible)); // Convert to boolean
         setLocationAnnex(item.location_annex);
         setQuantityAnnex(item.quantity_annex);
         setLocationHQ(item.location_hq);
@@ -118,6 +121,7 @@ function Edit_Orientation_Supplies() {
     formData.append("quantityAnnex", quantityAnnex);
     formData.append("locationHQ", locationHQ);
     formData.append("quantityHQ", quantityHQ);
+    formData.append("consumible", consumible ? 1 : 0); // Append consumible state
 
     try {
       await axios.put(`http://localhost:3000/edit/item/${itemId}`, formData, {
@@ -227,6 +231,17 @@ function Edit_Orientation_Supplies() {
                 required
               />
             </label>
+          </div>
+          <div className="consumable-label">
+            <input
+              type="checkbox"
+              id="consumable"
+              name="consumable"
+              checked={consumible} // Check if consumible state is true
+              onChange={(e) => setConsumible(e.target.checked)} // Set consumible state directly
+            />
+
+            <span>Consumable</span>
           </div>
           <button type="submit">Confirm</button>
         </form>

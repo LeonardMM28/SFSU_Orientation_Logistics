@@ -195,6 +195,9 @@ function Orientation_Supplies_Inventory() {
                   Location Annex: {item.location_annex}
                 </p>
                 <p className="item-detail">Location HQ: {item.location_hq}</p>
+                {item.consumible === 1 && ( // Check if the item is consumable
+                  <p className="item-legend">Consumable</p>
+                )}
               </div>
               <div className="item-actions">
                 <div className="item-quantities">

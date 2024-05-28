@@ -8,6 +8,7 @@ import Modal from "./Modal"; // Import the Modal component
 function Add_Orientation_Supplies() {
   const [name, setName] = useState("");
   const [picture, setPicture] = useState(null);
+  const [consumible, setConsumible] = useState(0); // State for consumible checkbox
   const category = "SUPPLIES";
   const [locationAnnex, setLocationAnnex] = useState("");
   const [quantityAnnex, setQuantityAnnex] = useState(0);
@@ -80,30 +81,47 @@ function Add_Orientation_Supplies() {
     }
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("picture", picture);
-    formData.append("category", category);
-    formData.append("locationAnnex", locationAnnex);
-    formData.append("quantityAnnex", quantityAnnex);
-    formData.append("locationHQ", locationHQ);
-    formData.append("quantityHQ", quantityHQ);
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  const formData = new FormData();
+  formData.append("name", name);
+  formData.append("picture", picture);
+  formData.append("category", category);
+  formData.append("locationAnnex", locationAnnex);
+  formData.append("quantityAnnex", quantityAnnex);
+  formData.append("locationHQ", locationHQ);
+  formData.append("quantityHQ", quantityHQ);
+  formData.append("consumible", Number(consumible));
 
-    try {
-      await axios.post("http://localhost:3000/add/items", formData, {
+  try {
+    const response = await axios.post(
+      "http://localhost:3000/add/items",
+      formData,
+      {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming token is stored in local storage
           "Content-Type": "multipart/form-data",
         },
-      });
+      }
+    );
+
+    if (response.status === 201) {
+      // Item added successfully
+      alert("Item added successfully");
       navigate("/orientation-supplies-inventory");
-    } catch (error) {
-      console.error("Error adding item:", error);
-      // Handle error appropriately
     }
-  };
+  } catch (error) {
+    console.error("Error adding item:", error);
+    if (
+      error.response &&
+      error.response.status === 400 &&
+      error.response.data.message === "Item name already exists"
+    ) {
+      // Item name already exists
+      alert("Item name already exists");
+    } 
+  }
+};
 
   const goToInventory = () => {
     navigate("/orientation-supplies-inventory");
@@ -201,6 +219,17 @@ function Add_Orientation_Supplies() {
               />
             </label>
           </div>
+          <div className="consumable-label">
+            <input
+              type="checkbox"
+              id="consumable"
+              name="consumable"
+              checked={consumible === 1} // Check if consumible state is equal to 1
+              onChange={(e) => setConsumible(e.target.checked ? 1 : 0)} // Convert checkbox value to 1 or 0
+            />
+            <span>Consumable</span>
+          </div>
+
           <button type="submit">Confirm</button>
         </form>
       </div>

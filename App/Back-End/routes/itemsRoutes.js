@@ -153,7 +153,7 @@ router.put(
   upload.single("picture"),
   async (req, res) => {
     const { itemId } = req.params;
-    const { name, locationAnnex, quantityAnnex, locationHQ, quantityHQ } =
+    const { name, locationAnnex, quantityAnnex, locationHQ, quantityHQ, consumible } =
       req.body;
     let imageUrl = null;
 
@@ -187,12 +187,12 @@ router.put(
           }
           if (String(locationAnnex) !== String(currentItem.location_annex)) {
             changes.push(
-              `Location at Annex changed from ${currentItem.location_annex} to ${locationAnnex}`
+              `Location at annex changed from ${currentItem.location_annex} to ${locationAnnex}`
             );
           }
           if (String(quantityAnnex) !== String(currentItem.quantity_annex)) {
             changes.push(
-              `Quantity at Annex changed from ${currentItem.quantity_annex} to ${quantityAnnex}`
+              `Quantity at annex changed from ${currentItem.quantity_annex} to ${quantityAnnex}`
             );
           }
           if (String(locationHQ) !== String(currentItem.location_hq)) {
@@ -214,7 +214,7 @@ router.put(
           // Update the item in the database
           const query = `
             UPDATE items
-            SET name = ?, image = IFNULL(?, image), location_annex = ?, quantity_annex = ?, location_hq = ?, quantity_hq = ?
+            SET name = ?, image = IFNULL(?, image), location_annex = ?, quantity_annex = ?, location_hq = ?, quantity_hq = ?, consumible = ?
             WHERE id = ?
           `;
           const values = [
@@ -224,6 +224,7 @@ router.put(
             quantityAnnex,
             locationHQ,
             quantityHQ,
+            consumible,
             itemId,
           ];
 
@@ -531,51 +532,76 @@ router.post(
         quantityAnnex,
         locationHQ,
         quantityHQ,
+        consumible,
       } = req.body;
-      let imageUrl = null;
-      if (req.file) {
-        const s3Response = await uploadFileToS3(req.file);
-        imageUrl = s3Response.Location; // Use only the Location property
-      }
 
-      const query =
-        "INSERT INTO items (name, image, category, location_annex, quantity_annex, location_hq, quantity_hq) VALUES (?, ?, ?, ?, ?, ?, ?)";
+      // Check if the item name already exists
+      const nameCheckQuery = "SELECT * FROM items WHERE name = ?";
       connection.query(
-        query,
-        [
-          name,
-          imageUrl,
-          category,
-          locationAnnex,
-          quantityAnnex,
-          locationHQ,
-          quantityHQ,
-        ],
-        (error, results) => {
-          if (error) {
-            console.error("Error adding item:", error);
+        nameCheckQuery,
+        [name],
+        async (nameCheckError, nameCheckResults) => {
+          if (nameCheckError) {
+            console.error("Error checking item name:", nameCheckError);
             return res.status(500).json({ message: "Internal server error" });
           }
 
-          // Log the action in the history table
-          const action = `${name} was added to inventory`;
-          const userId = req.user.userId;
-          const date = moment()
-            .tz("America/Los_Angeles")
-            .format("YYYY-MM-DD HH:mm:ss");
-          const logQuery =
-            "INSERT INTO history (date, action, user_id) VALUES (?, ?, ?)";
+          // If the item name already exists, return an error
+          if (nameCheckResults.length > 0) {
+            return res
+              .status(400)
+              .json({ message: "Item name already exists" });
+          }
+
+          let imageUrl = null;
+          if (req.file) {
+            const s3Response = await uploadFileToS3(req.file);
+            imageUrl = s3Response.Location; // Use only the Location property
+          }
+
+          const query =
+            "INSERT INTO items (name, image, category, location_annex, quantity_annex, location_hq, quantity_hq, consumible) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
           connection.query(
-            logQuery,
-            [date, action, userId],
-            (logError, logResults) => {
-              if (logError) {
-                console.error("Error logging action:", logError);
+            query,
+            [
+              name,
+              imageUrl,
+              category,
+              locationAnnex,
+              quantityAnnex,
+              locationHQ,
+              quantityHQ,
+              consumible,
+            ],
+            (error, results) => {
+              if (error) {
+                console.error("Error adding item:", error);
                 return res
                   .status(500)
                   .json({ message: "Internal server error" });
               }
-              res.status(201).json({ message: "Item added successfully" });
+
+              // Log the action in the history table
+              const action = `${name} was added to inventory`;
+              const userId = req.user.userId;
+              const date = moment()
+                .tz("America/Los_Angeles")
+                .format("YYYY-MM-DD HH:mm:ss");
+              const logQuery =
+                "INSERT INTO history (date, action, user_id) VALUES (?, ?, ?)";
+              connection.query(
+                logQuery,
+                [date, action, userId],
+                (logError, logResults) => {
+                  if (logError) {
+                    console.error("Error logging action:", logError);
+                    return res
+                      .status(500)
+                      .json({ message: "Internal server error" });
+                  }
+                  res.status(201).json({ message: "Item added successfully" });
+                }
+              );
             }
           );
         }
@@ -586,6 +612,7 @@ router.post(
     }
   }
 );
+
 
 router.post("/add/session", authenticateToken, (req, res) => {
   const { date, type, attendees, checklist } = req.body;

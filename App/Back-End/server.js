@@ -79,7 +79,8 @@ connection.query(
       location_annex VARCHAR(255),
       quantity_annex INT,
       location_hq VARCHAR(255),
-      quantity_hq INT
+      quantity_hq INT,
+      consumible BOOLEAN DEFAULT FALSE
   )
   `,
   (error, results, fields) => {
