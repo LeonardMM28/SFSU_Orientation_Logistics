@@ -5,8 +5,8 @@ import {
   PiArrowSquareDownRightFill,
   PiArrowSquareUpRightFill,
 } from "react-icons/pi";
-import Modal from "./Modal"; // Import the Modal component
 import { useNavigate } from "react-router-dom";
+import Modal from "./Modal"; // Import the Modal component
 import "./Orientation_Supplies_Inventory.css";
 
 function Orientation_Supplies_Inventory() {
@@ -200,23 +200,26 @@ function Orientation_Supplies_Inventory() {
                 )}
               </div>
               <div className="item-actions">
-                <div className="item-quantities">
+                <div className="item-buttons">
                   <button
-                    className="button"
+                    className="button retrieve-button"
                     onClick={() => handleActionClick(item, "retrieve")}
                   >
                     <PiArrowSquareUpRightFill className="button-icon" />
                     RETRIEVE
                   </button>
-                  <div className="quantities">
-                    <p className="quantity">HQ: {item.quantity_hq}</p>
-                    <p className="quantity">Annex: {item.quantity_annex}</p>
+                  <div className="item-quantities">
+                    <div className="quantities">
+                      <p className="quantity">HQ: {item.quantity_hq}</p>
+                      <p className="quantity">Annex: {item.quantity_annex}</p>
+                    </div>
                   </div>
                   <button
-                    className="button"
+                    className="button store-button"
                     onClick={() => handleActionClick(item, "store")}
                   >
-                    STORE <PiArrowSquareDownRightFill className="button-icon" />
+                    <PiArrowSquareDownRightFill className="button-icon" />
+                    STORE
                   </button>
                 </div>
                 <button
