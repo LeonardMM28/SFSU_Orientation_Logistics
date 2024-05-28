@@ -1,6 +1,10 @@
-/* General styles */
+
+
 * {
-  font-family: "Quicksand", sans-serif;
+  font-family: "Orbitron", sans-serif; /* Futuristic font */
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 /* Dashboard container */
@@ -11,61 +15,88 @@
   justify-content: center;
   width: 100%;
   height: 100vh;
-  background-color: #313e50ff; /* Charcoal */
-  position: relative; /* Added for positioning the logout button */
+  background-color: #0e0e2c; /* Dark blue background */
+  color: #ffffff;
+  position: relative;
 }
-
 /* Dashboard title */
 .dashboard h1 {
-  font-size: 28px; /* Increased font size for title */
+  font-size: 28px; /* Reduced font size */
   font-weight: bold;
-  margin-top: 0px;
-  color: #f1dac4ff; /* Almond */
+  margin: 10px 0; /* Reduced top and bottom margin */
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px; /* Slightly reduced letter spacing */
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* Adjusted text shadow */
 }
+
 
 /* Button container */
 .button-container {
   display: flex;
-  flex-direction: column; /* Buttons ordered vertically */
+  flex-direction: column;
   align-items: center;
+  margin-top: 40px;
 }
 
 /* Dashboard button */
 .dashboard .button {
-  width: 300px; /* Equal width for all buttons */
-  background-color: #5c6672ff; /* Paynes gray */
-  color: #f1dac4ff; /* Almond */
-  border: none;
-  border-radius: 10px; /* Increased border radius for a more rounded look */
-  padding: 20px 40px; /* Increased padding for larger buttons */
-  font-size: 20px; /* Increased font size for buttons */
+  width: 300px;
+  background-color: #1f1f4b; /* Dark blue color */
+  color: #ffffff;
+  border: 2px solid #00d4ff; /* Neon blue border */
+  padding: 15px 40px; /* Adjusted padding */
+  font-size: 18px; /* Adjusted font size */
+  font-weight: bold;
   cursor: pointer;
   margin-bottom: 20px;
-  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  text-transform: uppercase;
+  position: relative;
+  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
+  clip-path: polygon(0% 0%, 70% 0%, 100% 30%, 100% 100%, 30% 100%, 0% 70%);
+  animation: border-glow 2s infinite alternate; /* Added animation */
 }
 
 /* Dashboard button hover effect */
 .dashboard .button:hover {
-  background-color: #6c6f7fff; /* Slate gray */
+  background-color: #2a2a5e; /* Slightly lighter dark blue */
+  border-color: #66eaff; /* Lighter neon blue */
+  box-shadow: 0 0 10px #66eaff, 0 0 20px #66eaff, 0 0 30px #66eaff; /* Adjusted box-shadow */
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.5s ease; /* Smooth transition */
 }
 
-/* Logout button */
 .logout-button {
   position: absolute;
   top: 20px;
   right: 20px;
-  background-color: #5c6672ff; /* Paynes gray */
-  color: #f1dac4ff; /* Almond */
-  border: none;
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
+  background-color: #1f1f4b; /* Dark blue color */
+  color: #ffffff;
+  border: 2px solid #00d4ff; /* Neon blue border */
+  padding: 8px 20px; /* Adjusted padding */
+  font-size: 14px; /* Adjusted font size */
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  text-transform: uppercase;
+  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
+  clip-path: polygon(0% 0%, 70% 0%, 100% 30%, 100% 100%, 30% 100%, 0% 70%);
 }
 
 /* Logout button hover effect */
 .logout-button:hover {
-  background-color: #6c6f7fff; /* Slate gray */
+  background-color: #2a2a5e; /* Slightly lighter dark blue */
+  border-color: #66eaff; /* Lighter neon blue */
+  box-shadow: 0 0 10px #66eaff, 0 0 20px #66eaff, 0 0 30px #66eaff; /* Adjusted box-shadow */
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.5s ease; /* Smooth transition */
+}
+
+@keyframes border-glow {
+  0% {
+    box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
+  }
+  50% {
+    box-shadow: 0 0 20px #66eaff, 0 0 40px #66eaff, 0 0 60px #66eaff;
+  }
+  100% {
+    box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
+  }
 }
