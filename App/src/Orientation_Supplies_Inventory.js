@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react"; // Import React hooks
 import axios from "axios";
+import React, { useEffect, useState } from "react"; // Import React hooks
+import { FiArrowLeftCircle } from "react-icons/fi";
 import {
   PiArrowSquareDownRightFill,
   PiArrowSquareUpRightFill,
 } from "react-icons/pi";
-import { FiArrowLeftCircle } from "react-icons/fi";
+import Modal from "./Modal"; // Import the Modal component
 import { useNavigate } from "react-router-dom";
 import "./Orientation_Supplies_Inventory.css";
 
@@ -14,8 +15,50 @@ function Orientation_Supplies_Inventory() {
   const [modalType, setModalType] = useState("");
   const [currentItem, setCurrentItem] = useState(null);
   const [amount, setAmount] = useState(0);
-
+  const [showModal, setShowModal] = useState(false); // State to manage modal visibility
+  const [modalImage, setModalImage] = useState(""); // State to store the image URL
+  const [modalAltText, setModalAltText] = useState("");
   const navigate = useNavigate();
+
+useEffect(() => {
+  let isMounted = true;
+
+  const checkAuthorization = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/auth-check", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (response.status === 401 && isMounted) {
+        // Invalid or expired token, show unauthorized message and delete session
+        alert("Your session has expired, please log in again.");
+
+        const token = localStorage.getItem("token");
+        if (token) {
+          localStorage.removeItem("token");
+          await axios.post("http://localhost:3000/logout", null, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        }
+
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Error checking authorization:", error);
+    }
+  };
+
+  checkAuthorization();
+
+  return () => {
+    isMounted = false;
+  };
+}, [navigate]);
+
   useEffect(() => {
     const fetchItems = async () => {
       try {
@@ -97,6 +140,16 @@ function Orientation_Supplies_Inventory() {
     }
   };
 
+    const handleOpenModal = (imageUrl, altText) => {
+      setModalImage(imageUrl);
+      setModalAltText(altText);
+      setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+      setShowModal(false);
+    };
+
   return (
     <div className="orientation-inventory">
       <div className="back-icon-container">
@@ -114,7 +167,12 @@ function Orientation_Supplies_Inventory() {
           items.map((item) => (
             <div key={item.id} className="item">
               {item.image && (
-                <img src={item.image} alt={item.name} className="item-image" />
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="item-image"
+                  onClick={() => handleOpenModal(item.image, item.name)}
+                />
               )}
               <div className="item-details">
                 <h2 className="item-title">{item.name}</h2>
@@ -153,7 +211,7 @@ function Orientation_Supplies_Inventory() {
             </div>
           ))
         ) : (
-          <p className="no-uniforms">No uniforms available.</p>
+          <p className="no-uniforms">No supplies available.</p>
         )}
       </div>
 
@@ -179,6 +237,13 @@ function Orientation_Supplies_Inventory() {
             </button>
           </div>
         </div>
+      )}
+      {showModal && (
+        <Modal
+          imageUrl={modalImage}
+          altText={modalAltText}
+          onClose={handleCloseModal}
+        />
       )}
     </div>
   );

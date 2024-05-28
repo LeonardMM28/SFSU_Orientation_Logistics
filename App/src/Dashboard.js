@@ -13,27 +13,44 @@ function Dashboard() {
   const [scanResult, setScanResult] = useState("");
   const [showCamera, setShowCamera] = useState(false);
   const [captureClicked, setCaptureClicked] = useState(false);
+useEffect(() => {
+  let isMounted = true;
 
-  useEffect(() => {
-    const authenticateToken = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/auth-check", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        if (response.status === 401) {
+  const checkAuthorization = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/auth-check", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (response.status === 401 && isMounted) {
+        // Invalid or expired token, show unauthorized message and delete session
+        alert("Your session has expired, please log in again.");
+
+        const token = localStorage.getItem("token");
+        if (token) {
           localStorage.removeItem("token");
-          navigate("/");
+          await axios.post("http://localhost:3000/logout", null, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
         }
-      } catch (error) {
-        console.error("Error authenticating token:", error);
-      }
-    };
 
-    authenticateToken();
-  }, [navigate]);
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Error checking authorization:", error);
+    }
+  };
+
+  checkAuthorization();
+
+  return () => {
+    isMounted = false;
+  };
+}, [navigate]);
 
   useEffect(() => {
     const getUsernameAndTierFromToken = async () => {

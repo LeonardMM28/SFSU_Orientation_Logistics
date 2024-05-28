@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import "./Planner_Inventory.css";
@@ -9,7 +9,49 @@ function Planner_Inventory() {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState([]);
   const [currentSessionId, setCurrentSessionId] = useState(null);
+  const [username, setUsername] = useState("");
+  const [userId, setUserId] = useState("");
+  const [userTier, setUserTier] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const checkAuthorization = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/auth-check", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        if (response.status === 401 && isMounted) {
+          // Invalid or expired token, show unauthorized message and delete session
+          alert("Your session has expired, please log in again.");
+
+          const token = localStorage.getItem("token");
+          if (token) {
+            localStorage.removeItem("token");
+            await axios.post("http://localhost:3000/logout", null, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+          }
+
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("Error checking authorization:", error);
+      }
+    };
+
+    checkAuthorization();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [navigate]);
 
   useEffect(() => {
     const fetchSessions = async () => {

@@ -1,6 +1,6 @@
-import React, { useState } from "react"; // Import React hooks
 import axios from "axios";
-
+import React, { useState } from "react"; // Import React hooks
+import Modal from "./Modal"; // Import the Modal component
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import "./Add_Edit_OL_Uniforms.css";
@@ -14,6 +14,9 @@ function Add_OL_Uniforms() {
   const [locationHQ, setLocationHQ] = useState("");
   const [quantityHQ, setQuantityHQ] = useState(0);
   const [imagePreview, setImagePreview] = useState(null);
+  const [showModal, setShowModal] = useState(false); // State to manage modal visibility
+  const [modalImage, setModalImage] = useState(""); // State to store the image URL
+  const [modalAltText, setModalAltText] = useState("");
   const navigate = useNavigate();
 
   const handleImageChange = (event) => {
@@ -60,6 +63,16 @@ function Add_OL_Uniforms() {
     navigate("/ol-uniforms-inventory");
   };
 
+  const handleOpenModal = (imageUrl, altText) => {
+    setModalImage(imageUrl);
+    setModalAltText(altText);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <div className="add-edit-ol-uniforms">
       <div className="back-icon-container">
@@ -90,7 +103,12 @@ function Add_OL_Uniforms() {
               </label>
             </div>
             {imagePreview && (
-              <img src={imagePreview} alt="Preview" className="image-preview" />
+              <img
+                src={imagePreview}
+                alt="Preview"
+                className="image-preview"
+                onClick={() => handleOpenModal(imagePreview, "Preview")}
+              />
             )}
           </div>
           <div className="location-quantity">
@@ -140,6 +158,13 @@ function Add_OL_Uniforms() {
           <button type="submit">Confirm</button>
         </form>
       </div>
+      {showModal && (
+        <Modal
+          imageUrl={modalImage}
+          altText={modalAltText}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 }

@@ -1,12 +1,13 @@
 // Edit_OL_Uniforms.js
-import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { FiArrowLeftCircle } from "react-icons/fi";
+import { useNavigate, useParams } from "react-router-dom";
+import Modal from "./Modal"; // Import the Modal component
 import "./Add_Edit_OL_Uniforms.css";
 
 function Edit_OL_Uniforms() {
-const { itemId } = useParams();
+  const { itemId } = useParams();
   const [name, setName] = useState("");
   const [picture, setPicture] = useState(null);
   const category = "UNIFORMS";
@@ -15,16 +16,55 @@ const { itemId } = useParams();
   const [locationHQ, setLocationHQ] = useState("");
   const [quantityHQ, setQuantityHQ] = useState(0);
   const [imagePreview, setImagePreview] = useState(null);
+  const [showModal, setShowModal] = useState(false); // State to manage modal visibility
+  const [modalImage, setModalImage] = useState(""); // State to store the image URL
+  const [modalAltText, setModalAltText] = useState("");
   const navigate = useNavigate();
+
+    useEffect(() => {
+      const checkAuthorization = async () => {
+        try {
+          const response = await fetch("http://localhost:3000/auth-check", {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          });
+          if (response.status === 401) {
+            // Invalid or expired token, show unauthorized message and delete session
+            alert("Your session has expired, please log in again.");
+
+            const token = localStorage.getItem("token");
+            if (token) {
+              localStorage.removeItem("token");
+              await axios.post("http://localhost:3000/logout", null, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+            }
+
+            navigate("/");
+          }
+        } catch (error) {
+          console.error("Error checking authorization:", error);
+        }
+      };
+
+      checkAuthorization();
+    }, [navigate]);
 
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/items/${itemId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const response = await axios.get(
+          `http://localhost:3000/items/${itemId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         const item = response.data;
         setName(item.name);
         setLocationAnnex(item.location_annex);
@@ -83,6 +123,16 @@ const { itemId } = useParams();
     navigate("/ol-uniforms-inventory");
   };
 
+  const handleOpenModal = (imageUrl, altText) => {
+    setModalImage(imageUrl);
+    setModalAltText(altText);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <div className="add-edit-ol-uniforms">
       <div className="back-icon-container">
@@ -113,7 +163,12 @@ const { itemId } = useParams();
               </label>
             </div>
             {imagePreview && (
-              <img src={imagePreview} alt="Preview" className="image-preview" />
+              <img
+                src={imagePreview}
+                alt="Preview"
+                className="image-preview"
+                onClick={() => handleOpenModal(imagePreview, "Preview")}
+              />
             )}
           </div>
           <div className="location-quantity">
@@ -163,6 +218,13 @@ const { itemId } = useParams();
           <button type="submit">Confirm</button>
         </form>
       </div>
+      {showModal && (
+        <Modal
+          imageUrl={modalImage}
+          altText={modalAltText}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 }

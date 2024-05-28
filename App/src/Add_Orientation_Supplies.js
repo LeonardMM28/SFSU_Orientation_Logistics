@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import Modal from "./Modal"; // Import the Modal component
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import "./Add_Edit_Orientation_Supplies.css";
@@ -14,6 +14,9 @@ function Add_Orientation_Supplies() {
   const [locationHQ, setLocationHQ] = useState("");
   const [quantityHQ, setQuantityHQ] = useState(0);
   const [imagePreview, setImagePreview] = useState(null);
+    const [showModal, setShowModal] = useState(false); // State to manage modal visibility
+    const [modalImage, setModalImage] = useState(""); // State to store the image URL
+    const [modalAltText, setModalAltText] = useState("");
   const navigate = useNavigate();
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -59,6 +62,16 @@ function Add_Orientation_Supplies() {
     navigate("/orientation-supplies-inventory");
   };
 
+    const handleOpenModal = (imageUrl, altText) => {
+      setModalImage(imageUrl);
+      setModalAltText(altText);
+      setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+      setShowModal(false);
+    };
+
   return (
     <div className="add-edit-orientation-resources">
       <div className="back-icon-container">
@@ -89,7 +102,12 @@ function Add_Orientation_Supplies() {
               </label>
             </div>
             {imagePreview && (
-              <img src={imagePreview} alt="Preview" className="image-preview" />
+              <img
+                src={imagePreview}
+                alt="Preview"
+                className="image-preview"
+                onClick={() => handleOpenModal(imagePreview, "Preview")}
+              />
             )}
           </div>
           <div className="location-quantity">
@@ -139,6 +157,13 @@ function Add_Orientation_Supplies() {
           <button type="submit">Confirm</button>
         </form>
       </div>
+      {showModal && (
+        <Modal
+          imageUrl={modalImage}
+          altText={modalAltText}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 }
