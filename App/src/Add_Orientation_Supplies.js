@@ -3,20 +3,20 @@ import React, { useEffect, useState } from "react";
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import "./Add_Edit_Orientation_Supplies.css";
-import Modal from "./Modal"; // Import the Modal component
+import Modal from "./Modal";
 
 function Add_Orientation_Supplies() {
   const [name, setName] = useState("");
   const [picture, setPicture] = useState(null);
-  const [consumible, setConsumible] = useState(0); // State for consumible checkbox
+  const [consumible, setConsumible] = useState(0);
   const category = "SUPPLIES";
   const [locationAnnex, setLocationAnnex] = useState("");
   const [quantityAnnex, setQuantityAnnex] = useState(0);
   const [locationHQ, setLocationHQ] = useState("");
   const [quantityHQ, setQuantityHQ] = useState(0);
   const [imagePreview, setImagePreview] = useState(null);
-  const [showModal, setShowModal] = useState(false); // State to manage modal visibility
-  const [modalImage, setModalImage] = useState(""); // State to store the image URL
+  const [showModal, setShowModal] = useState(false);
+  const [modalImage, setModalImage] = useState("");
   const [modalAltText, setModalAltText] = useState("");
   const [isAuthorized, setIsAuthorized] = useState(false);
 
@@ -34,7 +34,6 @@ function Add_Orientation_Supplies() {
           },
         });
         if (response.status === 401 && isMounted) {
-          // Invalid or expired token, show unauthorized message and delete session
           alert("Your session has expired, please log in again.");
 
           const token = localStorage.getItem("token");
@@ -64,64 +63,63 @@ function Add_Orientation_Supplies() {
   }, [navigate]);
 
   if (!isAuthorized) {
-    return null; // Render a loading state while authorization check is in progress
+    return null;
   }
+
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setPicture(file); // Update picture state
+      setPicture(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
       };
       reader.readAsDataURL(file);
     } else {
-      setPicture(null); // Clear picture state
+      setPicture(null);
       setImagePreview(null);
     }
   };
 
-const handleSubmit = async (event) => {
-  event.preventDefault();
-  const formData = new FormData();
-  formData.append("name", name);
-  formData.append("picture", picture);
-  formData.append("category", category);
-  formData.append("locationAnnex", locationAnnex);
-  formData.append("quantityAnnex", quantityAnnex);
-  formData.append("locationHQ", locationHQ);
-  formData.append("quantityHQ", quantityHQ);
-  formData.append("consumible", Number(consumible));
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("picture", picture);
+    formData.append("category", category);
+    formData.append("locationAnnex", locationAnnex);
+    formData.append("quantityAnnex", quantityAnnex);
+    formData.append("locationHQ", locationHQ);
+    formData.append("quantityHQ", quantityHQ);
+    formData.append("consumible", Number(consumible));
 
-  try {
-    const response = await axios.post(
-      "http://localhost:3000/add/items",
-      formData,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming token is stored in local storage
-          "Content-Type": "multipart/form-data",
-        },
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/add/items",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        alert("Item added successfully");
+        navigate("/orientation-supplies-inventory");
       }
-    );
-
-    if (response.status === 201) {
-      // Item added successfully
-      alert("Item added successfully");
-      navigate("/orientation-supplies-inventory");
+    } catch (error) {
+      console.error("Error adding item:", error);
+      if (
+        error.response &&
+        error.response.status === 400 &&
+        error.response.data.message === "Item name already exists"
+      ) {
+        alert("Item name already exists");
+      }
     }
-  } catch (error) {
-    console.error("Error adding item:", error);
-    if (
-      error.response &&
-      error.response.status === 400 &&
-      error.response.data.message === "Item name already exists"
-    ) {
-      // Item name already exists
-      alert("Item name already exists");
-    } 
-  }
-};
+  };
 
   const goToInventory = () => {
     navigate("/orientation-supplies-inventory");
@@ -224,8 +222,8 @@ const handleSubmit = async (event) => {
               type="checkbox"
               id="consumable"
               name="consumable"
-              checked={consumible === 1} // Check if consumible state is equal to 1
-              onChange={(e) => setConsumible(e.target.checked ? 1 : 0)} // Convert checkbox value to 1 or 0
+              checked={consumible === 1}
+              onChange={(e) => setConsumible(e.target.checked ? 1 : 0)}
             />
             <span>Consumable</span>
           </div>
