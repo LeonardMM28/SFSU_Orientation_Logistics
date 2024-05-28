@@ -9,9 +9,6 @@ function Planner_Inventory() {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState([]);
   const [currentSessionId, setCurrentSessionId] = useState(null);
-  const [username, setUsername] = useState("");
-  const [userId, setUserId] = useState("");
-  const [userTier, setUserTier] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,9 +23,7 @@ function Planner_Inventory() {
           },
         });
         if (response.status === 401 && isMounted) {
-          // Invalid or expired token, show unauthorized message and delete session
           alert("Your session has expired, please log in again.");
-
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
@@ -38,7 +33,6 @@ function Planner_Inventory() {
               },
             });
           }
-
           navigate("/");
         }
       } catch (error) {
@@ -104,7 +98,7 @@ function Planner_Inventory() {
                   },
                 }
               );
-              session.status = "ES"; // Update the session status in the state
+              session.status = "ES";
             } else if (!allItemsInStock && session.status !== "NES") {
               await axios.put(
                 `http://localhost:3000/update-session-NES/${session.id}`,
@@ -115,7 +109,7 @@ function Planner_Inventory() {
                   },
                 }
               );
-              session.status = "NES"; // Update the session status in the state
+              session.status = "NES";
             }
           } else if (!allItemsInStock && session.status === "READY") {
             await axios.put(
@@ -127,11 +121,11 @@ function Planner_Inventory() {
                 },
               }
             );
-            session.status = "NES"; // Update the session status in the state
+            session.status = "NES";
           }
         }
 
-        setSessions(sessionsData); // Update the state with the modified sessions data
+        setSessions(sessionsData);
       } catch (error) {
         console.error("Error fetching sessions:", error);
       }
@@ -274,14 +268,21 @@ function Planner_Inventory() {
                 <td>{session.attendees}</td>
                 <td>{getStatusDot(session.status)}</td>
                 <td>
-                  <button onClick={() => goToEditSession(session.id)}>
+                  <button
+                    className="action-button"
+                    onClick={() => goToEditSession(session.id)}
+                  >
                     Edit
                   </button>
-                  <button onClick={() => handleViewSession(session.id)}>
+                  <button
+                    className="action-button"
+                    onClick={() => handleViewSession(session.id)}
+                  >
                     View
                   </button>
                   {session.status === "ES" && (
                     <button
+                      className="action-button"
                       onClick={() => handlePrepareButtonClick(session.id)}
                     >
                       PREPARED
@@ -302,8 +303,12 @@ function Planner_Inventory() {
             {currentSessionId ? (
               <>
                 <h2>Are you sure this session prep is good to go?</h2>
-                <button onClick={handleConfirmPrep}>YES</button>
-                <button onClick={handleCloseModal}>NOT YET</button>
+                <button className="confirm-button" onClick={handleConfirmPrep}>
+                  YES
+                </button>
+                <button className="confirm-button" onClick={handleCloseModal}>
+                  NOT YET
+                </button>
               </>
             ) : (
               <>
@@ -317,18 +322,12 @@ function Planner_Inventory() {
                           alt={item.details.name}
                           className="item-image"
                         />
-                        <div className="item-details">
-                          <span className="item-title">
-                            {item.details.name}
-                          </span>
-                          <span
-                            className={`item-detail ${item.quantityStatus}`}
-                          >
-                            {item.availableQuantity >= item.amount
-                              ? `${item.amount}/${item.amount}`
-                              : `${item.availableQuantity}/${item.amount}`}
-                          </span>
-                        </div>
+                        <span>{item.details.name}</span>
+                        <span
+                          className={`quantity-status ${item.quantityStatus}`}
+                        >
+                          {item.availableQuantity} / {item.amount}
+                        </span>
                       </div>
                     </li>
                   ))}

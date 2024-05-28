@@ -1,214 +1,263 @@
+/* Global Styles */
+* {
+  font-family: "Orbitron", sans-serif; /* Futuristic font */
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Sessions Container */
 .sessions {
-  position: relative; /* Set position to relative */
-  width: 100%;
-  height: 100vh;
-  padding: 20px; /* Add padding for space */
-  box-sizing: border-box; /* Ensure padding doesn't affect width/height */
-  background-color: #313e50ff; /* Charcoal */
-  color: #f1dac4ff; /* Almond */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #ffffff;
+  background-color: #0e0e2c; /* Dark blue background */
+  min-height: 100vh;
+  padding: 20px;
 }
 
-/* Dashboard title */
-.sessions .title {
-  font-size: 28px; /* Increased font size for title */
+/* Title */
+.title {
+  font-size: 28px; /* Reduced font size */
   font-weight: bold;
-  margin-bottom: 20px;
-  margin-left: 10px;
+  margin: 10px 0; /* Reduced top and bottom margin */
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px; /* Slightly reduced letter spacing */
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* Adjusted text shadow */
 }
 
-/* Search container */
-.sessions .search-container {
-  display: flex;
-  align-items: center; /* Align items vertically */
-  justify-content: center; 
-  margin-top: 20px; /* Add margin to separate from title */
-}
-
-/* Search input */
-.sessions .search-input {
-  font-size: 20px; /* Adjust font size as needed */
-  width: 200px; /* Adjust width as needed */
-  padding: 8px; /* Adjust padding as needed */
-  background-color: #eae8ffff;
-  border: none;
-  border-radius: 10px; /* Increased border radius for a more rounded look */
-  margin-right: 10px; /* Add margin to separate from button */
-}
-
-/* Dashboard button */
-.sessions .button {
-  background-color: #5c6672ff; /* Paynes gray */
-  color: #f1dac4ff; /* Almond */
-  border: none;
-  border-radius: 10px; /* Increased border radius for a more rounded look */
-  padding: 10px 20px; /* Adjust padding as needed */
-  font-size: 16px; /* Adjust font size as needed */
-  cursor: pointer;
-  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-}
-
-/* Dashboard button hover effect */
-.sessions .button:hover {
-  background-color: #6c6f7fff; /* Slate gray */
-}
-
-/* Back icon container */
-.sessions .back-icon-container {
-  display: flex; /* Ensure both arrow and title are aligned horizontally */
-  align-items: center; /* Align items vertically */
-}
-
-/* Back icon */
-.sessions .back-icon {
-  font-size: 40px; /* Adjust icon size as needed */
-  cursor: pointer;
-  color: #eae8ffff; /* Adjust icon color as needed */
-  margin-right: 10px; /* Add margin to separate from title */
-}
-
-/* Items container */
-.sessions .items-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 20px;
-  margin-top: 20px; /* Add margin to separate from search container */
-}
-/* Specific CSS for OL_Uniforms_Inventory */
-
-/* Individual item */
-.sessions .item {
-  width: 100%; /* Each item occupies the full width */
-  background-color: #f1dac4ff; /* Almond */
-  color: #313e50ff; /* Charcoal */
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-  margin-bottom: 20px; /* Add margin between items */
-}
-
-.sessions .item:hover {
-  transform: translateY(-5px);
-}
-
-/* Item image */
-.sessions .item-image {
-  width: 50px;
-  height: 50px;
-  border-radius: 5px;
-  margin-right: 10px;
-}
-
-/* Item details container */
-.sessions .item-details-container {
+/* Back Icon Container */
+.back-icon-container {
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  cursor: pointer;
+  margin-bottom: 1rem;
 }
 
-/* Item title */
-.sessions .item-title {
-  font-size: 16px; /* Adjust font size as needed */
-  font-weight: bold; /* Make the title bold */
+.back-icon {
+  font-size: 2rem;
+  margin-right: 1rem;
+  color: #00d4ff; /* Neon blue color */
 }
 
-/* Item detail */
-.sessions .item-detail {
-  margin: 0 10px;
-}
-.sessions .sessions-table {
-  margin-top: 20px;
+/* Search Container */
+.search-container {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin-bottom: 1rem;
 }
 
-.sessions table {
+.search-input {
+  width: 60%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #1f1f4b; /* Dark blue color */
+  color: #ffffff;
+}
+
+.button {
+  width: 150px;
+  background-color: #1f1f4b; /* Dark blue color */
+  color: #ffffff;
+  border: 2px solid #00d4ff; /* Neon blue border */
+  padding: 10px 20px; /* Adjusted padding */
+  font-size: 16px; /* Adjusted font size */
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  position: relative;
+  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
+  clip-path: polygon(0% 0%, 70% 0%, 100% 30%, 100% 100%, 30% 100%, 0% 70%);
+  animation: border-glow 2s infinite alternate;
+}
+
+/* Button Hover Effect */
+.button:hover {
+  background-color: #2a2a5e; /* Slightly lighter dark blue */
+  border-color: #66eaff; /* Lighter neon blue */
+  box-shadow: 0 0 10px #66eaff, 0 0 20px #66eaff, 0 0 30px #66eaff;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.5s ease;
+}
+
+/* Sessions Table */
+.sessions-table {
+  width: 80%;
+  overflow-x: auto;
+}
+
+table {
   width: 100%;
   border-collapse: collapse;
+  color: #ffffff;
 }
 
-.sessions th, td {
-  border: 1px solid #f1dac4ff;
-  padding: 8px;
+th, td {
+  padding: 0.75rem;
   text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
-.sessions th {
-  background-color:#6c6f7fff;
-  color: black;
+th {
+  background-color: #1f1f4b; /* Dark blue color */
 }
 
-.sessions .status-dot {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
+tbody tr:nth-child(even) {
+  background-color: #2a2a5e; /* Slightly lighter dark blue */
+}
+
+tbody tr:hover {
+  background-color: #333366; /* Lighter dark blue */
+}
+
+/* Action Button */
+.action-button {
+  background-color: #1f1f4b; /* Dark blue color */
+  color: #ffffff;
+  border: 2px solid #00d4ff; /* Neon blue border */
+  padding: 5px 10px; /* Adjusted padding */
+  font-size: 14px; /* Adjusted font size */
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  margin: 0 5px;
+  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
+  clip-path: polygon(0% 0%, 70% 0%, 100% 30%, 100% 100%, 30% 100%, 0% 70%);
+  animation: border-glow 2s infinite alternate;
+}
+
+.action-button:hover {
+  background-color: #2a2a5e; /* Slightly lighter dark blue */
+  border-color: #66eaff; /* Lighter neon blue */
+  box-shadow: 0 0 10px #66eaff, 0 0 20px #66eaff, 0 0 30px #66eaff;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.5s ease;
+}
+
+/* Status Dot */
+.status-dot {
+  height: 0.75rem;
+  width: 0.75rem;
   border-radius: 50%;
+  display: inline-block;
 }
 
-.sessions .red {
-  background-color: red;
+.status-dot.red {
+  background-color: #dc3545;
 }
 
-.sessions .yellow {
-  background-color: yellow;
+.status-dot.yellow {
+  background-color: #ffc107;
 }
 
-.sessions .green {
-  background-color: green;
+.status-dot.green {
+  background-color: #28a745;
 }
 
 /* Modal */
-.sessions .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  z-index: 9999; /* Ensure the modal is on top of other elements */
+.modal {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* Modal content */
-.sessions .modal-content {
-  background-color: #f1dac4ff;
-  color: #313e50ff;
-  border-radius: 10px;
+.modal-content {
+  background-color: #1f1f4b; /* Dark blue color */
+  margin: 10% auto;
   padding: 20px;
-  max-width: 80%;
-  max-height: 80%;
-  overflow-y: auto; /* Enable scrolling if content exceeds modal height */
-  position: relative;
+  border: 2px solid #00d4ff; /* Neon blue border */
+  width: 80%;
+  max-width: 600px;
+  border-radius: 4px;
+  color: #ffffff;
+  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
 }
 
-/* Close button */
-.sessions .close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+.close {
+  color: #ffffff;
+  float: right;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #66eaff; /* Lighter neon blue */
+  text-decoration: none;
   cursor: pointer;
-  font-size: 24px;
-  color: #000;
 }
 
-/* Close button hover effect */
-.sessions .close:hover {
-  color: #f00; /* Change color on hover */
+/* Confirm Button */
+.confirm-button {
+  background-color: #1f1f4b; /* Dark blue color */
+  color: #ffffff;
+  border: 2px solid #00d4ff; /* Neon blue border */
+  padding: 10px 20px; /* Adjusted padding */
+  font-size: 16px; /* Adjusted font size */
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  margin: 10px;
+  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
+  clip-path: polygon(0% 0%, 70% 0%, 100% 30%, 100% 100%, 30% 100%, 0% 70%);
+  animation: border-glow 2s infinite alternate;
 }
 
-/* Add this CSS to your existing CSS file */
-.sessions .item-detail.green {
-  color: green;
-  background-color: transparent;
-  border: 1px solid green;
-  font-size: large;
+.confirm-button:hover {
+  background-color: #2a2a5e; /* Slightly lighter dark blue */
+  border-color: #66eaff; /* Lighter neon blue */
+  box-shadow: 0 0 10px #66eaff, 0 0 20px #66eaff, 0 0 30px #66eaff;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.5s ease;
 }
 
-.sessions .item-detail.red {
-  color: red;
-  background-color: transparent;
-  border: 1px solid red;
-  font-size: large;
+/* Item Details Container */
+.item-details-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
 }
 
+.item-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+
+.quantity-status {
+  font-weight: bold;
+}
+
+.quantity-status.green {
+  color: #28a745;
+}
+
+.quantity-status.red {
+  color: #dc3545;
+}
+
+/* Animation for Border Glow */
+@keyframes border-glow {
+  0% {
+    box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
+  }
+  50% {
+    box-shadow: 0 0 20px #66eaff, 0 0 40px #66eaff, 0 0 60px #66eaff;
+  }
+  100% {
+    box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
+  }
+}
