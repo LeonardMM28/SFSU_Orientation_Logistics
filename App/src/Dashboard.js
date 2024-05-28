@@ -120,8 +120,8 @@ function Dashboard() {
       <button className="logout-button" onClick={handleLogout}>
         Logout
       </button>
-      <h1>Welcome Back, {username}! We missed you.</h1>
-      <h1>NSFP Orientation 2024</h1>
+      <h1>Welcome Back, {username}.</h1>
+      <h1>Summer Orientation 2024</h1>
       <h1>Logistics Dashboard</h1>
       <div className="button-container">
         {userTier === "2" && (

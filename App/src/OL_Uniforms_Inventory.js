@@ -173,7 +173,7 @@ function OL_Uniforms_Inventory() {
           className="search-input"
           placeholder="Search..."
           value={searchQuery}
-          onChange={handleSearchChange}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
         <button className="button" onClick={goToAdd}>
           ADD ITEM
@@ -197,25 +197,31 @@ function OL_Uniforms_Inventory() {
                   Location Annex: {item.location_annex}
                 </p>
                 <p className="item-detail">Location HQ: {item.location_hq}</p>
+                {item.consumible === 1 && ( // Check if the item is consumable
+                  <p className="item-legend">Consumable</p>
+                )}
               </div>
               <div className="item-actions">
-                <div className="item-quantities">
+                <div className="item-buttons">
                   <button
-                    className="button"
+                    className="button retrieve-button"
                     onClick={() => handleActionClick(item, "retrieve")}
                   >
                     <PiArrowSquareUpRightFill className="button-icon" />
                     RETRIEVE
                   </button>
-                  <div className="quantities">
-                    <p className="quantity">HQ: {item.quantity_hq}</p>
-                    <p className="quantity">Annex: {item.quantity_annex}</p>
+                  <div className="item-quantities">
+                    <div className="quantities">
+                      <p className="quantity">HQ: {item.quantity_hq}</p>
+                      <p className="quantity">Annex: {item.quantity_annex}</p>
+                    </div>
                   </div>
                   <button
-                    className="button"
+                    className="button store-button"
                     onClick={() => handleActionClick(item, "store")}
                   >
-                    STORE <PiArrowSquareDownRightFill className="button-icon" />
+                    <PiArrowSquareDownRightFill className="button-icon" />
+                    STORE
                   </button>
                 </div>
                 <button
