@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react"; // Import React hooks
+import { FiArrowLeftCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import "./CreateUser.css";
 
@@ -7,6 +8,8 @@ function CreateUser() {
   const [username, setUsername] = useState("");
   const [userId, setUserId] = useState("");
   const [userTier, setUserTier] = useState("");
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,6 +65,7 @@ function CreateUser() {
             setUsername(decodedToken.username);
             setUserId(decodedToken.userId);
             setUserTier(userTier);
+            setIsAuthorized(true);
           }
         }
       } catch (error) {
@@ -104,6 +108,8 @@ function CreateUser() {
         password,
       });
       if (response.status === 200) {
+
+        alert("User created successfully!");
         navigate("/");
       }
     } catch (error) {
@@ -111,8 +117,17 @@ function CreateUser() {
     }
   };
 
+  const goBack = () => {
+    navigate("/dashboard");
+  };
+
+  if (!isAuthorized) {
+    return null; // Render nothing if not authorized
+  }
+
   return (
     <div className="create-user-page">
+      <FiArrowLeftCircle onClick={goBack} className="back-icon" />
       <div className="create-user-form-container">
         <img src="/NSFPlogo.png" alt="Rotaract at SFSU Logo" />
         <h2>Create a new account</h2>

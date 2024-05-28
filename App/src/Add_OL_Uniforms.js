@@ -1,9 +1,9 @@
 import axios from "axios";
-import React, { useState } from "react"; // Import React hooks
-import Modal from "./Modal"; // Import the Modal component
+import React, { useEffect, useState } from "react";
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import "./Add_Edit_OL_Uniforms.css";
+import Modal from "./Modal"; // Import the Modal component
 
 function Add_OL_Uniforms() {
   const [name, setName] = useState("");
@@ -17,7 +17,54 @@ function Add_OL_Uniforms() {
   const [showModal, setShowModal] = useState(false); // State to manage modal visibility
   const [modalImage, setModalImage] = useState(""); // State to store the image URL
   const [modalAltText, setModalAltText] = useState("");
-  const navigate = useNavigate();
+ const [isAuthorized, setIsAuthorized] = useState(false);
+
+ const navigate = useNavigate();
+
+ useEffect(() => {
+   let isMounted = true;
+
+   const checkAuthorization = async () => {
+     try {
+       const response = await fetch("http://localhost:3000/auth-check", {
+         method: "GET",
+         headers: {
+           Authorization: `Bearer ${localStorage.getItem("token")}`,
+         },
+       });
+       if (response.status === 401 && isMounted) {
+         // Invalid or expired token, show unauthorized message and delete session
+         alert("Your session has expired, please log in again.");
+
+         const token = localStorage.getItem("token");
+         if (token) {
+           localStorage.removeItem("token");
+           await axios.post("http://localhost:3000/logout", null, {
+             headers: {
+               Authorization: `Bearer ${token}`,
+             },
+           });
+         }
+
+         navigate("/");
+       } else if (response.status === 200 && isMounted) {
+         setIsAuthorized(true);
+       }
+     } catch (error) {
+       console.error("Error checking authorization:", error);
+     }
+   };
+
+   checkAuthorization();
+
+   return () => {
+     isMounted = false;
+   };
+ }, [navigate]);
+
+ if (!isAuthorized) {
+   return null; // Render a loading state while authorization check is in progress
+ }
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];

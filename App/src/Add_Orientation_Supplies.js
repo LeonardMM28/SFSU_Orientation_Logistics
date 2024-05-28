@@ -1,9 +1,9 @@
-import React, { useState } from "react";
 import axios from "axios";
-import Modal from "./Modal"; // Import the Modal component
+import React, { useEffect, useState } from "react";
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import "./Add_Edit_Orientation_Supplies.css";
+import Modal from "./Modal"; // Import the Modal component
 
 function Add_Orientation_Supplies() {
   const [name, setName] = useState("");
@@ -14,10 +14,57 @@ function Add_Orientation_Supplies() {
   const [locationHQ, setLocationHQ] = useState("");
   const [quantityHQ, setQuantityHQ] = useState(0);
   const [imagePreview, setImagePreview] = useState(null);
-    const [showModal, setShowModal] = useState(false); // State to manage modal visibility
-    const [modalImage, setModalImage] = useState(""); // State to store the image URL
-    const [modalAltText, setModalAltText] = useState("");
+  const [showModal, setShowModal] = useState(false); // State to manage modal visibility
+  const [modalImage, setModalImage] = useState(""); // State to store the image URL
+  const [modalAltText, setModalAltText] = useState("");
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const checkAuthorization = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/auth-check", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        if (response.status === 401 && isMounted) {
+          // Invalid or expired token, show unauthorized message and delete session
+          alert("Your session has expired, please log in again.");
+
+          const token = localStorage.getItem("token");
+          if (token) {
+            localStorage.removeItem("token");
+            await axios.post("http://localhost:3000/logout", null, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+          }
+
+          navigate("/");
+        } else if (response.status === 200 && isMounted) {
+          setIsAuthorized(true);
+        }
+      } catch (error) {
+        console.error("Error checking authorization:", error);
+      }
+    };
+
+    checkAuthorization();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [navigate]);
+
+  if (!isAuthorized) {
+    return null; // Render a loading state while authorization check is in progress
+  }
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -62,15 +109,15 @@ function Add_Orientation_Supplies() {
     navigate("/orientation-supplies-inventory");
   };
 
-    const handleOpenModal = (imageUrl, altText) => {
-      setModalImage(imageUrl);
-      setModalAltText(altText);
-      setShowModal(true);
-    };
+  const handleOpenModal = (imageUrl, altText) => {
+    setModalImage(imageUrl);
+    setModalAltText(altText);
+    setShowModal(true);
+  };
 
-    const handleCloseModal = () => {
-      setShowModal(false);
-    };
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <div className="add-edit-orientation-resources">

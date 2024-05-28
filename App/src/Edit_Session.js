@@ -19,40 +19,83 @@ function Edit_Session() {
     attendees: "",
     checklist: {},
   });
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
   const navigate = useNavigate();
 
-    useEffect(() => {
-      const checkAuthorization = async () => {
-        try {
-          const response = await fetch("http://localhost:3000/auth-check", {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          });
-          if (response.status === 401) {
-            // Invalid or expired token, show unauthorized message and delete session
-            alert("Your session has expired, please log in again.");
+  useEffect(() => {
+    let isMounted = true;
 
-            const token = localStorage.getItem("token");
-            if (token) {
-              localStorage.removeItem("token");
-              await axios.post("http://localhost:3000/logout", null, {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              });
-            }
+    const checkAuthorization = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/auth-check", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        if (response.status === 401 && isMounted) {
+          // Invalid or expired token, show unauthorized message and delete session
+          alert("Your session has expired, please log in again.");
 
-            navigate("/");
+          const token = localStorage.getItem("token");
+          if (token) {
+            localStorage.removeItem("token");
+            await axios.post("http://localhost:3000/logout", null, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
           }
-        } catch (error) {
-          console.error("Error checking authorization:", error);
-        }
-      };
 
-      checkAuthorization();
-    }, [navigate]);
+          navigate("/");
+        } else if (response.status === 200 && isMounted) {
+          setIsAuthorized(true);
+        }
+      } catch (error) {
+        console.error("Error checking authorization:", error);
+      }
+    };
+
+    checkAuthorization();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [navigate]);
+
+  useEffect(() => {
+    const checkAuthorization = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/auth-check", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        if (response.status === 401) {
+          // Invalid or expired token, show unauthorized message and delete session
+          alert("Your session has expired, please log in again.");
+
+          const token = localStorage.getItem("token");
+          if (token) {
+            localStorage.removeItem("token");
+            await axios.post("http://localhost:3000/logout", null, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+          }
+
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("Error checking authorization:", error);
+      }
+    };
+
+    checkAuthorization();
+  }, [navigate]);
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -116,6 +159,10 @@ function Edit_Session() {
 
     fetchSupplies();
   }, []);
+
+  if (!isAuthorized) {
+    return null; // Render a loading state while authorization check is in progress
+  }
 
   const goToInventory = () => {
     navigate("/planner-inventory");

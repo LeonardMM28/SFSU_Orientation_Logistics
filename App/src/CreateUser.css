@@ -65,3 +65,10 @@
   margin: 0 auto;
   display: block;
 }
+
+.create-user-page .back-icon {
+  font-size: 40px;
+  cursor: pointer;
+  color: #eae8ffff;
+  margin-right: 10px;
+}

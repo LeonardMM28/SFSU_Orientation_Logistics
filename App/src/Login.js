@@ -1,10 +1,36 @@
-import React, { useState } from "react";
-import "./Login.css";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Login.css";
 
 function Login() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const checkAuthorization = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/auth-check", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        if (response.status === 200 && isMounted) {
+          navigate("/dashboard");
+        }
+      } catch (error) {
+        console.error("Error checking authorization:", error);
+      }
+    };
+
+    checkAuthorization();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [navigate]);
   const [formData, setFormData] = useState({ username: "", password: "" });
 
   const handleChange = (e) => {

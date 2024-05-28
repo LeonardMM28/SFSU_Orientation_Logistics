@@ -1,7 +1,7 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { QrReader } from "react-qr-reader";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 import "./Dashboard.css";
 
@@ -9,48 +9,52 @@ function Dashboard() {
   const [username, setUsername] = useState("");
   const [userId, setUserId] = useState("");
   const [userTier, setUserTier] = useState("");
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
   const navigate = useNavigate();
   const [scanResult, setScanResult] = useState("");
   const [showCamera, setShowCamera] = useState(false);
   const [captureClicked, setCaptureClicked] = useState(false);
-useEffect(() => {
-  let isMounted = true;
+  useEffect(() => {
+    let isMounted = true;
 
-  const checkAuthorization = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/auth-check", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      if (response.status === 401 && isMounted) {
-        // Invalid or expired token, show unauthorized message and delete session
-        alert("Your session has expired, please log in again.");
+    const checkAuthorization = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/auth-check", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        if (response.status === 401 && isMounted) {
+          // Invalid or expired token, show unauthorized message and delete session
+          alert("Your session has expired, please log in again.");
 
-        const token = localStorage.getItem("token");
-        if (token) {
-          localStorage.removeItem("token");
-          await axios.post("http://localhost:3000/logout", null, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          const token = localStorage.getItem("token");
+          if (token) {
+            localStorage.removeItem("token");
+            await axios.post("http://localhost:3000/logout", null, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+          }
+
+          navigate("/");
+        } else if (response.status === 200 && isMounted) {
+          setIsAuthorized(true);
         }
-
-        navigate("/");
+      } catch (error) {
+        console.error("Error checking authorization:", error);
       }
-    } catch (error) {
-      console.error("Error checking authorization:", error);
-    }
-  };
+    };
 
-  checkAuthorization();
+    checkAuthorization();
 
-  return () => {
-    isMounted = false;
-  };
-}, [navigate]);
+    return () => {
+      isMounted = false;
+    };
+  }, [navigate]);
 
   useEffect(() => {
     const getUsernameAndTierFromToken = async () => {
@@ -88,6 +92,10 @@ useEffect(() => {
       getUserInfo();
     }
   }, [userId]);
+
+  if (!isAuthorized) {
+    return null; // Render a loading state while authorization check is in progress
+  }
 
   const handleLogout = async () => {
     try {
