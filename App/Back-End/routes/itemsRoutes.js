@@ -667,6 +667,23 @@ router.post("/add/session", authenticateToken, (req, res) => {
   });
 });
 
+router.put("/deduct-item-quantity/:itemId", authenticateToken, (req, res) => {
+  const { itemId } = req.params;
+  const { quantity } = req.body;
+
+  // Deduct the specified quantity from the inventory count of the item
+  connection.query(
+    "UPDATE items SET quantity_hq = quantity_hq - ? WHERE id = ?",
+    [quantity, itemId],
+    (error, results) => {
+      if (error) {
+        console.error("Error deducting item quantity:", error);
+        return res.status(500).json({ message: "Internal server error" });
+      }
+      res.json({ message: "Item quantity deducted successfully" });
+    }
+  );
+});
 
 
 module.exports = router;

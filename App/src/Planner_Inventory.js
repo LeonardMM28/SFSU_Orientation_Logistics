@@ -221,29 +221,62 @@ function Planner_Inventory() {
         formatDate(session.date).includes(searchQuery)
     );
   
-  const handleConfirmPrep = async () => {
-    try {
-      await axios.put(
-        `http://localhost:3000/update-session-READY/${currentSessionId}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      setSessions((prevSessions) =>
-        prevSessions.map((session) =>
-          session.id === currentSessionId
-            ? { ...session, status: "READY" }
-            : session
-        )
-      );
-      setShowModal(false);
-    } catch (error) {
-      console.error("Error updating session status:", error);
-    }
-  };
+ const handleConfirmPrep = async () => {
+   try {
+     // Update session status to READY
+     await axios.put(
+       `http://localhost:3000/update-session-READY/${currentSessionId}`,
+       {},
+       {
+         headers: {
+           Authorization: `Bearer ${localStorage.getItem("token")}`,
+         },
+       }
+     );
+
+     // Fetch session details
+     const response = await axios.get(
+       `http://localhost:3000/session/${currentSessionId}`,
+       {
+         headers: {
+           Authorization: `Bearer ${localStorage.getItem("token")}`,
+         },
+       }
+     );
+
+     const checklist = response.data.checklist;
+
+     // Deduct items marked as 'consumable' from inventory
+     for (const item of checklist) {
+       if (item.consumible) {
+         await axios.put(
+           `http://localhost:3000/deduct-item-quantity/${item.id}`,
+           { quantity: item.amount },
+           {
+             headers: {
+               Authorization: `Bearer ${localStorage.getItem("token")}`,
+             },
+           }
+         );
+       }
+     }
+
+     // Update the session status in the state
+     setSessions((prevSessions) =>
+       prevSessions.map((session) =>
+         session.id === currentSessionId
+           ? { ...session, status: "READY" }
+           : session
+       )
+     );
+
+     // Close the modal
+     setShowModal(false);
+   } catch (error) {
+     console.error("Error updating session status or deducting items:", error);
+   }
+ };
+
 
   return (
     <div className="sessions">
