@@ -123,7 +123,16 @@
   object-fit: contain; /* Maintain aspect ratio and fit within the fixed height */
   margin-bottom: 10px;
   cursor: pointer;
+  border: 2px solid transparent; /* Transparent border initially */
+  border-radius: 20px 0 20px 0; /* Border radius */
+  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff; /* Glow effect */
+  transition: border-color 0.3s ease; /* Smooth transition for border color */
 }
+
+.orientation-inventory .item-image:hover {
+  border-color: #66eaff; /* Glow border color on hover */
+}
+
 
 .orientation-inventory .item-details {
   text-align: center;
@@ -236,11 +245,13 @@
 
 .orientation-inventory .modal-content .close-button {
   position: absolute;
+  width: auto;
   top: 10px;
   right: 10px;
   padding: 5px 10px;
   font-size: 16px;
   cursor: pointer;
+  color: white;
 }
 
 @keyframes border-glow {

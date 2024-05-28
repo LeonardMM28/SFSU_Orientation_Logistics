@@ -28,16 +28,19 @@
 }
 
 .close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color:#6c6f7fff;
-  border-radius: 50%;
-  border: none;
+    width: 300px;
+  background-color: #1f1f4b; /* Dark blue color */
+  color: #ffffff;
+  border: 2px solid #00d4ff; /* Neon blue border */
+  padding: 15px 40px; /* Adjusted padding */
+  font-size: 18px; /* Adjusted font size */
+  font-weight: bold;
   cursor: pointer;
-  font-size: 24px;
-  color: #333;
-  padding-top: 5px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  position: relative;
+  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
+  clip-path: polygon(0% 0%, 70% 0%, 100% 30%, 100% 100%, 30% 100%, 0% 70%);
 }
 
 .close-button:hover {
