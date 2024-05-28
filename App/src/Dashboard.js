@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { QrReader } from "react-qr-reader";
 import { useNavigate } from "react-router-dom";
 
 import "./Dashboard.css";
@@ -116,29 +115,6 @@ function Dashboard() {
     }
   };
 
-  const handleScan = (result) => {
-    if (result) {
-      setScanResult(result.text);
-    }
-  };
-
-  const handleError = (error) => {
-    console.error("Error scanning barcode:", error);
-  };
-
-  const handleOpenCamera = () => {
-    setShowCamera(true);
-  };
-
-  const handleCloseCamera = () => {
-    setShowCamera(false);
-    setScanResult("");
-  };
-
-  const handleCapture = () => {
-    setCaptureClicked(true);
-  };
-
   return (
     <div className="dashboard">
       <button className="logout-button" onClick={handleLogout}>
@@ -148,12 +124,14 @@ function Dashboard() {
       <h1>NSFP Orientation 2024</h1>
       <h1>Logistics Dashboard</h1>
       <div className="button-container">
-        <button
-          className="button"
-          onClick={() => navigate("/ol-uniforms-inventory")}
-        >
-          OL Uniforms
-        </button>
+        {userTier === "2" && (
+          <button
+            className="button"
+            onClick={() => navigate("/ol-uniforms-inventory")}
+          >
+            OL Uniforms
+          </button>
+        )}
         <button
           className="button"
           onClick={() => navigate("/orientation-supplies-inventory")}
@@ -171,38 +149,9 @@ function Dashboard() {
             Create User
           </button>
         )}
-          <button className="button" onClick={() => navigate("/history")}>
-            History
-          </button>
-        <button className="button" onClick={() => navigate("/other")}>
-          Other
+        <button className="button" onClick={() => navigate("/history")}>
+          History
         </button>
-        {showCamera ? (
-          <div>
-            <button className="button" onClick={handleCloseCamera}>
-              Close Camera
-            </button>
-            <button className="button" onClick={handleCapture}>
-              Capture
-            </button>
-          </div>
-        ) : (
-          <button className="button" onClick={handleOpenCamera}>
-            Open Camera
-          </button>
-        )}
-      </div>
-      <div className="barcode-scanner">
-        {showCamera && (
-          <QrReader
-            delay={300}
-            onResult={handleScan}
-            onError={handleError}
-            style={{ width: "100%" }}
-          />
-        )}
-        {scanResult && <p>Scanned barcode: {scanResult}</p>}
-        {captureClicked && !scanResult && <p>No barcode captured.</p>}
       </div>
     </div>
   );
