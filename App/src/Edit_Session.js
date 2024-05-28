@@ -334,38 +334,41 @@ function Edit_Session() {
         </div>
         <div className="item-display">
           <h2>Items checklist:</h2>
-          <ul>
-            {Object.entries(formData.checklist).map(([id, amount]) => {
-              const item = supplies.find(
-                (supply) => supply.id === parseInt(id)
-              );
-              if (!item) {
-                return null; // Skip if the item is not found
-              }
-              return (
-                <li key={id} className="checklist-item">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="item-image"
-                    onClick={() => handleOpenModal(item.image, item.name)}
-                  />
-                  <div className="item-details">
-                    <span className="item-name">{item.name}</span>
-                    <span className="item-amount">Amount: {amount}</span>
+          <div className="scrollable-container">
+            <ul className="checklist-container">
+              {Object.entries(formData.checklist).map(([id, amount]) => {
+                const item = supplies.find(
+                  (supply) => supply.id === parseInt(id)
+                );
+                if (!item) {
+                  return null; // Skip if the item is not found
+                }
+                return (
+                  <li key={id} className="checklist-item">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="item-image"
+                      onClick={() => handleOpenModal(item.image, item.name)}
+                    />
+                    <div className="item-details">
+                      <span className="item-name">{item.name}</span>
+                      <span className="item-amount">Amount: {amount}</span>
                     <button
                       className="remove-button"
                       onClick={() => handleRemoveItem(id)}
                     >
                       Remove
                     </button>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </div>
+
       {showModal && (
         <Modal
           imageUrl={modalImage}

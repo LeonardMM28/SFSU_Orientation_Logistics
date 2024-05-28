@@ -156,7 +156,7 @@ function Add_Session() {
     <div className="add-edit-sessions">
       <div className="back-icon-container">
         <FiArrowLeftCircle onClick={goToInventory} className="back-icon" />
-        <h1 className="title">Add/Edit Session</h1>
+        <h1 className="title">Add Session</h1>
       </div>
       <div className="main-content">
         <div className="form-container">
@@ -232,34 +232,36 @@ function Add_Session() {
         </div>
         <div className="item-display">
           <h2>Items checklist:</h2>
-          <ul>
-            {Object.entries(checklist).map(([id, amount]) => {
-              const item = supplies.find(
-                (supply) => supply.id === parseInt(id)
-              );
-              return (
-                <li key={id} className="checklist-item">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="item-image"
-                    onClick={() => handleOpenModal(item.image, item.name)}
-                  />
-                  <div className="item-details">
-                    <span className="item-name">[{item.name}]</span>
-                    <span className="item-amount">Amount: {amount}</span>
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveItem(id)}
-                      className="remove-button"
-                    >
-                      REMOVE
-                    </button>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+          <div className="scrollable-container">
+            <ul className="checklist-container">
+              {Object.entries(checklist).map(([id, amount]) => {
+                const item = supplies.find(
+                  (supply) => supply.id === parseInt(id)
+                );
+                return (
+                  <li key={id} className="checklist-item">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="item-image"
+                      onClick={() => handleOpenModal(item.image, item.name)}
+                    />
+                    <div className="item-details">
+                      <span className="item-name">[{item.name}]</span>
+                      <span className="item-amount">Amount: {amount}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveItem(id)}
+                        className="remove-button"
+                      >
+                        REMOVE
+                      </button>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </div>
       {showModal && (
