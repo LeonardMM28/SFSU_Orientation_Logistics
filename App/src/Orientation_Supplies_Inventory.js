@@ -205,20 +205,28 @@ function Orientation_Supplies_Inventory() {
                     className="button retrieve-button"
                     onClick={() => handleActionClick(item, "retrieve")}
                   >
-                    <PiArrowSquareUpRightFill className="button-icon" />
+                    <div className="button-icon-container">
+                      <PiArrowSquareUpRightFill className="button-icon" />
+                    </div>
                     RETRIEVE
                   </button>
                   <div className="item-quantities">
                     <div className="quantities">
-                      <p className="quantity">HQ: {item.quantity_hq}</p>
-                      <p className="quantity">Annex: {item.quantity_annex}</p>
+                      <p className="quantity">
+                        Quantity at HQ: {item.quantity_hq}
+                      </p>
+                      <p className="quantity">
+                        Quantity at Annex: {item.quantity_annex}
+                      </p>
                     </div>
                   </div>
                   <button
                     className="button store-button"
                     onClick={() => handleActionClick(item, "store")}
                   >
-                    <PiArrowSquareDownRightFill className="button-icon" />
+                    <div className="button-icon-container">
+                      <PiArrowSquareDownRightFill className="button-icon" />
+                    </div>
                     STORE
                   </button>
                 </div>
