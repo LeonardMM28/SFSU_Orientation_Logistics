@@ -222,6 +222,69 @@ router.post("/logout", (req, res) => {
   });
 });
 
+router.post("/changePassword", authenticateToken, (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  const userId = req.user.userId;
+
+  // Retrieve the user's current password from the database
+  connection.query(
+    "SELECT password FROM users WHERE user_id = ?",
+    [userId],
+    (error, results) => {
+      if (error) {
+        console.error("Error retrieving user password:", error);
+        return res.status(500).json({ message: "Internal server error" });
+      }
+
+      // Check if the user exists
+      if (results.length === 0) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const hashedPassword = results[0].password;
+
+      // Compare the provided old password with the hashed password in the database
+      bcrypt.compare(oldPassword, hashedPassword, (err, passwordMatch) => {
+        if (err) {
+          console.error("Error comparing passwords:", err);
+          return res.status(500).json({ message: "Internal server error" });
+        }
+
+        if (!passwordMatch) {
+          return res.status(401).json({ message: "Incorrect old password" });
+        }
+
+        // Hash the new password
+        bcrypt.hash(newPassword, 10, (hashErr, newHash) => {
+          if (hashErr) {
+            console.error("Error hashing new password:", hashErr);
+            return res.status(500).json({ message: "Internal server error" });
+          }
+
+          // Update the user's password in the database
+          connection.query(
+            "UPDATE users SET password = ? WHERE user_id = ?",
+            [newHash, userId],
+            (updateError) => {
+              if (updateError) {
+                console.error("Error updating password:", updateError);
+                return res
+                  .status(500)
+                  .json({ message: "Internal server error" });
+              }
+
+              res
+                .status(200)
+                .json({ message: "Password changed successfully" });
+            }
+          );
+        });
+      });
+    }
+  );
+});
+
+
 
 
 module.exports = router;

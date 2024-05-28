@@ -11,6 +11,7 @@ import Dashboard from "./Dashboard";
 import Edit_Session from "./Edit_Session";
 import History from "./History";
 import Login from "./Login";
+import ChangePass from "./ChangePass";
 import OLUniformsInventory from "./OL_Uniforms_Inventory";
 import OrientationResourcesInventory from "./Orientation_Supplies_Inventory";
 import PlannerInventory from "./Planner_Inventory";
@@ -39,6 +40,7 @@ function App() {
         />
         <Route path="/create-user" element={<CreateUser />} />
         <Route path="/history" element={<History />} />
+        <Route path="/change-pass" element={<ChangePass />} />
 
         {/* <Route path="/register" element={<Registration />} /> */}
       </Routes>

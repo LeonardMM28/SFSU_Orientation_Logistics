@@ -152,6 +152,9 @@ function Dashboard() {
         <button className="button" onClick={() => navigate("/history")}>
           History
         </button>
+        <button className="button" onClick={() => navigate("/change-pass")}>
+          Change Password
+        </button>
       </div>
     </div>
   );
