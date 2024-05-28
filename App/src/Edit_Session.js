@@ -352,7 +352,7 @@ function Edit_Session() {
                       onClick={() => handleOpenModal(item.image, item.name)}
                     />
                     <div className="item-details">
-                      <span className="item-name">{item.name}</span>
+                      <span className="item-name">[{item.name}]</span>
                       <span className="item-amount">Amount: {amount}</span>
                     <button
                       className="remove-button"

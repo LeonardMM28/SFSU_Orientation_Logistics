@@ -23,6 +23,7 @@
   background-color: #1f1f4b; /* Dark blue color */
   box-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff, 0 0 20px #00d4ff; /* Neon blue glow */
   clip-path: polygon(0% 0%, 75% 0%, 100% 15%, 100% 100%, 15% 100%, 0% 85%); /* Adjusted clip-path */
+  border-radius: 20px; /* Rounded corners */
 
 }
 
@@ -80,7 +81,6 @@
   width: 100%;
   max-width: 200px;
   display: block;
-  margin: 0 auto;
 }
 
 @keyframes border-glow {

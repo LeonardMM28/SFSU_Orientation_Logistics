@@ -9,6 +9,8 @@ function Planner_Inventory() {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState([]);
   const [currentSessionId, setCurrentSessionId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -213,6 +215,12 @@ function Planner_Inventory() {
     setShowModal(true);
   };
 
+    const filteredSessions = sessions.filter(
+      (session) =>
+        session.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        formatDate(session.date).includes(searchQuery)
+    );
+  
   const handleConfirmPrep = async () => {
     try {
       await axios.put(
@@ -244,7 +252,13 @@ function Planner_Inventory() {
         <h1 className="title">SESSION PLANNER</h1>
       </div>
       <div className="search-container">
-        <input type="text" className="search-input" placeholder="Search..." />
+        <input
+          type="text"
+          className="search-input"
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />{" "}
         <button className="button" onClick={goToAddEdit}>
           ADD SESSION
         </button>
@@ -261,7 +275,7 @@ function Planner_Inventory() {
             </tr>
           </thead>
           <tbody>
-            {sessions.map((session) => (
+            {filteredSessions.map((session) => (
               <tr key={session.id}>
                 <td>{formatDate(session.date)}</td>
                 <td>{session.type}</td>

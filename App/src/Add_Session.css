@@ -13,7 +13,7 @@
   color: #ffffff;
 }
 
-.title {
+.add-edit-sessions .title {
   font-size: 28px;
   font-weight: bold;
   margin-left: 10px;
@@ -22,16 +22,16 @@
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
-.form-container {
+.add-edit-sessions .form-container {
   margin-top: 20px;
 }
 
-.back-icon-container {
+.add-edit-sessions .back-icon-container {
   display: flex;
   align-items: center;
 }
 
-.back-icon {
+.add-edit-sessions .back-icon {
   font-size: 40px;
   cursor: pointer;
   color: #ffffff;
@@ -39,28 +39,28 @@
   margin-right: 10px;
 }
 
-.form-group {
+.add-edit-sessions .form-group {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
 }
 
-.form-fields {
+.add-edit-sessions .form-fields {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
 
-label {
+.add-edit-sessions label {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
   font-size: 18px;
 }
 
-input[type="date"],
-input[type="number"],
-input[type="text"] {
+.add-edit-sessions input[type="date"],
+.add-edit-sessions input[type="number"],
+.add-edit-sessions input[type="text"] {
   padding: 10px;
   font-size: 16px;
   margin-top: 5px;
@@ -70,13 +70,13 @@ input[type="text"] {
   color: #ffffff;
 }
 
-.button-group {
+.add-edit-sessions .button-group {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
 }
 
-.action-button {
+.add-edit-sessions .action-button {
   background-color: #1f1f4b;
   color: #ffffff;
   padding: 10px 20px;
@@ -90,13 +90,13 @@ input[type="text"] {
   transition: background-color 0.3s ease;
 }
 
-.action-button.selected {
+.add-edit-sessions .action-button.selected {
   background-color: #0e0e2c;
   border-color: #66eaff;
   box-shadow: 0 0 10px #66eaff, 0 0 20px #66eaff, 0 0 30px #66eaff;
 }
 
-.submit-button {
+.add-edit-sessions .submit-button {
   width: 100%;
   background-color: #1f1f4b;
   color: #ffffff;
@@ -110,13 +110,13 @@ input[type="text"] {
   clip-path: polygon(0% 0%, 70% 0%, 100% 30%, 100% 100%, 30% 100%, 0% 70%);
 }
 
-.submit-button:hover {
+.add-edit-sessions .submit-button:hover {
   background-color: #2a2a5e;
   border-color: #66eaff;
   box-shadow: 0 0 10px #66eaff, 0 0 20px #66eaff, 0 0 30px #66eaff;
 }
 
-.item-display {
+.add-edit-sessions .item-display {
   height: 100%;
   width: 50%;
   margin-top: 20px;
@@ -124,23 +124,23 @@ input[type="text"] {
   align-items: flex-end; /* Align to the very right */
 }
 
-.item-display h2 {
+.add-edit-sessions .item-display h2 {
   font-size: 24px;
   margin-bottom: 10px;
 }
 
-ul {
+.add-edit-sessions ul {
   list-style-type: none;
   padding: 0;
 }
 
-li {
+.add-edit-sessions li {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 }
 
-.item-image {
+.add-edit-sessions .item-image {
   width: 60px;
   height: 60px;
   object-fit: cover;
@@ -149,7 +149,7 @@ li {
   box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
 }
 
-.remove-button {
+.add-edit-sessions .remove-button {
   background-color: #1f1f4b;
   color: #ffffff;
   padding: 5px 10px;
@@ -162,19 +162,19 @@ li {
   box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
 }
 
-.remove-button:hover {
+.add-edit-sessions .remove-button:hover {
   background-color: #2a2a5e;
   border-color: #66eaff;
   box-shadow: 0 0 10px #66eaff, 0 0 20px #66eaff, 0 0 30px #66eaff;
 }
 
-.supplies-list {
+.add-edit-sessions .supplies-list {
   display: flex;
   flex-wrap: wrap;
   margin-top: 10px;
 }
 
-.supply-item {
+.add-edit-sessions .supply-item {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -182,14 +182,14 @@ li {
   margin: 10px;
 }
 
-.supply-item .item-details {
+.add-edit-sessions.supply-item .item-details {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 5px;
 }
 
-.supply-item input[type="number"] {
+.add-edit-sessions .supply-item input[type="number"] {
   width: 70px;
   padding: 5px;
   font-size: 14px;
@@ -200,12 +200,12 @@ li {
   text-align: center;
 }
 /* Remove the margin-bottom from the li elements */
-li {
+.add-edit-sessions li {
   margin-bottom: 0;
 
 }
 
-.item-details {
+.add-edit-sessions .item-details {
   display: flex;
   margin-left: 10px;
   min-width: 50%;
@@ -214,12 +214,12 @@ li {
 }
 
 /* Adjust the alignment and margin of the remove button */
-.remove-button {
+.add-edit-sessions .remove-button {
   margin: 10px;
   width: fit-content;
 }
 
-.checklist-item {
+.add-edit-sessions .checklist-item {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
@@ -227,7 +227,7 @@ li {
 }
 
 /* Adjust the spacing between items */
-.checklist-item:not(:last-child) {
+.add-edit-sessions .checklist-item:not(:last-child) {
   margin-right: 10px; /* Add some margin between items */
   margin-left: 15px;
 }
@@ -235,7 +235,7 @@ li {
 
 /* On larger screens, show 3 items per row */
 @media screen and (min-width: 768px) {
-  .checklist-item {
+  .add-edit-sessions .checklist-item {
     width: calc(33.33% - 10px);
     margin-left: 15px;
   }
@@ -243,14 +243,14 @@ li {
 
 /* On even larger screens, show 4 items per row */
 @media screen and (min-width: 1024px) {
-  .checklist-item {
+  .add-edit-sessions .checklist-item {
     width: calc(25% - 10px);
     margin-left: 15px;
   }
 }
 
 /* Adjust the alignment and margin of the remove button */
-.remove-button {
+.add-edit-sessions .remove-button {
   margin-left: auto; /* Move the remove button to the right */
 }
 
@@ -261,11 +261,11 @@ li {
   margin-top: 20px;
 }
 
-.checklist-container {
+.add-edit-sessions .checklist-container {
   overflow-y: auto; /* Enable vertical scrolling */
 }
 
-.scrollable-container {
+.add-edit-sessions .scrollable-container {
   width: 100%;
   height: 50vh; /* Set the height to 50% of the viewport height */
   overflow-y: auto;
