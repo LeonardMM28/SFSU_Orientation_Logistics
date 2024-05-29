@@ -215,68 +215,45 @@ function Planner_Inventory() {
     setShowModal(true);
   };
 
-    const filteredSessions = sessions.filter(
-      (session) =>
-        session.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        formatDate(session.date).includes(searchQuery)
-    );
-  
- const handleConfirmPrep = async () => {
-   try {
-     // Update session status to READY
-     await axios.put(
-       `http://localhost:3000/update-session-READY/${currentSessionId}`,
-       {},
-       {
-         headers: {
-           Authorization: `Bearer ${localStorage.getItem("token")}`,
-         },
-       }
-     );
+  const filteredSessions = sessions.filter(
+    (session) =>
+      session.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      formatDate(session.date).includes(searchQuery)
+  );
 
-     // Fetch session details
-     const response = await axios.get(
-       `http://localhost:3000/session/${currentSessionId}`,
-       {
-         headers: {
-           Authorization: `Bearer ${localStorage.getItem("token")}`,
-         },
-       }
-     );
+  // Inside the handleConfirmPrep function
+  const handleConfirmPrep = async () => {
+    try {
+      console.log("Confirm prep for session ID:", currentSessionId);
 
-     const checklist = response.data.checklist;
+      // Update session status to READY and handle consumable item deduction
+      await axios.put(
+        `http://localhost:3000/update-session-READY/${currentSessionId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
-     // Deduct items marked as 'consumable' from inventory
-     for (const item of checklist) {
-       if (item.consumible) {
-         await axios.put(
-           `http://localhost:3000/deduct-item-quantity/${item.id}`,
-           { quantity: item.amount },
-           {
-             headers: {
-               Authorization: `Bearer ${localStorage.getItem("token")}`,
-             },
-           }
-         );
-       }
-     }
+      // Update the session status in the state
+      setSessions((prevSessions) =>
+        prevSessions.map((session) =>
+          session.id === currentSessionId
+            ? { ...session, status: "READY" }
+            : session
+        )
+      );
 
-     // Update the session status in the state
-     setSessions((prevSessions) =>
-       prevSessions.map((session) =>
-         session.id === currentSessionId
-           ? { ...session, status: "READY" }
-           : session
-       )
-     );
+      console.log("Session status updated to 'READY' successfully");
 
-     // Close the modal
-     setShowModal(false);
-   } catch (error) {
-     console.error("Error updating session status or deducting items:", error);
-   }
- };
-
+      // Close the modal
+      setShowModal(false);
+    } catch (error) {
+      console.error("Error updating session status or deducting items:", error);
+    }
+  };
 
   return (
     <div className="sessions">

@@ -471,25 +471,62 @@ router.put(
       }
 
       try {
-        // Retrieve the session date from the database
+        // Retrieve the session checklist and date from the database
         connection.query(
-          "SELECT date FROM OLSessions WHERE id = ?",
+          "SELECT date, checklist FROM OLSessions WHERE id = ?",
           [sessionId],
           async (error, results) => {
             if (error) {
-              console.error("Error retrieving session date:", error);
+              console.error("Error retrieving session data:", error);
               return res.status(500).json({ error: "Internal server error" });
             }
             if (results.length === 0) {
               return res.status(404).json({ message: "Session not found" });
             }
 
+            console.log("Session data retrieved successfully:", results[0]);
+
             const sessionDate = moment(results[0].date).format("YYYY-MM-DD");
+            const checklist = JSON.parse(results[0].checklist);
+
+            // Deduct quantities of consumable items
+            // Inside the loop for checklist items deduction
+            for (const item of checklist) {
+              // Fetch item details from the database to determine if it's consumable
+              const itemDetails = await new Promise((resolve, reject) => {
+                connection.query(
+                  "SELECT consumible FROM items WHERE id = ?",
+                  [item.id],
+                  (error, results) => {
+                    if (error) {
+                      reject(error);
+                    } else {
+                      resolve(results[0]);
+                    }
+                  }
+                );
+              });
+
+              const isConsumable = Boolean(itemDetails.consumible); // Convert to boolean
+              console.log("Checking item:", item);
+              console.log("Is consumable:", isConsumable ? "Yes" : "No"); // Debug check
+
+              if (isConsumable) {
+                // Deduct quantity from the inventory only for consumable items
+                console.log("Deducting quantity for consumable item:", item.id);
+                await connection.query(
+                  "UPDATE items SET quantity_hq = quantity_hq - ? WHERE id = ?",
+                  [item.amount, item.id]
+                );
+              }
+            }
 
             // Update session status in the database to 'READY'
             const updateQuery =
               "UPDATE OLSessions SET status = 'READY' WHERE id = ?";
             await connection.query(updateQuery, [sessionId]);
+
+            console.log("Session status updated to 'READY' successfully");
 
             // Log the action in the history table with the session date
             const userId = req.user.userId;
@@ -517,6 +554,7 @@ router.put(
     });
   }
 );
+
 
 
 router.post(
@@ -667,23 +705,6 @@ router.post("/add/session", authenticateToken, (req, res) => {
   });
 });
 
-router.put("/deduct-item-quantity/:itemId", authenticateToken, (req, res) => {
-  const { itemId } = req.params;
-  const { quantity } = req.body;
-
-  // Deduct the specified quantity from the inventory count of the item
-  connection.query(
-    "UPDATE items SET quantity_hq = quantity_hq - ? WHERE id = ?",
-    [quantity, itemId],
-    (error, results) => {
-      if (error) {
-        console.error("Error deducting item quantity:", error);
-        return res.status(500).json({ message: "Internal server error" });
-      }
-      res.json({ message: "Item quantity deducted successfully" });
-    }
-  );
-});
 
 
 module.exports = router;
