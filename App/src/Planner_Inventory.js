@@ -206,7 +206,10 @@ function Planner_Inventory() {
     }
   };
 
+  // Inside the handleCloseModal function
   const handleCloseModal = () => {
+    // Reset the currentSessionId state and close the modal
+    setCurrentSessionId(null);
     setShowModal(false);
   };
 
