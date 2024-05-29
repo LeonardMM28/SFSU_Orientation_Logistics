@@ -17,8 +17,8 @@ function CreateUser() {
 
     const checkAuthorization = async () => {
       try {
-        // const response = await fetch("http://localhost:3000/auth-check", {
         const response = await fetch(
+          // "http://localhost:3000/auth-check",
           "https://sfsulogistics.online:3000/auth-check",
           {
             method: "GET",
@@ -43,23 +43,28 @@ function CreateUser() {
           }
 
           navigate("/");
-        } else if (isMounted) {
-          // Token is valid, check user tier
+        } else if (response.status === 200 && isMounted) {
           const decodedToken = JSON.parse(
             atob(localStorage.getItem("token").split(".")[1])
           );
-          const response = await axios.get(
+          setUsername(decodedToken.username);
+          setUserId(decodedToken.userId);
+
+          const userResponse = await axios.get(
             // `http://localhost:3000/getUser/${decodedToken.userId}`
-            `https://sfsulogistics.online/getUser/${decodedToken.userId}`
+            `https://sfsulogistics.online:3000/getUser/${decodedToken.userId}`
           );
-          const userTier = response.data.tier;
-          if (userTier !== "2") {
+          setUserTier(userResponse.data.tier);
+
+          if (userResponse.data.tier === "2") {
+            setIsAuthorized(true);
+          } else {
             // User does not have the required tier, show unauthorized message and delete session
             const token = localStorage.getItem("token");
             if (token) {
               localStorage.removeItem("token");
-              // await axios.post("http://localhost:3000/logout", null, {
               await axios.post(
+                // "http://localhost:3000/logout",
                 "https://sfsulogistics.online:3000/logout",
                 null,
                 {
@@ -71,12 +76,6 @@ function CreateUser() {
             }
             navigate("/");
             alert("You are not authorized to access this page.");
-          } else {
-            // Both token and user tier are valid, continue with the component
-            setUsername(decodedToken.username);
-            setUserId(decodedToken.userId);
-            setUserTier(userTier);
-            setIsAuthorized(true);
           }
         }
       } catch (error) {
@@ -115,10 +114,13 @@ function CreateUser() {
 
     try {
       // const response = await axios.post("http://localhost:3000/newUser", {
-      const response = await axios.post("https://sfsulogistics.online:3000/newUser", {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        "https://sfsulogistics.online:3000/newUser",
+        {
+          username,
+          password,
+        }
+      );
       if (response.status === 200) {
         alert("User created successfully!");
         navigate("/");
@@ -140,7 +142,7 @@ function CreateUser() {
     <div className="create-user-page">
       <FiArrowLeftCircle onClick={goBack} className="back-icon" />
       <div className="create-user-form-container">
-        <img src="/NSFPlogo.png" alt="Rotaract at SFSU Logo" />
+        <img src="/NSFPlogo.png" alt="NSFP logo" />
         <h2>Create a new account</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
