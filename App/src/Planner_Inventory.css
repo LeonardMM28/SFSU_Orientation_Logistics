@@ -139,23 +139,37 @@
 
 /* Status Dot */
 .sessions .status-dot {
-  height: 0.75rem;
-  width: 0.75rem;
-  border-radius: 50%;
+  height: 1rem;
+  width: 0.866rem; /* Width for a perfect hexagon */
   display: inline-block;
+  background: linear-gradient(145deg, #ff00ff, #00ffff); /* Gradient colors */
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); /* Hexagon shape */
+  box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.5); /* White glow */
+  animation: glow 1.5s infinite alternate; /* Glowing animation */
 }
 
 .sessions .status-dot.red {
-  background-color: #dc3545;
+  background: linear-gradient(145deg, #ff0000, #800000); /* Red gradient */
 }
 
 .sessions .status-dot.yellow {
-  background-color: #ffc107;
+  background: linear-gradient(145deg, #ffff00, #808000); /* Yellow gradient */
 }
 
 .sessions .status-dot.green {
-  background-color: #28a745;
+  background: linear-gradient(145deg, #00ff00, #008000); /* Green gradient */
 }
+
+/* Animation for Glowing Effect */
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 20px 6px rgba(255, 255, 255, 0.8);
+  }
+}
+
 
 /* Modal */
 .sessions .modal {

@@ -49,71 +49,59 @@ function Planner_Inventory() {
     };
   }, [navigate]);
 
-  useEffect(() => {
-    const fetchSessions = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/sessions", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        const sessionsData = response.data;
+useEffect(() => {
+  const fetchSessions = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/sessions", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const sessionsData = response.data;
 
-        for (const session of sessionsData) {
-          const response = await axios.get(
-            `http://localhost:3000/session/${session.id}`,
+      for (const session of sessionsData) {
+        const response = await axios.get(
+          `http://localhost:3000/session/${session.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const checklist = response.data.checklist;
+        let allItemsInStock = true;
+
+        for (const item of checklist) {
+          const itemResponse = await axios.get(
+            `http://localhost:3000/items/${item.id}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
               },
             }
           );
-          const checklist = response.data.checklist;
-          let allItemsInStock = true;
+          const availableQuantity = itemResponse.data.quantity_hq;
+          const neededQuantity = item.amount;
 
-          for (const item of checklist) {
-            const itemResponse = await axios.get(
-              `http://localhost:3000/items/${item.id}`,
+          if (availableQuantity < neededQuantity) {
+            allItemsInStock = false;
+            break;
+          }
+        }
+
+        if (session.status !== "READY") {
+          if (allItemsInStock && session.status !== "ES") {
+            await axios.put(
+              `http://localhost:3000/update-session-ES/${session.id}`,
+              {},
               {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
               }
             );
-            const availableQuantity = itemResponse.data.quantity_hq;
-            const neededQuantity = item.amount;
-
-            if (availableQuantity < neededQuantity) {
-              allItemsInStock = false;
-              break;
-            }
-          }
-
-          if (session.status !== "READY") {
-            if (allItemsInStock && session.status !== "ES") {
-              await axios.put(
-                `http://localhost:3000/update-session-ES/${session.id}`,
-                {},
-                {
-                  headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                  },
-                }
-              );
-              session.status = "ES";
-            } else if (!allItemsInStock && session.status !== "NES") {
-              await axios.put(
-                `http://localhost:3000/update-session-NES/${session.id}`,
-                {},
-                {
-                  headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                  },
-                }
-              );
-              session.status = "NES";
-            }
-          } else if (!allItemsInStock && session.status === "READY") {
+            session.status = "ES";
+          } else if (!allItemsInStock && session.status !== "NES") {
             await axios.put(
               `http://localhost:3000/update-session-NES/${session.id}`,
               {},
@@ -125,16 +113,21 @@ function Planner_Inventory() {
             );
             session.status = "NES";
           }
+        } else {
+          // If session is READY, skip the other checks
+          continue;
         }
-
-        setSessions(sessionsData);
-      } catch (error) {
-        console.error("Error fetching sessions:", error);
       }
-    };
 
-    fetchSessions();
-  }, []);
+      setSessions(sessionsData);
+    } catch (error) {
+      console.error("Error fetching sessions:", error);
+    }
+  };
+
+  fetchSessions();
+}, []);
+
 
   const goToAddEdit = () => {
     navigate("/add-session");
