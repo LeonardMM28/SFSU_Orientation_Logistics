@@ -26,12 +26,16 @@ function Add_OL_Uniforms() {
 
     const checkAuthorization = async () => {
       try {
-        const response = await fetch("http://localhost:3000/auth-check", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        // const response = await fetch("http://localhost:3000/auth-check", {
+        const response = await fetch(
+          "https://sfsulogistics.online:3000/auth-check",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         if (response.status === 401 && isMounted) {
           // Invalid or expired token, show unauthorized message and delete session
           alert("Your session has expired, please log in again.");
@@ -39,7 +43,8 @@ function Add_OL_Uniforms() {
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
-            await axios.post("http://localhost:3000/logout", null, {
+            // await axios.post("http://localhost:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online:3000/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -94,12 +99,16 @@ function Add_OL_Uniforms() {
 
     try {
       // await axios.post("http://localhost:3000/add/items", formData, {
-      await axios.post("https://sfsulogistics.online:3000/add/items", formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming token is stored in local storage
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.post(
+        "https://sfsulogistics.online:3000/add/items",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming token is stored in local storage
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       navigate("/ol-uniforms-inventory");
     } catch (error) {
       console.error("Error adding item:", error);
