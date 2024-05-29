@@ -250,6 +250,9 @@ function Planner_Inventory() {
 
       // Close the modal
       setShowModal(false);
+
+      // Refresh the page
+      window.location.reload();
     } catch (error) {
       console.error("Error updating session status or deducting items:", error);
     }
