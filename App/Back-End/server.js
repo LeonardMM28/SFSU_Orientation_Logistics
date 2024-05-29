@@ -152,7 +152,7 @@ app.get("*", function (req, res) {
 });
 
 httpsServer.listen(PORT, () => {
-  console.log(`Server is running on https://localhost:${PORT}`);
+  console.log(`Server is running on https://sfsulogistics.online:${PORT}`);
 });
 
 // app.listen(PORT, () => {
