@@ -18,18 +18,23 @@ function Planner_Inventory() {
 
     const checkAuthorization = async () => {
       try {
-        const response = await fetch("http://localhost:3000/auth-check", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        // const response = await fetch("http://localhost:3000/auth-check", {
+        const response = await fetch(
+          "https://sfsulogistics.online:3000/auth-check",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         if (response.status === 401 && isMounted) {
           alert("Your session has expired, please log in again.");
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
-            await axios.post("http://localhost:3000/logout", null, {
+            // await axios.post("http://localhost:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online:3000/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -49,85 +54,96 @@ function Planner_Inventory() {
     };
   }, [navigate]);
 
-useEffect(() => {
-  const fetchSessions = async () => {
-    try {
-      const response = await axios.get("http://localhost:3000/sessions", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      const sessionsData = response.data;
-
-      for (const session of sessionsData) {
+  useEffect(() => {
+    const fetchSessions = async () => {
+      try {
+        // const response = await axios.get("http://localhost:3000/sessions", {
         const response = await axios.get(
-          `http://localhost:3000/session/${session.id}`,
+          "https://sfsulogistics.online:3000/sessions",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
         );
-        const checklist = response.data.checklist;
-        let allItemsInStock = true;
+        const sessionsData = response.data;
 
-        for (const item of checklist) {
-          const itemResponse = await axios.get(
-            `http://localhost:3000/items/${item.id}`,
+        for (const session of sessionsData) {
+          const response = await axios.get(
+            // `http://localhost:3000/session/${session.id}`,
+            `https://sfsulogistics.online:3000/session/${session.id}`,
+
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
               },
             }
           );
-          const availableQuantity = itemResponse.data.quantity_hq;
-          const neededQuantity = item.amount;
+          const checklist = response.data.checklist;
+          let allItemsInStock = true;
 
-          if (availableQuantity < neededQuantity) {
-            allItemsInStock = false;
-            break;
-          }
-        }
+          for (const item of checklist) {
+            const itemResponse = await axios.get(
+              // `http://localhost:3000/items/${item.id}`,
+              `https://sfsulogistics.online:3000/items/${item.id}`,
 
-        if (session.status !== "READY") {
-          if (allItemsInStock && session.status !== "ES") {
-            await axios.put(
-              `http://localhost:3000/update-session-ES/${session.id}`,
-              {},
               {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
               }
             );
-            session.status = "ES";
-          } else if (!allItemsInStock && session.status !== "NES") {
-            await axios.put(
-              `http://localhost:3000/update-session-NES/${session.id}`,
-              {},
-              {
-                headers: {
-                  Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-              }
-            );
-            session.status = "NES";
+            const availableQuantity = itemResponse.data.quantity_hq;
+            const neededQuantity = item.amount;
+
+            if (availableQuantity < neededQuantity) {
+              allItemsInStock = false;
+              break;
+            }
           }
-        } else {
-          // If session is READY, skip the other checks
-          continue;
+
+          if (session.status !== "READY") {
+            if (allItemsInStock && session.status !== "ES") {
+              await axios.put(
+                // `http://localhost:3000/update-session-ES/${session.id}`,
+                `https://sfsulogistics.online:3000/update-session-ES/${session.id}`,
+
+                {},
+                {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                  },
+                }
+              );
+              session.status = "ES";
+            } else if (!allItemsInStock && session.status !== "NES") {
+              await axios.put(
+                // `http://localhost:3000/update-session-NES/${session.id}`,
+                `https://sfsulogistics.online:3000/update-session-NES/${session.id}`,
+
+                {},
+                {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                  },
+                }
+              );
+              session.status = "NES";
+            }
+          } else {
+            // If session is READY, skip the other checks
+            continue;
+          }
         }
+
+        setSessions(sessionsData);
+      } catch (error) {
+        console.error("Error fetching sessions:", error);
       }
+    };
 
-      setSessions(sessionsData);
-    } catch (error) {
-      console.error("Error fetching sessions:", error);
-    }
-  };
-
-  fetchSessions();
-}, []);
-
+    fetchSessions();
+  }, []);
 
   const goToAddEdit = () => {
     navigate("/add-session");
@@ -162,7 +178,9 @@ useEffect(() => {
   const handleViewSession = async (sessionId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/session/${sessionId}`,
+        // `http://localhost:3000/session/${sessionId}`,
+        `https://sfsulogistics.online:3000/session/${sessionId}`,
+
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -173,7 +191,9 @@ useEffect(() => {
       const itemDetails = await Promise.all(
         checklist.map(async (item) => {
           const itemResponse = await axios.get(
-            `http://localhost:3000/items/${item.id}`,
+            // `http://localhost:3000/items/${item.id}`,
+            `https://sfsulogistics.online:3000/items/${item.id}`,
+
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -224,7 +244,9 @@ useEffect(() => {
 
       // Update session status to READY and handle consumable item deduction
       await axios.put(
-        `http://localhost:3000/update-session-READY/${currentSessionId}`,
+        // `http://localhost:3000/update-session-READY/${currentSessionId}`,
+        `https://sfsulogistics.online:3000/update-session-READY/${currentSessionId}`,
+
         {},
         {
           headers: {

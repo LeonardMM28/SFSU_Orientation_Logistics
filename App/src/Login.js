@@ -11,12 +11,16 @@ function Login() {
 
     const checkAuthorization = async () => {
       try {
-        const response = await fetch("http://localhost:3000/auth-check", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        // const response = await fetch("http://localhost:3000/auth-check", {
+        const response = await fetch(
+          "https://sfsulogistics.online:3000/auth-check",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         if (response.status === 200 && isMounted) {
           navigate("/dashboard");
         }
@@ -45,7 +49,8 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/login", {
+      // const response = await axios.post("http://localhost:3000/login", {
+      const response = await axios.post("https://sfsulogistics.online:3000/login", {
         username: formData.username,
         password: formData.password,
       });

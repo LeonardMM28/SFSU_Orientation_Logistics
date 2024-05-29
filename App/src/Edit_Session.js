@@ -28,12 +28,16 @@ function Edit_Session() {
 
     const checkAuthorization = async () => {
       try {
-        const response = await fetch("http://localhost:3000/auth-check", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        // const response = await fetch("http://localhost:3000/auth-check", {
+        const response = await fetch(
+          "https://sfsulogistics.online:3000/auth-check",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         if (response.status === 401 && isMounted) {
           // Invalid or expired token, show unauthorized message and delete session
           alert("Your session has expired, please log in again.");
@@ -41,7 +45,8 @@ function Edit_Session() {
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
-            await axios.post("http://localhost:3000/logout", null, {
+            // await axios.post("http://localhost:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online:3000/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -67,12 +72,16 @@ function Edit_Session() {
   useEffect(() => {
     const checkAuthorization = async () => {
       try {
-        const response = await fetch("http://localhost:3000/auth-check", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        // const response = await fetch("http://localhost:3000/auth-check", {
+        const response = await fetch(
+          "https://sfsulogistics.online:3000/auth-check",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         if (response.status === 401) {
           // Invalid or expired token, show unauthorized message and delete session
           alert("Your session has expired, please log in again.");
@@ -80,7 +89,8 @@ function Edit_Session() {
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
-            await axios.post("http://localhost:3000/logout", null, {
+            // await axios.post("http://localhost:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online:3000/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -101,7 +111,9 @@ function Edit_Session() {
     const fetchSession = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/session/${sessionId}`, // Fetch session details
+          // `http://localhost:3000/session/${sessionId}`,
+          `http://localhost:3000/session/${sessionId}`,
+
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -144,7 +156,9 @@ function Edit_Session() {
     const fetchSupplies = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/items/supplies",
+          // "http://localhost:3000/items/supplies",
+          "https://sfsulogistics.online:3000/items/supplies",
+
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -207,7 +221,9 @@ function Edit_Session() {
 
     try {
       const response = await axios.put(
-        `http://localhost:3000/edit/session/${sessionId}`,
+        // `http://localhost:3000/edit/session/${sessionId}`,
+        `https://sfsulogistics.online:3000/edit/session/${sessionId}`,
+
         { date, type, attendees, checklist: itemsChecklist },
         {
           headers: {
@@ -354,12 +370,12 @@ function Edit_Session() {
                     <div className="item-details">
                       <span className="item-name">[{item.name}]</span>
                       <span className="item-amount">Amount: {amount}</span>
-                    <button
-                      className="remove-button"
-                      onClick={() => handleRemoveItem(id)}
-                    >
-                      Remove
-                    </button>
+                      <button
+                        className="remove-button"
+                        onClick={() => handleRemoveItem(id)}
+                      >
+                        Remove
+                      </button>
                     </div>
                   </li>
                 );

@@ -22,12 +22,16 @@ function Add_Session() {
 
     const checkAuthorization = async () => {
       try {
-        const response = await fetch("http://localhost:3000/auth-check", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        // const response = await fetch("http://localhost:3000/auth-check", {
+        const response = await fetch(
+          "https://sfsulogistics.online/auth-check",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         if (response.status === 401 && isMounted) {
           // Invalid or expired token, show unauthorized message and delete session
           alert("Your session has expired, please log in again.");
@@ -35,7 +39,8 @@ function Add_Session() {
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
-            await axios.post("http://localhost:3000/logout", null, {
+            // await axios.post("http://localhost:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online:3000/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -62,7 +67,9 @@ function Add_Session() {
     const fetchSupplies = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/items/supplies",
+          // "http://localhost:3000/items/supplies",
+          "https://sfsulogistics.online:3000/items/supplies",
+
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -118,7 +125,9 @@ function Add_Session() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/add/session",
+        // "http://localhost:3000/add/session",
+        "https://sfsulogistics.online:3000/add/session",
+
         { date, type, attendees, checklist: itemsChecklist },
         {
           headers: {

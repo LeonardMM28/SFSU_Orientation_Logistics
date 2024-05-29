@@ -26,12 +26,16 @@ function Orientation_Supplies_Inventory() {
 
     const checkAuthorization = async () => {
       try {
-        const response = await fetch("http://localhost:3000/auth-check", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        // const response = await fetch("http://localhost:3000/auth-check", {
+        const response = await fetch(
+          "https://sfsulogistics.online:3000/auth-check",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         if (response.status === 401 && isMounted) {
           // Invalid or expired token, show unauthorized message and delete session
           alert("Your session has expired, please log in again.");
@@ -39,7 +43,8 @@ function Orientation_Supplies_Inventory() {
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
-            await axios.post("http://localhost:3000/logout", null, {
+            // await axios.post("http://localhost:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online:3000/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -64,7 +69,9 @@ function Orientation_Supplies_Inventory() {
     const fetchItems = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/items/supplies",
+          // "http://localhost:3000/items/supplies",
+          "https://sfsulogistics.online:3000/items/supplies",
+
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming token is stored in localStorage
@@ -105,7 +112,9 @@ function Orientation_Supplies_Inventory() {
     try {
       const endpoint = modalType === "store" ? "store/item" : "retrieve/item";
       const response = await axios.post(
-        `http://localhost:3000/${endpoint}`,
+        // `http://localhost:3000/${endpoint}`,
+        `https://sfsulogistics.online:3000/${endpoint}`,
+
         { itemId: currentItem.id, amount: Number(amount) },
         {
           headers: {
@@ -122,7 +131,9 @@ function Orientation_Supplies_Inventory() {
           : `Retrieved ${amount} of item ${currentItem.name} to the HQ`;
 
       await axios.post(
-        `http://localhost:3000/logAction`,
+        // `http://localhost:3000/logAction`,
+        `https://sfsulogistics.online:3000/logAction`,
+
         {
           action: actionDescription,
         },

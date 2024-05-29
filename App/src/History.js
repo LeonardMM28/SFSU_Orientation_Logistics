@@ -19,12 +19,16 @@ function History() {
 
     const checkAuthorization = async () => {
       try {
-        const response = await fetch("http://localhost:3000/auth-check", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        // const response = await fetch("http://localhost:3000/auth-check", {
+        const response = await fetch(
+          "https://sfsulogistics.online:3000/auth-check",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         if (response.status === 401 && isMounted) {
           // Invalid or expired token, show unauthorized message and delete session
           alert("Your session has expired, please log in again.");
@@ -32,7 +36,8 @@ function History() {
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
-            await axios.post("http://localhost:3000/logout", null, {
+            // await axios.post("http://localhost:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online:3000/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -64,7 +69,8 @@ function History() {
           setUsername(decodedToken.username);
           setUserId(decodedToken.userId);
           const response = await axios.get(
-            `http://localhost:3000/getUser/${decodedToken.userId}`
+            // `http://localhost:3000/getUser/${decodedToken.userId}`
+            `https://sfsulogistics.online:3000/getUser/${decodedToken.userId}`
           );
           setUserTier(response.data.tier);
         } catch (error) {
@@ -83,7 +89,8 @@ function History() {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const response = await fetch("http://localhost:3000/transactions", {
+        // const response = await fetch("http://localhost:3000/transactions", {
+        const response = await fetch("https://sfsulogistics.online:3000/transactions", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

@@ -17,12 +17,16 @@ function CreateUser() {
 
     const checkAuthorization = async () => {
       try {
-        const response = await fetch("http://localhost:3000/auth-check", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        // const response = await fetch("http://localhost:3000/auth-check", {
+        const response = await fetch(
+          "https://sfsulogistics.online:3000/auth-check",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         if (response.status === 401 && isMounted) {
           // Invalid or expired token, show unauthorized message and delete session
           alert("Your session has expired, please log in again.");
@@ -30,7 +34,8 @@ function CreateUser() {
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
-            await axios.post("http://localhost:3000/logout", null, {
+            // await axios.post("http://localhost:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online:3000/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -44,7 +49,8 @@ function CreateUser() {
             atob(localStorage.getItem("token").split(".")[1])
           );
           const response = await axios.get(
-            `http://localhost:3000/getUser/${decodedToken.userId}`
+            // `http://localhost:3000/getUser/${decodedToken.userId}`
+            `https://sfsulogistics.online/getUser/${decodedToken.userId}`
           );
           const userTier = response.data.tier;
           if (userTier !== "2") {
@@ -52,11 +58,16 @@ function CreateUser() {
             const token = localStorage.getItem("token");
             if (token) {
               localStorage.removeItem("token");
-              await axios.post("http://localhost:3000/logout", null, {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              });
+              // await axios.post("http://localhost:3000/logout", null, {
+              await axios.post(
+                "https://sfsulogistics.online:3000/logout",
+                null,
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              );
             }
             navigate("/");
             alert("You are not authorized to access this page.");
@@ -103,12 +114,12 @@ function CreateUser() {
     }
 
     try {
-      const response = await axios.post("http://localhost:3000/newUser", {
+      // const response = await axios.post("http://localhost:3000/newUser", {
+      const response = await axios.post("https://sfsulogistics.online:3000/newUser", {
         username,
         password,
       });
       if (response.status === 200) {
-
         alert("User created successfully!");
         navigate("/");
       }

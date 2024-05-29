@@ -14,12 +14,16 @@ function ChangePass() {
 
     const checkAuthorization = async () => {
       try {
-        const response = await fetch("http://localhost:3000/auth-check", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        //   const response = await fetch("http://localhost:3000/auth-check", {
+        const response = await fetch(
+          "https://sfsulogistics.online:3000/auth-check",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         if (response.status === 401 && isMounted) {
           // Invalid or expired token, show unauthorized message and delete session
           alert("Your session has expired, please log in again.");
@@ -27,7 +31,8 @@ function ChangePass() {
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
-            await axios.post("http://localhost:3000/logout", null, {
+            // await axios.post("http://localhost:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online:3000/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -63,45 +68,46 @@ function ChangePass() {
     });
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  const { oldPassword, newPassword, confirmPassword } = formData;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { oldPassword, newPassword, confirmPassword } = formData;
 
-  if (newPassword !== confirmPassword) {
-    setErrorMessage("Passwords do not match!");
-    return;
-  }
+    if (newPassword !== confirmPassword) {
+      setErrorMessage("Passwords do not match!");
+      return;
+    }
 
-  try {
-    const token = localStorage.getItem("token");
-    const response = await axios.post(
-      "http://localhost:3000/changePassword",
-      {
-        oldPassword,
-        newPassword,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        // "http://localhost:3000/changePassword",
+        "https://sfsulogistics.online:3000/changePassword",
+
+        {
+          oldPassword,
+          newPassword,
         },
-      }
-    );
-    if (response.status === 200) {
-      alert("Password changed successfully!");
-      navigate("/");
-    }
-  } catch (error) {
-    console.error("Error changing password:", error);
-    if (error.response && error.response.status === 401) {
-      setErrorMessage("Unauthorized. Please log in again.");
-    } else {
-      setErrorMessage(
-        "An error occurred while changing the password. Please try again."
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
+      if (response.status === 200) {
+        alert("Password changed successfully!");
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Error changing password:", error);
+      if (error.response && error.response.status === 401) {
+        setErrorMessage("Unauthorized. Please log in again.");
+      } else {
+        setErrorMessage(
+          "An error occurred while changing the password. Please try again."
+        );
+      }
     }
-  }
-};
-
+  };
 
   const goBack = () => {
     navigate("/dashboard");

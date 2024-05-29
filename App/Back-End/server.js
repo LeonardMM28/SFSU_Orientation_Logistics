@@ -136,26 +136,26 @@ connection.query(
 app.use("/", userRouter); // Update the endpoint to use the imported router middleware
 app.use("/", itemsRouter); // Add the product router middleware
 
-// const privateKey = fs.readFileSync("./keycertbot.pem", "utf8");
-// const certificate = fs.readFileSync("./certificate.pem", "utf8");
+const privateKey = fs.readFileSync("./keycertbot.pem", "utf8");
+const certificate = fs.readFileSync("./certificate.pem", "utf8");
 
-// const httpsServer = https.createServer(
-//   {
-//     key: privateKey,
-//     cert: certificate,
-//   },
-//   app
-// );
+const httpsServer = https.createServer(
+  {
+    key: privateKey,
+    cert: certificate,
+  },
+  app
+);
 
 app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "../public/index.html")); // Update the path to your index.html file
 });
 
-// httpsServer.listen(PORT, () => {
-//   console.log(`Server is running on https://localhost:${PORT}`);
-// });
-
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+httpsServer.listen(PORT, () => {
+  console.log(`Server is running on https://localhost:${PORT}`);
 });
+
+// app.listen(PORT, () => {
+//   console.log(`Server listening on port ${PORT}`);
+// });
 

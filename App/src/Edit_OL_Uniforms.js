@@ -26,12 +26,16 @@ function Edit_OL_Uniforms() {
 
     const checkAuthorization = async () => {
       try {
-        const response = await fetch("http://localhost:3000/auth-check", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        // const response = await fetch("http://localhost:3000/auth-check", {
+        const response = await fetch(
+          "https://sfsulogistics.online:3000/auth-check",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         if (response.status === 401 && isMounted) {
           // Invalid or expired token, show unauthorized message and delete session
           alert("Your session has expired, please log in again.");
@@ -39,7 +43,8 @@ function Edit_OL_Uniforms() {
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
-            await axios.post("http://localhost:3000/logout", null, {
+            // await axios.post("http://localhost:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online:3000/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -66,7 +71,9 @@ function Edit_OL_Uniforms() {
     const fetchItem = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/items/${itemId}`,
+          // `http://localhost:3000/items/${itemId}`,
+          `https://sfsulogistics.online:3000/items/${itemId}`,
+
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -119,7 +126,8 @@ function Edit_OL_Uniforms() {
     formData.append("quantityHQ", quantityHQ);
 
     try {
-      await axios.put(`http://localhost:3000/edit/item/${itemId}`, formData, {
+      // await axios.put(`http://localhost:3000/edit/item/${itemId}`, formData, {
+      await axios.put(`https://sfsulogistics.online:3000/edit/item/${itemId}`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "multipart/form-data",
