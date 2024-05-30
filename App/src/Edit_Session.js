@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
-import "./Add_Session.css";
+import "./Add_Edit_Session.css";
 import Modal from "./Modal"; // Import the Modal component
 
 function Edit_Session() {
@@ -112,7 +112,7 @@ function Edit_Session() {
       try {
         const response = await axios.get(
           // `http://localhost:3000/session/${sessionId}`,
-          `http://localhost:3000/session/${sessionId}`,
+          `https://sfsulogistics.online:3000/session/${sessionId}`,
 
           {
             headers: {

@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react"; // Import React hooks
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import "./Add_Session.css";
+import "./Add_Edit_Session.css";
 import Modal from "./Modal"; // Import the Modal component
 
 function Add_Session() {
