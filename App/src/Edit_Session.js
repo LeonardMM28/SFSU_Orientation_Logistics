@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FiArrowLeftCircle } from "react-icons/fi";
+import { PiArrowSquareLeftDuotone } from "react-icons/pi";
 import { useNavigate, useParams } from "react-router-dom";
 import "./Add_Edit_Session.css";
 import Modal from "./Modal"; // Import the Modal component
@@ -260,7 +260,10 @@ function Edit_Session() {
   return (
     <div className="add-edit-sessions">
       <div className="back-icon-container">
-        <FiArrowLeftCircle onClick={goToInventory} className="back-icon" />
+        <PiArrowSquareLeftDuotone
+          onClick={goToInventory}
+          className="back-icon"
+        />
         <h1 className="title">Edit Session</h1>
       </div>
       <div className="main-content">
@@ -318,29 +321,33 @@ function Edit_Session() {
                 onChange={handleSearchQueryChange}
                 placeholder="Search items..."
               />
-              <div className="supplies-list">
-                {filteredSupplies.map((item) => (
-                  <div key={item.id} className="supply-item">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="item-image"
-                      onClick={() => handleOpenModal(item.image, item.name)}
-                    />
-                    <div className="item-details">
-                      <span>{item.name}</span>
-                      <input
-                        type="number"
-                        min="1"
-                        placeholder="Amount"
-                        value={formData.checklist[item.id] || ""}
-                        onChange={(e) =>
-                          handleChecklistChange(item.id, e.target.value)
-                        }
+              <div className="scrollable-container-supplies">
+                <div className="supplies-list">
+                  {filteredSupplies.map((item) => (
+                    <div key={item.id} className="supply-item">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="item-image"
+                        onClick={() => handleOpenModal(item.image, item.name)}
                       />
+                      <div className="item-details">
+                        <div className="item-name-container">
+                          <span>{item.name}</span>
+                        </div>
+                        <input
+                          type="number"
+                          min="1"
+                          placeholder="Amount"
+                          value={formData.checklist[item.id] || ""}
+                          onChange={(e) =>
+                            handleChecklistChange(item.id, e.target.value)
+                          }
+                        />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </label>
             <button type="submit" className="submit-button">

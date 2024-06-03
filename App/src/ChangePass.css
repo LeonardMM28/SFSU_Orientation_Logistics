@@ -16,7 +16,14 @@
   background-color: #1f1f4b; /* Dark blue color */
   box-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff, 0 0 20px #00d4ff; /* Neon blue glow */
   border-radius: 20px; /* Rounded corners */
-  clip-path: polygon(0% 0%, 75% 0%, 100% 15%, 100% 100%, 15% 100%, 0% 85%); /* Adjusted clip-path */
+  clip-path: polygon(
+    0% 0%,
+    75% 0%,
+    100% 15%,
+    100% 100%,
+    15% 100%,
+    0% 85%
+  ); /* Adjusted clip-path */
 }
 
 .change-pass-form-container h2 {
@@ -85,4 +92,10 @@
   100% {
     box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
   }
+}
+
+.change-pass-page .back-icon {
+  font-size: 2.8rem;
+  color: #00d4ff; /* Neon blue */
+  margin-right: 10px;
 }

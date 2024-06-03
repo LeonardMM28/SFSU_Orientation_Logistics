@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FiArrowLeftCircle } from "react-icons/fi";
 import {
   PiArrowSquareDownRightFill,
   PiArrowSquareUpRightFill,
+  PiArrowSquareLeftDuotone,
 } from "react-icons/pi";
+import { FaArrowUp } from "react-icons/fa"; // Import the arrow up icon
+
 import Modal from "./Modal"; // Import the Modal component
 
 import { useNavigate } from "react-router-dom";
@@ -20,6 +22,7 @@ function OL_Uniforms_Inventory() {
   const [modalImage, setModalImage] = useState(""); // State to store the image URL
   const [modalAltText, setModalAltText] = useState("");
   const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
+  const [showScrollButton, setShowScrollButton] = useState(false); // State to show or hide scroll button
 
   const navigate = useNavigate();
 
@@ -66,6 +69,26 @@ function OL_Uniforms_Inventory() {
       isMounted = false;
     };
   }, [navigate]);
+
+    useEffect(() => {
+      const handleScroll = () => {
+        if (window.pageYOffset > 200) {
+          setShowScrollButton(true);
+        } else {
+          setShowScrollButton(false);
+        }
+      };
+
+      window.addEventListener("scroll", handleScroll);
+
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }, []);
+  
+    const scrollToTop = () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -175,7 +198,11 @@ function OL_Uniforms_Inventory() {
   return (
     <div className="uniform-inventory">
       <div className="back-icon-container">
-        <FiArrowLeftCircle onClick={goToDashboard} className="back-icon" />
+        <PiArrowSquareLeftDuotone
+          onClick={goToDashboard}
+          className="back-icon"
+        />
+
         <h1 className="title">OL UNIFORMS</h1>
       </div>
       <div className="search-container">
@@ -279,6 +306,11 @@ function OL_Uniforms_Inventory() {
             </button>
           </div>
         </div>
+      )}
+      {showScrollButton && (
+        <button className="scroll-to-top-button" onClick={scrollToTop}>
+          <FaArrowUp />
+        </button>
       )}
       {showModal && (
         <Modal

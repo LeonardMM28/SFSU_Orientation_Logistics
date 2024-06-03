@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react"; // Import React hooks
-import { FiArrowLeftCircle } from "react-icons/fi";
+import { PiArrowSquareLeftDuotone } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import "./CreateUser.css";
 
@@ -140,7 +140,7 @@ function CreateUser() {
 
   return (
     <div className="create-user-page">
-      <FiArrowLeftCircle onClick={goBack} className="back-icon" />
+      <PiArrowSquareLeftDuotone onClick={goBack} className="back-icon" />
       <div className="create-user-form-container">
         <img src="/NSFPlogo.png" alt="NSFP logo" />
         <h2>Create a new account</h2>

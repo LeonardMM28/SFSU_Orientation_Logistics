@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FiArrowLeftCircle } from "react-icons/fi";
+import { PiArrowSquareLeftDuotone } from "react-icons/pi";
 import { useNavigate, useParams } from "react-router-dom";
 import "./Add_Edit_Orientation_Supplies.css";
 import Modal from "./Modal"; // Import the Modal component
@@ -161,7 +161,10 @@ function Edit_Orientation_Supplies() {
   return (
     <div className="add-edit-orientation-resources">
       <div className="back-icon-container">
-        <FiArrowLeftCircle onClick={goToInventory} className="back-icon" />
+        <PiArrowSquareLeftDuotone
+          onClick={goToInventory}
+          className="back-icon"
+        />
         <h1 className="title">Edit Orientation Supplies</h1>
       </div>
       <div className="form-container">

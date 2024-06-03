@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FiArrowLeftCircle } from "react-icons/fi";
+import { PiArrowSquareLeftDuotone } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import "./History.css";
 
@@ -121,7 +121,7 @@ function History() {
   return (
     <div className="history-page">
       <div className="back-icon-container">
-        <FiArrowLeftCircle onClick={goBack} className="back-icon" />
+        <PiArrowSquareLeftDuotone onClick={goBack} className="back-icon" />
         <h1 className="title">Transaction History</h1>
       </div>
       <div className="search-container">

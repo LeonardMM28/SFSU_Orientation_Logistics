@@ -33,10 +33,10 @@
 
 .add-edit-ol-uniforms .back-icon {
   font-size: 40px;
+  margin-right: 10px;
   cursor: pointer;
   color: #ffffff;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-  margin-right: 10px;
 }
 
 .add-edit-ol-uniforms .form-group {

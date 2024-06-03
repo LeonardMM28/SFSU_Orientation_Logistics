@@ -37,9 +37,11 @@
 }
 
 .sessions .back-icon {
-  font-size: 2rem;
-  margin-right: 1rem;
-  color: #00d4ff; /* Neon blue color */
+  font-size: 40px;
+  margin-right: 10px;
+  cursor: pointer;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 /* Search Container */
@@ -198,6 +200,7 @@
   box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
 }
 
+
 .sessions .close {
   color: #ffffff;
   float: right;
@@ -274,4 +277,28 @@
   100% {
     box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
   }
+}
+
+/* Preview Image */
+.preview-image {
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 4px;
+  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 8px 16px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #1f1f4b;
+    color: #ffffff;
+    border: 2px solid #00d4ff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
+    clip-path: polygon(0% 0%, 70% 0%, 100% 30%, 100% 100%, 30% 100%, 0% 70%);
 }

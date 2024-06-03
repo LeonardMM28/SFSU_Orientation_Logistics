@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FiArrowLeftCircle } from "react-icons/fi";
+import { PiArrowSquareLeftDuotone } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import "./ChangePass.css";
 
@@ -119,7 +119,7 @@ function ChangePass() {
 
   return (
     <div className="change-pass-page">
-      <FiArrowLeftCircle onClick={goBack} className="back-icon" />
+      <PiArrowSquareLeftDuotone onClick={goBack} className="back-icon" />
       <div className="change-pass-form-container">
         <h2>Change Password</h2>
         <form onSubmit={handleSubmit}>
