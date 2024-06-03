@@ -20,6 +20,7 @@ html{
   background-color: #0e0e2c; /* Dark blue background */
   color: #ffffff;
   position: relative;
+  margin-top: 20px;
 }
 /* Dashboard title */
 .dashboard h1 {
@@ -69,7 +70,7 @@ html{
 
 .logout-button {
   position: absolute;
-  top: 20px;
+  top: 0px;
   right: 20px;
   background-color: #1f1f4b; /* Dark blue color */
   color: #ffffff;
