@@ -202,7 +202,7 @@ function Add_Session() {
                 </div>
                 <label>
                   Attendees:
-                  <input type="number" name="attendees" required />
+                  <input type="text" name="attendees" required />
                 </label>
               </div>
             </div>

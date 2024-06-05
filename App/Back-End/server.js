@@ -99,7 +99,7 @@ connection.query(
     id INT AUTO_INCREMENT PRIMARY KEY,
     date DATE NOT NULL,
     type VARCHAR(255) NOT NULL,
-    attendees INT,
+    attendees TEXT, 
     checklist JSON,
     status ENUM('NES', 'ES', 'READY') NOT NULL DEFAULT 'NES'
   )
