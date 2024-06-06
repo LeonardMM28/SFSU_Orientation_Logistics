@@ -304,7 +304,7 @@ function Edit_Session() {
                 <label>
                   Attendees:
                   <input
-                    type="number"
+                    type="text"
                     name="attendees"
                     value={formData.attendees || ""}
                     onChange={handleInputChange}
