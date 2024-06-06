@@ -307,7 +307,7 @@ function Planner_Inventory() {
             <tr>
               <th>Date</th>
               <th>Type</th>
-              <th>Attendees</th>
+              <th>Students | Guests</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
