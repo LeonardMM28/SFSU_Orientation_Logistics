@@ -18,7 +18,7 @@ export const Grid = styled.div`
   background: #fff;
   border: 2px solid #333;
   width: 420px;
-  height: 420px;
+  height: 480px; /* Adjusted height for the new row */
 `;
 
 export const GridRow = styled.div`
@@ -30,6 +30,7 @@ export const GridCell = styled.div`
   height: 60px;
   border: 2px solid #333;
   background-color: #fff;
+  position: relative;
 `;
 
 export const EmptyCell = styled.div`
@@ -64,4 +65,11 @@ export const ArrowButton = styled.button`
   &:hover {
     background-color: #372563;
   }
+`;
+
+export const HeadshotCell = styled.img`
+  width: ${({ cellSize }) => cellSize}px;
+  height: ${({ cellSize }) => cellSize}px;
+  object-fit: cover;
+  border-radius: 50%;
 `;

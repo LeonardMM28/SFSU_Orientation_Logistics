@@ -8,7 +8,82 @@ import {
   Player,
   ArrowControls,
   ArrowButton,
+  HeadshotCell,
 } from "./OL_MESSAGE_BOARD_STYLES";
+
+// Function to import images dynamically
+const importAll = (r) => {
+  let images = {};
+  r.keys().map((item, index) => {
+    images[item.replace("./", "")] = r(item);
+  });
+  return images;
+};
+
+const headshots = importAll(
+  require.context("./Headshots", false, /\.(png|jpe?g|svg)$/)
+);
+
+// Order of headshots based on the layout you provided
+const cellImageMapping = [
+  "Adrian.png",
+  "Atiksha.png",
+  "Bobbie.png",
+  "Briseyda.png",
+  "Casey.png",
+  "Daniel.png",
+  "Drew.png",
+  "Evelio.png",
+  null,
+  null,
+  null,
+  null,
+  null,
+  "Gio.png",
+  "Giovanna.png",
+  null,
+  null,
+  null,
+  null,
+  null,
+  "Gracie.png",
+  "Hannah.png",
+  null,
+  null,
+  null,
+  null,
+  null,
+  "Isabella.png",
+  "Jacob.png",
+  null,
+  null,
+  null,
+  null,
+  null,
+  "Jay.png",
+  "Leo.png",
+  null,
+  null,
+  null,
+  null,
+  null,
+  "Mariah.png",
+  "Matt.png",
+  null,
+  null,
+  null,
+  null,
+  null,
+  "Mia.png",
+  "Nadia.png",
+  "Seth.png",
+  "Tamanna.png",
+  null,
+  "Tullah.png",
+  // New row added
+  "Tyler.png",
+  "Xitali.png",
+];
 
 function OL_MESSAGE_BOARD() {
   const [position, setPosition] = useState({ top: 0, left: 0 });
@@ -22,7 +97,7 @@ function OL_MESSAGE_BOARD() {
       setCellSize(newSize);
 
       const gridRect = gridRef.current.getBoundingClientRect();
-      const initialTop = gridRect.top + newSize * 6;
+      const initialTop = gridRect.top + newSize * 7; // Adjusted for 8 rows
       const initialLeft = gridRect.left + newSize * 3;
 
       setPosition({ top: initialTop, left: initialLeft });
@@ -45,7 +120,7 @@ function OL_MESSAGE_BOARD() {
         newTop -= cellSize;
       } else if (
         direction === "down" &&
-        prevPosition.top < gridRect.top + 6 * cellSize
+        prevPosition.top < gridRect.top + 7 * cellSize
       ) {
         newTop += cellSize;
       } else if (direction === "left" && prevPosition.left > gridRect.left) {
@@ -64,69 +139,28 @@ function OL_MESSAGE_BOARD() {
   return (
     <BoardContainer>
       <Grid ref={gridRef}>
-        <GridRow>
-          <GridCell />
-          <GridCell />
-          <GridCell />
-          <GridCell />
-          <GridCell />
-          <GridCell />
-          <GridCell />
-        </GridRow>
-        <GridRow>
-          <GridCell />
-          <EmptyCell />
-          <EmptyCell />
-          <EmptyCell />
-          <EmptyCell />
-          <EmptyCell />
-          <GridCell />
-        </GridRow>
-        <GridRow>
-          <GridCell />
-          <EmptyCell />
-          <EmptyCell />
-          <EmptyCell />
-          <EmptyCell />
-          <EmptyCell />
-          <GridCell />
-        </GridRow>
-        <GridRow>
-          <GridCell />
-          <EmptyCell />
-          <EmptyCell />
-          <EmptyCell />
-          <EmptyCell />
-          <EmptyCell />
-          <GridCell />
-        </GridRow>
-        <GridRow>
-          <GridCell />
-          <EmptyCell />
-          <EmptyCell />
-          <EmptyCell />
-          <EmptyCell />
-          <EmptyCell />
-          <GridCell />
-        </GridRow>
-        <GridRow>
-          <GridCell />
-          <EmptyCell />
-          <EmptyCell />
-          <EmptyCell />
-          <EmptyCell />
-          <EmptyCell />
-          <GridCell />
-        </GridRow>
-        <GridRow>
-          <GridCell />
-          <GridCell />
-          <GridCell />
-          <EmptyCell />
-          <GridCell />
-          <GridCell />
-          <GridCell />
-        </GridRow>
+        {Array.from({ length: 8 }).map((_, rowIndex) => (
+          <GridRow key={rowIndex}>
+            {Array.from({ length: 7 }).map((_, colIndex) => {
+              const cellIndex = rowIndex * 7 + colIndex;
+              const imageName = cellImageMapping[cellIndex];
+
+              if (imageName) {
+                return (
+                  <GridCell key={colIndex}>
+                    <HeadshotCell
+                      src={headshots[imageName]}
+                      alt={`Headshot ${cellIndex + 1}`}
+                      cellSize={cellSize}
+                    />
+                  </GridCell>
+                );
+              } else {
+                return <EmptyCell key={colIndex} />;
+              }
+            })}
+          </GridRow>
+        ))}
       </Grid>
       <Player
         style={{
