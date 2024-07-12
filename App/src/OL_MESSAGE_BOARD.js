@@ -24,7 +24,6 @@ const headshots = importAll(
   require.context("./Headshots", false, /\.(png|jpe?g|svg)$/)
 );
 
-// Order of headshots based on the layout you provided
 const cellImageMapping = [
   "Adrian.png",
   "Atiksha.png",
@@ -80,7 +79,6 @@ const cellImageMapping = [
   "Tamanna.png",
   null,
   "Tullah.png",
-  // New row added
   "Tyler.png",
   "Xitali.png",
 ];
@@ -88,16 +86,16 @@ const cellImageMapping = [
 function OL_MESSAGE_BOARD() {
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const gridRef = useRef(null);
-  const [cellSize, setCellSize] = useState(60); // Default cell size
+  const [cellSize, setCellSize] = useState(60);
 
   const updateCellSize = () => {
     if (gridRef.current) {
       const gridWidth = gridRef.current.clientWidth;
-      const newSize = gridWidth / 7; // Since there are 7 cells in a row
+      const newSize = gridWidth / 7;
       setCellSize(newSize);
 
       const gridRect = gridRef.current.getBoundingClientRect();
-      const initialTop = gridRect.top + newSize * 7; // Adjusted for 8 rows
+      const initialTop = gridRect.top + newSize * 7;
       const initialLeft = gridRect.left + newSize * 3;
 
       setPosition({ top: initialTop, left: initialLeft });
@@ -116,18 +114,18 @@ function OL_MESSAGE_BOARD() {
       let newTop = prevPosition.top;
       let newLeft = prevPosition.left;
 
-      if (direction === "up" && prevPosition.top > gridRect.top) {
+      if (direction === "up" && newTop > gridRect.top) {
         newTop -= cellSize;
       } else if (
         direction === "down" &&
-        prevPosition.top < gridRect.top + 7 * cellSize
+        newTop < gridRect.top + cellSize * 7 // Updated to 7 rows
       ) {
         newTop += cellSize;
-      } else if (direction === "left" && prevPosition.left > gridRect.left) {
+      } else if (direction === "left" && newLeft > gridRect.left) {
         newLeft -= cellSize;
       } else if (
         direction === "right" &&
-        prevPosition.left < gridRect.left + 6 * cellSize
+        newLeft < gridRect.left + cellSize * 6
       ) {
         newLeft += cellSize;
       }
