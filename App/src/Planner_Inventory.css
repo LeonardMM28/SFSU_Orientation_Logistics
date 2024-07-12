@@ -1,6 +1,5 @@
 /* Global Styles */
 * {
-  font-family: "Orbitron", sans-serif; /* Futuristic font */
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -8,6 +7,8 @@
 
 /* Sessions Container */
 .sessions {
+    font-family: "Orbitron", sans-serif; /* Futuristic font */
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -63,6 +64,8 @@
 }
 
 .sessions .button {
+      font-family: "Orbitron", sans-serif; /* Futuristic font */
+
   width: 150px;
   background-color: #1f1f4b; /* Dark blue color */
   color: #ffffff;
@@ -118,6 +121,8 @@
 
 /* Action Button */
 .sessions .action-button {
+      font-family: "Orbitron", sans-serif; /* Futuristic font */
+
   background-color: #1f1f4b; /* Dark blue color */
   color: #ffffff;
   border: 2px solid #00d4ff; /* Neon blue border */
@@ -217,6 +222,8 @@
 
 /* Confirm Button */
 .sessions .confirm-button {
+      font-family: "Orbitron", sans-serif; /* Futuristic font */
+
   background-color: #1f1f4b; /* Dark blue color */
   color: #ffffff;
   border: 2px solid #00d4ff; /* Neon blue border */

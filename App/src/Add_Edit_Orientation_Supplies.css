@@ -1,5 +1,4 @@
 * {
-  font-family: "Orbitron", sans-serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -8,6 +7,8 @@
 .add-edit-orientation-resources {
   position: relative;
   min-height: 100vh;
+    font-family: "Orbitron", sans-serif;
+
   padding: 20px;
   background-color: #0e0e2c;
   color: #ffffff;
@@ -99,6 +100,8 @@
 .add-edit-orientation-resources button[type="submit"] {
   width: 100%;
   background-color: #1f1f4b;
+      font-family: "Orbitron", sans-serif; /* Futuristic font */
+
   color: #ffffff;
   border: 2px solid #00d4ff;
   border-radius: 10px;

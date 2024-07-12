@@ -1,7 +1,6 @@
 /* Login.css */
 
 * {
-  font-family: "Orbitron", sans-serif; /* Futuristic font */
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -9,6 +8,8 @@
 
 .login-page {
   display: flex;
+    font-family: "Orbitron", sans-serif; /* Futuristic font */
+
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -56,6 +57,8 @@
 
 .login-form-container button {
   width: 100%;
+      font-family: "Orbitron", sans-serif; /* Futuristic font */
+
   padding: 20px 40px;
   background-color: #1f1f4b; /* Dark blue color */
   color: #ffffff; /* White */
@@ -64,6 +67,8 @@
   font-size: 20px;
   cursor: pointer;
   margin-bottom: 20px;
+      font-family: "Orbitron", sans-serif; /* Futuristic font */
+
   text-transform: uppercase;
   position: relative;
   box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
