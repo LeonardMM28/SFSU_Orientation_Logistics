@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { GiCrossedChains } from "react-icons/gi";
 
 export const BoardContainer = styled.div`
   display: flex;
@@ -16,8 +17,6 @@ export const Grid = styled.div`
   flex-direction: column;
   position: relative;
   background: #ffd449ff;
-  border: 2px solid #331832ff;
-  border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 420px;
   height: 480px; /* Adjusted height for the correct rows */
@@ -35,6 +34,7 @@ export const GridCell = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 `;
 
 export const EmptyCell = styled.div`
@@ -78,11 +78,41 @@ export const ArrowButton = styled.button`
   }
 `;
 
+export const HeadshotWrapper = styled.div`
+  position: relative;
+  width: ${({ cellSize }) => cellSize}px;
+  height: ${({ cellSize }) => cellSize}px;
+`;
+
 export const HeadshotCell = styled.img`
-  width: ${({ cellSize }) => cellSize - 10}px;
-  height: ${({ cellSize }) => cellSize - 10}px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 2px solid #331832ff;
+`;
+
+export const OverlayContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ChainIcon = styled(GiCrossedChains)`
+  position: absolute;
+  color: rgba(0, 0, 0, 0.4); /* Less opacity */
+  width: 100%;
+  height: 100%;
+`;
+
+export const LockImage = styled.img`
+  position: absolute;
+  bottom: 10%;
+  right: 10%;
+  width: ${({ cellSize }) => cellSize * 0.5}px;
+  height: ${({ cellSize }) => cellSize * 0.5}px;
+  transform: rotate(20deg); /* Tilt the lock */
 `;

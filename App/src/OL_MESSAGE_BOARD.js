@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { GiCrossedChains } from "react-icons/gi";
 import {
   BoardContainer,
   Grid,
@@ -8,7 +9,11 @@ import {
   Player,
   ArrowControls,
   ArrowButton,
+  HeadshotWrapper,
   HeadshotCell,
+  ChainIcon,
+  LockImage,
+  OverlayContainer,
 } from "./OL_MESSAGE_BOARD_STYLES";
 
 // Function to import images dynamically
@@ -23,6 +28,8 @@ const importAll = (r) => {
 const headshots = importAll(
   require.context("./Headshots", false, /\.(png|jpe?g|svg)$/)
 );
+
+const lockImage = require("./Headshots/lock.png");
 
 const cellImageMapping = [
   "Adrian.png",
@@ -146,11 +153,21 @@ function OL_MESSAGE_BOARD() {
               if (imageName) {
                 return (
                   <GridCell key={colIndex}>
-                    <HeadshotCell
-                      src={headshots[imageName]}
-                      alt={`Headshot ${cellIndex + 1}`}
-                      cellSize={cellSize}
-                    />
+                    <HeadshotWrapper cellSize={cellSize}>
+                      <HeadshotCell
+                        src={headshots[imageName]}
+                        alt={`Headshot ${cellIndex + 1}`}
+                        cellSize={cellSize}
+                      />
+                      <OverlayContainer>
+                        <ChainIcon size={cellSize} />
+                        <LockImage
+                          src={lockImage}
+                          alt="Lock"
+                          cellSize={cellSize}
+                        />
+                      </OverlayContainer>
+                    </HeadshotWrapper>
                   </GridCell>
                 );
               } else {
