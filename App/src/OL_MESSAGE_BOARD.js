@@ -13,6 +13,9 @@ import {
   LockImage,
   OverlayContainer,
   Player,
+  Popup,
+  PopupMessage,
+  PopupButton,
 } from "./OL_MESSAGE_BOARD_STYLES";
 
 // Function to import images dynamically
@@ -98,6 +101,7 @@ const cellImageMapping = [
 
 function OL_MESSAGE_BOARD() {
   const [position, setPosition] = useState({ top: 0, left: 0 });
+  const [popup, setPopup] = useState({ visible: false, name: "" });
   const gridRef = useRef(null);
   const [cellSize, setCellSize] = useState(60);
 
@@ -141,6 +145,19 @@ function OL_MESSAGE_BOARD() {
         newLeft < gridRect.left + cellSize * 6
       ) {
         newLeft += cellSize;
+      }
+
+      // Determine the name of the person at the new position
+      const colIndex = (newLeft - gridRect.left) / cellSize;
+      const rowIndex = (newTop - gridRect.top) / cellSize;
+      const cellIndex = rowIndex * 7 + colIndex;
+      const imageName = cellImageMapping[cellIndex];
+
+      if (imageName) {
+        const name = imageName.split(".")[0];
+        setPopup({ visible: true, name });
+      } else {
+        setPopup({ visible: false, name: "" });
       }
 
       return { top: newTop, left: newLeft };
@@ -199,6 +216,14 @@ function OL_MESSAGE_BOARD() {
           <ArrowButton onClick={() => movePlayer("right")}>→</ArrowButton>
         </div>
       </ArrowControls>
+      {popup.visible && (
+        <Popup>
+          <PopupMessage>Do you want to rescue {popup.name}?</PopupMessage>
+          <PopupButton onClick={() => alert(`You rescued ${popup.name}!`)}>
+            YES!
+          </PopupButton>
+        </Popup>
+      )}
     </BoardContainer>
   );
 }

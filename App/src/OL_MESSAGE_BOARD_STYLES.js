@@ -116,3 +116,40 @@ export const LockImage = styled.img`
   height: ${({ cellSize }) => cellSize * 0.5}px;
   transform: rotate(20deg); /* Tilt the lock */
 `;
+
+export const Popup = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffd449ff;
+  padding: 20px;
+  border: 2px solid #331832ff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const PopupMessage = styled.div`
+  font-size: 18px;
+  margin-bottom: 10px;
+`;
+
+export const PopupButton = styled.button`
+  background-color: #331832ff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #f9a620ff;
+  }
+`;
