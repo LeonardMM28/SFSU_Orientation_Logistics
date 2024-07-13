@@ -19,7 +19,7 @@ export const Grid = styled.div`
   background: #ffd449ff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 420px;
-  height: 480px; /* Adjusted height for the correct rows */
+  height: 540px; /* Adjusted height for the new row */
 `;
 
 export const GridRow = styled.div`

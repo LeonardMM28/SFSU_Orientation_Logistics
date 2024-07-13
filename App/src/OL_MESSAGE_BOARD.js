@@ -1,19 +1,18 @@
-import React, { useState, useEffect, useRef } from "react";
-import { GiCrossedChains } from "react-icons/gi";
+import React, { useEffect, useRef, useState } from "react";
 import {
-  BoardContainer,
-  Grid,
-  GridRow,
-  GridCell,
-  EmptyCell,
-  Player,
-  ArrowControls,
   ArrowButton,
-  HeadshotWrapper,
-  HeadshotCell,
+  ArrowControls,
+  BoardContainer,
   ChainIcon,
+  EmptyCell,
+  Grid,
+  GridCell,
+  GridRow,
+  HeadshotCell,
+  HeadshotWrapper,
   LockImage,
   OverlayContainer,
+  Player,
 } from "./OL_MESSAGE_BOARD_STYLES";
 
 // Function to import images dynamically
@@ -32,27 +31,20 @@ const headshots = importAll(
 const lockImage = require("./Headshots/lock.png");
 
 const cellImageMapping = [
-  "Adrian.png",
-  "Atiksha.png",
-  "Bobbie.png",
-  "Briseyda.png",
-  "Casey.png",
-  "Daniel.png",
-  "Drew.png",
-  "Evelio.png",
-  null,
-  null,
-  null,
-  null,
-  null,
+  "Xitali.png",
   "Gio.png",
-  "Giovanna.png",
+  "Matt.png",
+  "Evan.png",
+  "Chris.png",
+  "Miguel.png",
+  "Lyn.png",
+  "Daniel.png",
   null,
-  null,
-  null,
-  null,
+  "Drew.png",
   null,
   "Gracie.png",
+  null,
+  "Giovanna.png",
   "Hannah.png",
   null,
   null,
@@ -67,14 +59,7 @@ const cellImageMapping = [
   null,
   null,
   "Jay.png",
-  "Leo.png",
-  null,
-  null,
-  null,
-  null,
-  null,
   "Mariah.png",
-  "Matt.png",
   null,
   null,
   null,
@@ -82,12 +67,33 @@ const cellImageMapping = [
   null,
   "Mia.png",
   "Nadia.png",
+  null,
+  null,
+  null,
+  null,
+  null,
   "Seth.png",
   "Tamanna.png",
   null,
+  null,
+  null,
+  null,
+  null,
   "Tullah.png",
   "Tyler.png",
-  "Xitali.png",
+  null,
+  null,
+  null,
+  null,
+  null,
+  "Adrian.png",
+  "Atiksha.png",
+  "Bobbie.png",
+  "Briseyda.png",
+  null,
+  null,
+  "Casey.png",
+  "Evelio.png",
 ];
 
 function OL_MESSAGE_BOARD() {
@@ -102,7 +108,7 @@ function OL_MESSAGE_BOARD() {
       setCellSize(newSize);
 
       const gridRect = gridRef.current.getBoundingClientRect();
-      const initialTop = gridRect.top + newSize * 7;
+      const initialTop = gridRect.top + newSize * 7; // Updated to 8 rows
       const initialLeft = gridRect.left + newSize * 3;
 
       setPosition({ top: initialTop, left: initialLeft });
@@ -125,7 +131,7 @@ function OL_MESSAGE_BOARD() {
         newTop -= cellSize;
       } else if (
         direction === "down" &&
-        newTop < gridRect.top + cellSize * 7 // Updated to 7 rows
+        newTop < gridRect.top + cellSize * 8 // Updated to 8 rows
       ) {
         newTop += cellSize;
       } else if (direction === "left" && newLeft > gridRect.left) {
@@ -144,7 +150,7 @@ function OL_MESSAGE_BOARD() {
   return (
     <BoardContainer>
       <Grid ref={gridRef}>
-        {Array.from({ length: 8 }).map((_, rowIndex) => (
+        {Array.from({ length: 9 }).map((_, rowIndex) => (
           <GridRow key={rowIndex}>
             {Array.from({ length: 7 }).map((_, colIndex) => {
               const cellIndex = rowIndex * 7 + colIndex;
