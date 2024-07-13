@@ -103,15 +103,15 @@ export const OverlayContainer = styled.div`
 
 export const ChainIcon = styled(GiCrossedChains)`
   position: absolute;
-  color: rgba(0, 0, 0, 0.4); /* Less opacity */
+  color: rgba(0, 0, 0, 0.2); /* Less opacity */
   width: 100%;
   height: 100%;
 `;
 
 export const LockImage = styled.img`
   position: absolute;
-  bottom: 10%;
-  right: 10%;
+  bottom: 5%;
+  right: 5%;
   width: ${({ cellSize }) => cellSize * 0.5}px;
   height: ${({ cellSize }) => cellSize * 0.5}px;
   transform: rotate(20deg); /* Tilt the lock */
