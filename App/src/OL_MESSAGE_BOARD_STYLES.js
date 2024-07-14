@@ -229,6 +229,7 @@ export const MiniGameArea = styled.div`
   height: 300px;
   background-color: white;
   border: 2px solid #331832ff;
+  position: relative; /* Ensure absolute positioning within this container */
 `;
 
 export const CloseButton = styled.button`
@@ -299,6 +300,7 @@ export const FightButton = styled.button`
 export const Monster = styled.img`
   position: absolute;
   cursor: pointer;
+  transition: all 0.3s ease-in-out; /* Smooth transitions */
 `;
 
 export const LifeBar = styled.div`

@@ -308,7 +308,7 @@ function OL_MESSAGE_BOARD() {
             const maxLeft = gameArea.clientWidth - monsterSize;
             const newTop = Math.random() * maxTop;
             const newLeft = Math.random() * maxLeft;
-            const newSize = 30 + Math.random() * 70;
+            const newSize = 30 + Math.random() * 100;
 
             setMonsterPosition({ top: newTop, left: newLeft });
             setMonsterSize(newSize);
@@ -339,7 +339,7 @@ function OL_MESSAGE_BOARD() {
             </LifeBar>
             <Monster
               ref={monsterRef}
-              src="./Headshots/Information_Overload_Ogre.png"
+              src={require("./Headshots/Mental_Health_Monster.png")}
               alt="Monster"
               style={{
                 top: `${monsterPosition.top}px`,
