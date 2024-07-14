@@ -38,6 +38,10 @@ const headshots = importAll(
   require.context("./Headshots", false, /\.(png|jpe?g|svg)$/)
 );
 
+const headshotsTalking = importAll(
+  require.context("./Headshots/Talking", false, /\.(png|jpe?g|svg)$/)
+);
+
 const lockImage = require("./Headshots/lock.png");
 
 // Mapping headshots to difficulty levels (1 to 7)
@@ -146,8 +150,20 @@ function OL_MESSAGE_BOARD() {
     difficulty: 0,
   });
   const [largePopup, setLargePopup] = useState({ visible: false, name: "" });
+  const [currentDialogue, setCurrentDialogue] = useState("");
+  const [dialogueIndex, setDialogueIndex] = useState(0);
+  const [letterIndex, setLetterIndex] = useState(0);
+  const [currentImage, setCurrentImage] = useState("");
+  const [isTalking, setIsTalking] = useState(false);
   const gridRef = useRef(null);
   const [cellSize, setCellSize] = useState(60);
+
+  const dialogues = [
+    "Hello there! How can I help you today?",
+    "It seems like you need some assistance.",
+    "Let's work together to solve this problem.",
+    "Thank you for your patience.",
+  ];
 
   const updateCellSize = () => {
     if (gridRef.current) {
@@ -168,6 +184,52 @@ function OL_MESSAGE_BOARD() {
     window.addEventListener("resize", updateCellSize);
     return () => window.removeEventListener("resize", updateCellSize);
   }, [gridRef]);
+
+  useEffect(() => {
+    let typingInterval;
+    let talkingInterval;
+    if (largePopup.visible) {
+      typingInterval = setInterval(() => {
+        setCurrentDialogue((prev) => {
+          if (letterIndex < dialogues[dialogueIndex].length) {
+            setLetterIndex(letterIndex + 1);
+            return prev + dialogues[dialogueIndex][letterIndex];
+          } else {
+            clearInterval(typingInterval);
+            clearInterval(talkingInterval);
+            setTimeout(() => {
+              setLetterIndex(0);
+              setDialogueIndex(
+                (prevIndex) => (prevIndex + 1) % dialogues.length
+              );
+              setCurrentDialogue("");
+              setIsTalking(false);
+            }, 2000); // Pause before showing the next dialogue
+            return prev;
+          }
+        });
+      }, 100);
+
+      talkingInterval = setInterval(() => {
+        setIsTalking((prev) => !prev);
+      }, 100);
+
+      return () => {
+        clearInterval(typingInterval);
+        clearInterval(talkingInterval);
+      };
+    }
+  }, [largePopup.visible, dialogueIndex, letterIndex]);
+
+  useEffect(() => {
+    if (largePopup.visible) {
+      setCurrentImage(
+        isTalking
+          ? headshotsTalking[`${largePopup.name}.png`]
+          : headshots[`${largePopup.name}.png`]
+      );
+    }
+  }, [isTalking, largePopup.visible, largePopup.name]);
 
   const movePlayer = (direction) => {
     setPosition((prevPosition) => {
@@ -216,6 +278,10 @@ function OL_MESSAGE_BOARD() {
 
   const closeLargePopup = () => {
     setLargePopup({ visible: false, name: "" });
+    setCurrentDialogue("");
+    setDialogueIndex(0);
+    setLetterIndex(0);
+    setIsTalking(false);
   };
 
   return (
@@ -284,15 +350,8 @@ function OL_MESSAGE_BOARD() {
       {largePopup.visible && (
         <LargePopup>
           <CloseButton onClick={closeLargePopup}>X</CloseButton>
-          <PopupPicture
-            src={headshots[`${largePopup.name}.png`]}
-            alt={largePopup.name}
-          />
-          <PopupDialogue
-            placeholder={`Dialogue for ${largePopup.name}`}
-            rows="4"
-            cols="50"
-          />
+          <PopupPicture src={currentImage} alt={largePopup.name} />
+          <PopupDialogue value={currentDialogue} readOnly rows="4" cols="50" />
           <MiniGameArea>Mini Game Area</MiniGameArea>
         </LargePopup>
       )}
