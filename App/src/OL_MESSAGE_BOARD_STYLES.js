@@ -138,9 +138,9 @@ export const PopupMessage = styled.div`
   font-size: 18px;
   margin-bottom: 10px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 `;
 
 export const PopupButton = styled.button`
@@ -165,7 +165,7 @@ export const DifficultyTag = styled.div`
   align-items: center;
 `;
 
-const getDifficultyColor = (level) => {
+const getDifficultyColors = (level) => {
   const colors = [
     "green",
     "yellowgreen",
@@ -176,22 +176,16 @@ const getDifficultyColor = (level) => {
     "darkred",
     "maroon",
   ];
-  return colors[level - 1];
+  return colors.slice(0, level);
 };
 
 export const DifficultyIndicator = ({ difficulty }) => {
-  const bars = Array.from({ length: difficulty }).map((_, index) => (
-    <div
-      key={index}
-      style={{
-        width: "12px",
-        height: "20px",
-        backgroundColor: getDifficultyColor(difficulty),
-        margin: "0 2px",
-        borderRadius: "4px",
-        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-      }}
-    />
+  const colors = getDifficultyColors(difficulty);
+  const bars = colors.map((color, index) => (
+    <svg key={index} width="20" height="20" style={{ margin: "0 2px" }}>
+      <polygon points="10,0 15,10 10,20 5,10" fill={color} />
+      <polygon points="12,2 18,10 12,18 6,10" fill="white" opacity="0.3" />
+    </svg>
   ));
 
   return <div style={{ display: "flex" }}>{bars}</div>;
