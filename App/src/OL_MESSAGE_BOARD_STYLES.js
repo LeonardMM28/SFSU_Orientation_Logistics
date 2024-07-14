@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { GiCrossedChains } from "react-icons/gi";
 
 export const BoardContainer = styled.div`
@@ -8,7 +8,7 @@ export const BoardContainer = styled.div`
   justify-content: center;
   height: 100vh;
   background: linear-gradient(135deg, #a0acadff 0%, #97d8b2ff 100%);
-  font-family: "Roboto", sans-serif;
+  font-family: "VT323", monospace;
   position: relative;
 `;
 
@@ -137,9 +137,108 @@ export const Popup = styled.div`
 export const PopupMessage = styled.div`
   font-size: 18px;
   margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const PopupButton = styled.button`
+  background-color: #331832ff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #f9a620ff;
+  }
+`;
+
+export const DifficultyTag = styled.div`
+  font-size: 14px;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+`;
+
+const getDifficultyColor = (level) => {
+  const colors = [
+    "green",
+    "yellowgreen",
+    "yellow",
+    "orange",
+    "orangered",
+    "red",
+    "darkred",
+    "maroon",
+  ];
+  return colors[level - 1];
+};
+
+export const DifficultyIndicator = ({ difficulty }) => {
+  const bars = Array.from({ length: difficulty }).map((_, index) => (
+    <div
+      key={index}
+      style={{
+        width: "12px",
+        height: "20px",
+        backgroundColor: getDifficultyColor(difficulty),
+        margin: "0 2px",
+        borderRadius: "4px",
+        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+      }}
+    />
+  ));
+
+  return <div style={{ display: "flex" }}>{bars}</div>;
+};
+
+export const LargePopup = styled.div`
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+  background-color: #ffd449ff;
+  padding: 20px;
+  border: 2px solid #331832ff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const PopupPicture = styled.img`
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-bottom: 20px;
+`;
+
+export const PopupDialogue = styled.textarea`
+  width: 100%;
+  height: 100px;
+  margin-bottom: 20px;
+`;
+
+export const MiniGameArea = styled.div`
+  width: 100%;
+  height: 300px;
+  background-color: white;
+  border: 2px solid #331832ff;
+`;
+
+export const CloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
   background-color: #331832ff;
   color: white;
   border: none;

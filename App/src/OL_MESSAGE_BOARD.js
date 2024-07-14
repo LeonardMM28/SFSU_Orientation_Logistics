@@ -16,6 +16,13 @@ import {
   Popup,
   PopupMessage,
   PopupButton,
+  DifficultyTag,
+  DifficultyIndicator,
+  LargePopup,
+  PopupPicture,
+  PopupDialogue,
+  MiniGameArea,
+  CloseButton,
 } from "./OL_MESSAGE_BOARD_STYLES";
 
 // Function to import images dynamically
@@ -32,6 +39,38 @@ const headshots = importAll(
 );
 
 const lockImage = require("./Headshots/lock.png");
+
+// Mapping headshots to difficulty levels (1 to 7)
+const difficultyMapping = {
+  "Xitali.png": 3,
+  "Gio.png": 3,
+  "Matt.png": 4,
+  "Evan.png": 5,
+  "Chris.png": 6,
+  "Miguel.png": 7,
+  "Lyn.png": 8,
+  "Daniel.png": 1,
+  "Drew.png": 2,
+  "Gracie.png": 2,
+  "Giovanna.png": 1,
+  "Hannah.png": 1,
+  "Isabella.png": 1,
+  "Jacob.png": 1,
+  "Jay.png": 1,
+  "Mariah.png": 1,
+  "Mia.png": 1,
+  "Nadia.png": 1,
+  "Seth.png": 1,
+  "Tamanna.png": 1,
+  "Tullah.png": 1,
+  "Tyler.png": 1,
+  "Adrian.png": 1,
+  "Atiksha.png": 1,
+  "Bobbie.png": 1,
+  "Briseyda.png": 1,
+  "Casey.png": 1,
+  "Evelio.png": 1,
+};
 
 const cellImageMapping = [
   "Xitali.png",
@@ -101,7 +140,12 @@ const cellImageMapping = [
 
 function OL_MESSAGE_BOARD() {
   const [position, setPosition] = useState({ top: 0, left: 0 });
-  const [popup, setPopup] = useState({ visible: false, name: "" });
+  const [popup, setPopup] = useState({
+    visible: false,
+    name: "",
+    difficulty: 0,
+  });
+  const [largePopup, setLargePopup] = useState({ visible: false, name: "" });
   const gridRef = useRef(null);
   const [cellSize, setCellSize] = useState(60);
 
@@ -155,13 +199,23 @@ function OL_MESSAGE_BOARD() {
 
       if (imageName) {
         const name = imageName.split(".")[0];
-        setPopup({ visible: true, name });
+        const difficulty = difficultyMapping[imageName];
+        setPopup({ visible: true, name, difficulty });
       } else {
-        setPopup({ visible: false, name: "" });
+        setPopup({ visible: false, name: "", difficulty: 0 });
       }
 
       return { top: newTop, left: newLeft };
     });
+  };
+
+  const handleRescueClick = () => {
+    setLargePopup({ visible: true, name: popup.name });
+    setPopup({ visible: false, name: "", difficulty: 0 });
+  };
+
+  const closeLargePopup = () => {
+    setLargePopup({ visible: false, name: "" });
   };
 
   return (
@@ -218,11 +272,29 @@ function OL_MESSAGE_BOARD() {
       </ArrowControls>
       {popup.visible && (
         <Popup>
-          <PopupMessage>Do you want to rescue {popup.name}?</PopupMessage>
-          <PopupButton onClick={() => alert(`You rescued ${popup.name}!`)}>
-            YES!
-          </PopupButton>
+          <PopupMessage>
+            Do you want to rescue {popup.name}?
+            <DifficultyTag>
+              Difficulty: <DifficultyIndicator difficulty={popup.difficulty} />
+            </DifficultyTag>
+          </PopupMessage>
+          <PopupButton onClick={handleRescueClick}>YES!</PopupButton>
         </Popup>
+      )}
+      {largePopup.visible && (
+        <LargePopup>
+          <CloseButton onClick={closeLargePopup}>X</CloseButton>
+          <PopupPicture
+            src={headshots[`${largePopup.name}.png`]}
+            alt={largePopup.name}
+          />
+          <PopupDialogue
+            placeholder={`Dialogue for ${largePopup.name}`}
+            rows="4"
+            cols="50"
+          />
+          <MiniGameArea>Mini Game Area</MiniGameArea>
+        </LargePopup>
       )}
     </BoardContainer>
   );
