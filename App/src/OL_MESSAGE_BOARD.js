@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
 import {
   ArrowButton,
   ArrowControls,
@@ -21,13 +22,16 @@ import {
   LargePopup,
   PopupPicture,
   PopupDialogue,
-  MiniGameArea,
+  MiniGameArea as MiniGameAreaStyle,
   CloseButton,
   DialogueContainer,
   DialogueBox,
+  FightButton,
+  LifeBar,
+  Life,
+  Monster,
 } from "./OL_MESSAGE_BOARD_STYLES";
 
-// Function to import images dynamically
 const importAll = (r) => {
   let images = {};
   r.keys().map((item, index) => {
@@ -46,7 +50,6 @@ const headshotsTalking = importAll(
 
 const lockImage = require("./Headshots/lock.png");
 
-// Mapping headshots to difficulty levels (1 to 7)
 const difficultyMapping = {
   "Xitali.png": 3,
   "Gio.png": 3,
@@ -255,7 +258,6 @@ function OL_MESSAGE_BOARD() {
         newLeft += cellSize;
       }
 
-      // Determine the name of the person at the new position
       const colIndex = (newLeft - gridRect.left) / cellSize;
       const rowIndex = (newTop - gridRect.top) / cellSize;
       const cellIndex = rowIndex * 7 + colIndex;
@@ -284,6 +286,71 @@ function OL_MESSAGE_BOARD() {
     setDialogueIndex(0);
     setLetterIndex(0);
     setIsTalking(false);
+  };
+
+  const MiniGame = () => {
+    const [gameStarted, setGameStarted] = useState(false);
+    const [monsterPosition, setMonsterPosition] = useState({ top: 0, left: 0 });
+    const [monsterSize, setMonsterSize] = useState(50);
+    const [life, setLife] = useState(100);
+    const gameAreaRef = useRef(null);
+    const monsterRef = useRef(null);
+
+    useEffect(() => {
+      let interval;
+      if (gameStarted) {
+        interval = setInterval(() => {
+          const gameArea = gameAreaRef.current;
+          if (gameArea) {
+            const maxTop = gameArea.clientHeight - monsterSize;
+            const maxLeft = gameArea.clientWidth - monsterSize;
+            const newTop = Math.random() * maxTop;
+            const newLeft = Math.random() * maxLeft;
+            const newSize = 30 + Math.random() * 70;
+
+            setMonsterPosition({ top: newTop, left: newLeft });
+            setMonsterSize(newSize);
+          }
+        }, 1000);
+      }
+
+      return () => clearInterval(interval);
+    }, [gameStarted, monsterSize]);
+
+    const handleFightClick = () => {
+      setGameStarted(true);
+    };
+
+    const handleMonsterClick = () => {
+      setLife((prevLife) => Math.max(prevLife - 10, 0));
+    };
+
+    return (
+      <MiniGameAreaStyle ref={gameAreaRef}>
+        {!gameStarted && (
+          <FightButton onClick={handleFightClick}>FIGHT</FightButton>
+        )}
+        {gameStarted && (
+          <>
+            <LifeBar>
+              <Life width={life} />
+            </LifeBar>
+            <Monster
+              ref={monsterRef}
+              src="./Headshots/Information_Overload_Ogre.png"
+              alt="Monster"
+              style={{
+                top: `${monsterPosition.top}px`,
+                left: `${monsterPosition.left}px`,
+                width: `${monsterSize}px`,
+                height: `${monsterSize}px`,
+              }}
+              onClick={handleMonsterClick}
+            />
+          </>
+        )}
+      </MiniGameAreaStyle>
+    );
   };
 
   return (
@@ -364,7 +431,7 @@ function OL_MESSAGE_BOARD() {
               />
             </DialogueBox>
           </DialogueContainer>
-          <MiniGameArea>Mini Game Area</MiniGameArea>
+          <MiniGame />
         </LargePopup>
       )}
     </BoardContainer>

@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { GiCrossedChains } from "react-icons/gi";
 
 export const BoardContainer = styled.div`
@@ -19,7 +19,7 @@ export const Grid = styled.div`
   background: #ffd449ff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 420px;
-  height: 540px; /* Adjusted height for the new row */
+  height: 540px;
 `;
 
 export const GridRow = styled.div`
@@ -278,4 +278,42 @@ export const DialogueBox = styled.div`
     border-bottom: 10px solid transparent;
     border-right: 20px solid #331832ff;
   }
+`;
+
+export const FightButton = styled.button`
+  background-color: #331832ff;
+  color: white;
+  border: none;
+  padding: 20px 40px;
+  cursor: pointer;
+  font-size: 24px;
+  border-radius: 10px;
+  transition: background-color 0.3s;
+  position: absolute;
+
+  &:hover {
+    background-color: #f9a620ff;
+  }
+`;
+
+export const Monster = styled.img`
+  position: absolute;
+  cursor: pointer;
+`;
+
+export const LifeBar = styled.div`
+  width: 100%;
+  height: 30px;
+  background-color: #ffd449ff;
+  border: 2px solid #331832ff;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+`;
+
+export const Life = styled.div`
+  height: 100%;
+  background-color: red;
+  width: ${({ width }) => width}%;
+  transition: width 0.3s;
 `;
