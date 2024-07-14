@@ -162,6 +162,7 @@ function OL_MESSAGE_BOARD() {
   const [isTalking, setIsTalking] = useState(false);
   const gridRef = useRef(null);
   const [cellSize, setCellSize] = useState(60);
+  const [gameStarted, setGameStarted] = useState(false); // New state for game
 
   const dialogues = [
     "Hello there! How can I help you today?",
@@ -193,7 +194,8 @@ function OL_MESSAGE_BOARD() {
   useEffect(() => {
     let typingInterval;
     let talkingInterval;
-    if (largePopup.visible) {
+    if (largePopup.visible && !gameStarted) {
+      // Ensure dialogue continues only if game hasn't started
       typingInterval = setInterval(() => {
         setCurrentDialogue((prev) => {
           if (letterIndex < dialogues[dialogueIndex].length) {
@@ -224,7 +226,7 @@ function OL_MESSAGE_BOARD() {
         clearInterval(talkingInterval);
       };
     }
-  }, [largePopup.visible, dialogueIndex, letterIndex]);
+  }, [largePopup.visible, dialogueIndex, letterIndex, gameStarted]); // Add gameStarted to dependency
 
   useEffect(() => {
     if (largePopup.visible) {
@@ -286,10 +288,10 @@ function OL_MESSAGE_BOARD() {
     setDialogueIndex(0);
     setLetterIndex(0);
     setIsTalking(false);
+    setGameStarted(false); // Reset game state when popup is closed
   };
 
   const MiniGame = () => {
-    const [gameStarted, setGameStarted] = useState(false);
     const [monsterPosition, setMonsterPosition] = useState({ top: 0, left: 0 });
     const [monsterSize, setMonsterSize] = useState(50);
     const [life, setLife] = useState(100);
