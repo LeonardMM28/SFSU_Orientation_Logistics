@@ -23,6 +23,8 @@ import {
   PopupDialogue,
   MiniGameArea,
   CloseButton,
+  DialogueContainer,
+  DialogueBox,
 } from "./OL_MESSAGE_BOARD_STYLES";
 
 // Function to import images dynamically
@@ -351,8 +353,17 @@ function OL_MESSAGE_BOARD() {
       {largePopup.visible && (
         <LargePopup>
           <CloseButton onClick={closeLargePopup}>X</CloseButton>
-          <PopupPicture src={currentImage} alt={largePopup.name} />
-          <PopupDialogue value={currentDialogue} readOnly rows="4" cols="50" />
+          <DialogueContainer>
+            <PopupPicture src={currentImage} alt={largePopup.name} />
+            <DialogueBox>
+              <PopupDialogue
+                value={currentDialogue}
+                readOnly
+                rows="4"
+                cols="50"
+              />
+            </DialogueBox>
+          </DialogueContainer>
           <MiniGameArea>Mini Game Area</MiniGameArea>
         </LargePopup>
       )}

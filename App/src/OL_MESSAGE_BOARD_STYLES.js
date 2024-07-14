@@ -248,3 +248,34 @@ export const CloseButton = styled.button`
     background-color: #f9a620ff;
   }
 `;
+
+export const DialogueContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  position: relative;
+`;
+
+export const DialogueBox = styled.div`
+  position: relative;
+  background-color: #ffd449ff;
+  border: 2px solid #331832ff;
+  border-radius: 10px;
+  padding: 10px;
+  width: calc(100% - 150px);
+  margin-left: 10px;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 25%;
+    left: -20px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 20px solid #331832ff;
+  }
+`;
