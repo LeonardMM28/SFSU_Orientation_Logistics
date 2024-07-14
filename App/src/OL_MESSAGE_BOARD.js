@@ -187,36 +187,49 @@ function OL_MESSAGE_BOARD() {
 
   useEffect(() => {
     let typingInterval;
+    let talkingInterval;
     if (largePopup.visible) {
       typingInterval = setInterval(() => {
         setCurrentDialogue((prev) => {
           if (letterIndex < dialogues[dialogueIndex].length) {
             setLetterIndex(letterIndex + 1);
-            setIsTalking(true);
-            setCurrentImage(headshotsTalking[`${largePopup.name}.png`]);
             return prev + dialogues[dialogueIndex][letterIndex];
           } else {
-            setIsTalking(false);
-            setCurrentImage(headshots[`${largePopup.name}.png`]);
             clearInterval(typingInterval);
+            clearInterval(talkingInterval);
             setTimeout(() => {
               setLetterIndex(0);
               setDialogueIndex(
                 (prevIndex) => (prevIndex + 1) % dialogues.length
               );
               setCurrentDialogue("");
-              setIsTalking(true);
+              setIsTalking(false);
             }, 2000); // Pause before showing the next dialogue
             return prev;
           }
         });
       }, 100);
 
+      talkingInterval = setInterval(() => {
+        setIsTalking((prev) => !prev);
+      }, 100); // Switch between talking and normal every 50ms
+
       return () => {
         clearInterval(typingInterval);
+        clearInterval(talkingInterval);
       };
     }
   }, [largePopup.visible, dialogueIndex, letterIndex]);
+
+  useEffect(() => {
+    if (largePopup.visible) {
+      setCurrentImage(
+        isTalking
+          ? headshotsTalking[`${largePopup.name}.png`]
+          : headshots[`${largePopup.name}.png`]
+      );
+    }
+  }, [isTalking, largePopup.visible, largePopup.name]);
 
   const movePlayer = (direction) => {
     setPosition((prevPosition) => {
@@ -288,6 +301,7 @@ function OL_MESSAGE_BOARD() {
                         src={headshots[imageName]}
                         alt={`Headshot ${cellIndex + 1}`}
                         cellSize={cellSize}
+                        isTalking={isTalking}
                       />
                       <OverlayContainer>
                         <ChainIcon size={cellSize} />
