@@ -187,49 +187,36 @@ function OL_MESSAGE_BOARD() {
 
   useEffect(() => {
     let typingInterval;
-    let talkingInterval;
     if (largePopup.visible) {
       typingInterval = setInterval(() => {
         setCurrentDialogue((prev) => {
           if (letterIndex < dialogues[dialogueIndex].length) {
             setLetterIndex(letterIndex + 1);
+            setIsTalking(true);
+            setCurrentImage(headshotsTalking[`${largePopup.name}.png`]);
             return prev + dialogues[dialogueIndex][letterIndex];
           } else {
+            setIsTalking(false);
+            setCurrentImage(headshots[`${largePopup.name}.png`]);
             clearInterval(typingInterval);
-            clearInterval(talkingInterval);
             setTimeout(() => {
               setLetterIndex(0);
               setDialogueIndex(
                 (prevIndex) => (prevIndex + 1) % dialogues.length
               );
               setCurrentDialogue("");
-              setIsTalking(false);
+              setIsTalking(true);
             }, 2000); // Pause before showing the next dialogue
             return prev;
           }
         });
       }, 100);
 
-      talkingInterval = setInterval(() => {
-        setIsTalking((prev) => !prev);
-      }, 100);
-
       return () => {
         clearInterval(typingInterval);
-        clearInterval(talkingInterval);
       };
     }
   }, [largePopup.visible, dialogueIndex, letterIndex]);
-
-  useEffect(() => {
-    if (largePopup.visible) {
-      setCurrentImage(
-        isTalking
-          ? headshotsTalking[`${largePopup.name}.png`]
-          : headshots[`${largePopup.name}.png`]
-      );
-    }
-  }, [isTalking, largePopup.visible, largePopup.name]);
 
   const movePlayer = (direction) => {
     setPosition((prevPosition) => {
