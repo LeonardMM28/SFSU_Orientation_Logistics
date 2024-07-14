@@ -22,15 +22,11 @@ import {
   LargePopup,
   PopupPicture,
   PopupDialogue,
-  MiniGameArea as MiniGameAreaStyle,
   CloseButton,
   DialogueContainer,
   DialogueBox,
-  FightButton,
-  LifeBar,
-  Life,
-  Monster,
 } from "./OL_MESSAGE_BOARD_STYLES";
+import MiniGame from "./OL_MESSAGE_GAME";
 
 const importAll = (r) => {
   let images = {};
@@ -162,7 +158,7 @@ function OL_MESSAGE_BOARD() {
   const [isTalking, setIsTalking] = useState(false);
   const gridRef = useRef(null);
   const [cellSize, setCellSize] = useState(60);
-  const [gameStarted, setGameStarted] = useState(false); // New state for game
+  const [gameStarted, setGameStarted] = useState(false);
 
   const dialogues = [
     "Hello there! How can I help you today?",
@@ -178,7 +174,7 @@ function OL_MESSAGE_BOARD() {
       setCellSize(newSize);
 
       const gridRect = gridRef.current.getBoundingClientRect();
-      const initialTop = gridRect.top + newSize * 7; // Updated to 8 rows
+      const initialTop = gridRect.top + newSize * 7;
       const initialLeft = gridRect.left + newSize * 3;
 
       setPosition({ top: initialTop, left: initialLeft });
@@ -195,12 +191,12 @@ function OL_MESSAGE_BOARD() {
     let typingInterval;
     let talkingInterval;
     if (largePopup.visible && !gameStarted) {
-      // Ensure dialogue continues only if game hasn't started
       typingInterval = setInterval(() => {
         setCurrentDialogue((prev) => {
           if (letterIndex < dialogues[dialogueIndex].length) {
-            setLetterIndex(letterIndex + 1);
-            return prev + dialogues[dialogueIndex][letterIndex];
+            const nextLetterIndex = letterIndex + 1;
+            setLetterIndex(nextLetterIndex);
+            return dialogues[dialogueIndex].slice(0, nextLetterIndex);
           } else {
             clearInterval(typingInterval);
             clearInterval(talkingInterval);
@@ -211,7 +207,7 @@ function OL_MESSAGE_BOARD() {
               );
               setCurrentDialogue("");
               setIsTalking(false);
-            }, 2000); // Pause before showing the next dialogue
+            }, 2000);
             return prev;
           }
         });
@@ -219,14 +215,14 @@ function OL_MESSAGE_BOARD() {
 
       talkingInterval = setInterval(() => {
         setIsTalking((prev) => !prev);
-      }, 100); // Switch between talking and normal every 50ms
+      }, 100);
 
       return () => {
         clearInterval(typingInterval);
         clearInterval(talkingInterval);
       };
     }
-  }, [largePopup.visible, dialogueIndex, letterIndex, gameStarted]); // Add gameStarted to dependency
+  }, [largePopup.visible, dialogueIndex, letterIndex, gameStarted]);
 
   useEffect(() => {
     if (largePopup.visible) {
@@ -246,10 +242,7 @@ function OL_MESSAGE_BOARD() {
 
       if (direction === "up" && newTop > gridRect.top) {
         newTop -= cellSize;
-      } else if (
-        direction === "down" &&
-        newTop < gridRect.top + cellSize * 8 // Updated to 8 rows
-      ) {
+      } else if (direction === "down" && newTop < gridRect.top + cellSize * 8) {
         newTop += cellSize;
       } else if (direction === "left" && newLeft > gridRect.left) {
         newLeft -= cellSize;
@@ -288,71 +281,7 @@ function OL_MESSAGE_BOARD() {
     setDialogueIndex(0);
     setLetterIndex(0);
     setIsTalking(false);
-    setGameStarted(false); // Reset game state when popup is closed
-  };
-
-  const MiniGame = () => {
-    const [monsterPosition, setMonsterPosition] = useState({ top: 0, left: 0 });
-    const [monsterSize, setMonsterSize] = useState(50);
-    const [life, setLife] = useState(100);
-    const gameAreaRef = useRef(null);
-    const monsterRef = useRef(null);
-
-    useEffect(() => {
-      let interval;
-      if (gameStarted) {
-        interval = setInterval(() => {
-          const gameArea = gameAreaRef.current;
-          if (gameArea) {
-            const maxTop = gameArea.clientHeight - monsterSize;
-            const maxLeft = gameArea.clientWidth - monsterSize;
-            const newTop = Math.random() * maxTop;
-            const newLeft = Math.random() * maxLeft;
-            const newSize = 30 + Math.random() * 100;
-
-            setMonsterPosition({ top: newTop, left: newLeft });
-            setMonsterSize(newSize);
-          }
-        }, 1000);
-      }
-
-      return () => clearInterval(interval);
-    }, [gameStarted, monsterSize]);
-
-    const handleFightClick = () => {
-      setGameStarted(true);
-    };
-
-    const handleMonsterClick = () => {
-      setLife((prevLife) => Math.max(prevLife - 10, 0));
-    };
-
-    return (
-      <MiniGameAreaStyle ref={gameAreaRef}>
-        {!gameStarted && (
-          <FightButton onClick={handleFightClick}>FIGHT</FightButton>
-        )}
-        {gameStarted && (
-          <>
-            <LifeBar>
-              <Life width={life} />
-            </LifeBar>
-            <Monster
-              ref={monsterRef}
-              src={require("./Headshots/Mental_Health_Monster.png")}
-              alt="Monster"
-              style={{
-                top: `${monsterPosition.top}px`,
-                left: `${monsterPosition.left}px`,
-                width: `${monsterSize}px`,
-                height: `${monsterSize}px`,
-              }}
-              onClick={handleMonsterClick}
-            />
-          </>
-        )}
-      </MiniGameAreaStyle>
-    );
+    setGameStarted(false);
   };
 
   return (
@@ -433,7 +362,7 @@ function OL_MESSAGE_BOARD() {
               />
             </DialogueBox>
           </DialogueContainer>
-          <MiniGame />
+          <MiniGame gameStarted={gameStarted} setGameStarted={setGameStarted} />
         </LargePopup>
       )}
     </BoardContainer>
