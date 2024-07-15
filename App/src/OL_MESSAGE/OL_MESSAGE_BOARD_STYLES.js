@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import { GiSnakeSpiral } from "react-icons/gi";
 import { GiCrossedChains } from "react-icons/gi";
 
 export const BoardContainer = styled.div`
@@ -312,9 +313,13 @@ const hitAnimation = keyframes`
 export const Monster = styled.img`
   position: absolute;
   cursor: pointer;
-  
+  transition: all 0.3s ease-in-out; /* Smooth transitions */
   &.hit {
     animation: ${hitAnimation} 0.2s ease-out;
+  }
+  &.defeated {
+    transform: rotate(90deg);
+    z-index: 10; /* Ensure it's on top */
   }
 `;
 
@@ -335,6 +340,13 @@ export const Life = styled.div`
   background-color: red;
   width: ${({ width }) => width}%;
   transition: width 0.3s;
+`;
+
+export const Symbol = styled(GiSnakeSpiral)`
+  position: absolute;
+  font-size: 30px;
+  color: #ff0000;
+  z-index: 11; /* Ensure it's on top of the monster */
 `;
 
 const fadeOut = keyframes`

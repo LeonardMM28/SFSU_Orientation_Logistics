@@ -6,7 +6,9 @@ import {
   Life,
   Monster,
   HitWord,
+  Symbol,
 } from "./OL_MESSAGE_BOARD_STYLES";
+import { GiSnakeSpiral } from "react-icons/gi";
 
 const defeatWords = {
   "Procrastination_Phantom.png": [
@@ -206,6 +208,7 @@ const MiniGame = ({
   const [life, setLife] = useState(monsterLife);
   const [hitWords, setHitWords] = useState([]);
   const [isHit, setIsHit] = useState(false);
+  const [isDefeated, setIsDefeated] = useState(false);
   const gameAreaRef = useRef(null);
   const monsterRef = useRef(null);
   const [monsterSrc, setMonsterSrc] = useState("");
@@ -224,7 +227,7 @@ const MiniGame = ({
 
   useEffect(() => {
     let interval;
-    if (gameStarted) {
+    if (gameStarted && !isDefeated) {
       interval = setInterval(() => {
         const gameArea = gameAreaRef.current;
         if (gameArea) {
@@ -241,13 +244,15 @@ const MiniGame = ({
     }
 
     return () => clearInterval(interval);
-  }, [gameStarted, monsterSize]);
+  }, [gameStarted, isDefeated, monsterSize]);
 
   const handleFightClick = () => {
     setGameStarted(true);
   };
 
   const handleMonsterClick = (e) => {
+    if (isDefeated) return;
+
     setLife((prevLife) => Math.max(prevLife - 10, 0));
 
     const gameAreaRect = gameAreaRef.current.getBoundingClientRect();
@@ -263,7 +268,16 @@ const MiniGame = ({
     ]);
 
     setIsHit(true);
-    setTimeout(() => setIsHit(false), 100); // Duration of the hit animation
+    setTimeout(() => setIsHit(false), 200); // Duration of the hit animation
+
+    if (life - 10 <= 0) {
+      setIsDefeated(true);
+      setMonsterPosition({
+        top: gameAreaRect.height / 2 - 100,
+        left: gameAreaRect.width / 2 - 100,
+      });
+      setMonsterSize(200);
+    }
   };
 
   return (
@@ -286,7 +300,7 @@ const MiniGame = ({
             ref={monsterRef}
             src={monsterSrc}
             alt="Monster"
-            className={isHit ? "hit" : ""}
+            className={`${isHit ? "hit" : ""} ${isDefeated ? "defeated" : ""}`}
             style={{
               top: `${monsterPosition.top}px`,
               left: `${monsterPosition.left}px`,
@@ -295,6 +309,40 @@ const MiniGame = ({
             }}
             onClick={handleMonsterClick}
           />
+          {isDefeated && (
+            <>
+              <Symbol
+                style={{
+                  top: `${monsterPosition.top + 50}px`,
+                  left: `${monsterPosition.left + 50}px`,
+                }}
+              />
+              <Symbol
+                style={{
+                  top: `${monsterPosition.top - 20}px`,
+                  left: `${monsterPosition.left + 100}px`,
+                }}
+              />
+              <Symbol
+                style={{
+                  top: `${monsterPosition.top + 120}px`,
+                  left: `${monsterPosition.left + 150}px`,
+                }}
+              />
+              <Symbol
+                style={{
+                  top: `${monsterPosition.top + 80}px`,
+                  left: `${monsterPosition.left - 40}px`,
+                }}
+              />
+              <Symbol
+                style={{
+                  top: `${monsterPosition.top + 50}px`,
+                  left: `${monsterPosition.left + 200}px`,
+                }}
+              />
+            </>
+          )}
           {hitWords.map(({ word, x, y, id }) => (
             <HitWord key={id} style={{ top: `${y}px`, left: `${x}px` }}>
               {word}
