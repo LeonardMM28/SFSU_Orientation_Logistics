@@ -297,10 +297,25 @@ export const FightButton = styled.button`
   }
 `;
 
+const hitAnimation = keyframes`
+  0% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.3);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+`;
+
 export const Monster = styled.img`
   position: absolute;
   cursor: pointer;
-  transition: all 0.3s ease-in-out; /* Smooth transitions */
+  
+  &.hit {
+    animation: ${hitAnimation} 0.2s ease-out;
+  }
 `;
 
 export const LifeBar = styled.div`

@@ -205,6 +205,7 @@ const MiniGame = ({
   const [monsterSize, setMonsterSize] = useState(50);
   const [life, setLife] = useState(monsterLife);
   const [hitWords, setHitWords] = useState([]);
+  const [isHit, setIsHit] = useState(false);
   const gameAreaRef = useRef(null);
   const monsterRef = useRef(null);
   const [monsterSrc, setMonsterSrc] = useState("");
@@ -260,6 +261,9 @@ const MiniGame = ({
       ...prevWords,
       { word: randomWord, x: hitX, y: hitY, id: Date.now() },
     ]);
+
+    setIsHit(true);
+    setTimeout(() => setIsHit(false), 100); // Duration of the hit animation
   };
 
   return (
@@ -282,6 +286,7 @@ const MiniGame = ({
             ref={monsterRef}
             src={monsterSrc}
             alt="Monster"
+            className={isHit ? "hit" : ""}
             style={{
               top: `${monsterPosition.top}px`,
               left: `${monsterPosition.left}px`,
