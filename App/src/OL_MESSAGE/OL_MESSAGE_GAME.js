@@ -290,7 +290,17 @@ const MiniGame = ({
       )}
       {gameStarted && (
         <>
-          <div style={{ textAlign: "center", position: "absolute", left: "50%", transform: "translateX(-50%)", top: "5px", color: "white", fontSize: "25px" }}>
+          <div
+            style={{
+              textAlign: "center",
+              position: "absolute",
+              left: "50%",
+              transform: "translateX(-50%)",
+              top: "5px",
+              color: "white",
+              fontSize: "25px",
+            }}
+          >
             {monsterName}
           </div>
           <LifeBar

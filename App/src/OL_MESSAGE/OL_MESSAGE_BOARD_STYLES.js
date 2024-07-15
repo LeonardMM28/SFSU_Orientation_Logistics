@@ -240,18 +240,16 @@ export const LargePopup = styled.div`
 `;
 
 export const PopupPicture = styled.img`
-  width: 100px;
-  height: 100px;
+  height: 150px;
   object-fit: cover;
   margin-bottom: 20px;
 `;
 
 export const PopupDialogue = styled.textarea`
   font-family: "VT323", monospace;
-
+font-size: 35px;
   width: 100%;
-  height: 100px;
-  margin-bottom: 20px;
+  height: 80px;
   background-color: #fff9c4;
   border: none;
 `;
@@ -324,10 +322,12 @@ export const FightButton = styled.button`
   border: none;
   padding: 20px 40px;
   cursor: pointer;
-  font-size: 24px;
+  font-size: 60px;
   border-radius: 10px;
   transition: background-color 0.3s;
   position: absolute;
+  left: 40%;
+  top: 40%;
 
   &:hover {
     background-color: #7b1fa2;

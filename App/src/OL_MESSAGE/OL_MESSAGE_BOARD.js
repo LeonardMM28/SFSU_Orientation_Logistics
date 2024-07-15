@@ -269,7 +269,7 @@ function OL_MESSAGE_BOARD() {
     `Heeeeeyy ${username} please help me! The ${formatMonsterName(
       monster
     )} has trapped me in here! I need your help.`,
-    "Defeat IT and bring me back to HQ so we can continue with the Orientation",
+    "Defeat it and bring me back to HQ so we can continue with the Orientation <3",
     "Click on 'Fight' and hit the monster until you knock it.",
   ];
   const updateCellSize = () => {
