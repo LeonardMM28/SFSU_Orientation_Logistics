@@ -304,13 +304,15 @@ export const Monster = styled.img`
 `;
 
 export const LifeBar = styled.div`
-  width: 100%;
+  width: ${({ maxWidth }) => maxWidth}%;
   height: 30px;
   background-color: #ffd449ff;
   border: 2px solid #331832ff;
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 export const Life = styled.div`
