@@ -250,7 +250,9 @@ export const PopupDialogue = styled.textarea`
   height: 150px;
   background-color: #fff9c4;
   border: none;
+  overflow-y: auto; /* Enable vertical scrolling */
 `;
+
 
 export const MiniGameArea = styled.div`
   width: 100%;

@@ -261,6 +261,7 @@ function OL_MESSAGE_BOARD() {
   const gridRef = useRef(null);
   const [cellSize, setCellSize] = useState(60);
   const [gameStarted, setGameStarted] = useState(false);
+  const dialogueBoxRef = useRef(null);
 
   const formatMonsterName = (monster) =>
     monster.replace(/_/g, " ").replace(".png", "");
@@ -272,6 +273,7 @@ function OL_MESSAGE_BOARD() {
     "Defeat it and bring me back to HQ so we can continue with the Orientation <3",
     "Click on 'Fight' and hit the monster until you knock it.",
   ];
+
   const updateCellSize = () => {
     if (gridRef.current) {
       const gridWidth = gridRef.current.clientWidth;
@@ -340,6 +342,12 @@ function OL_MESSAGE_BOARD() {
       );
     }
   }, [isTalking, largePopup.visible, largePopup.name]);
+
+  useEffect(() => {
+    if (dialogueBoxRef.current) {
+      dialogueBoxRef.current.scrollTop = dialogueBoxRef.current.scrollHeight;
+    }
+  }, [currentDialogue]);
 
   const movePlayer = (direction) => {
     setPosition((prevPosition) => {
@@ -471,6 +479,7 @@ function OL_MESSAGE_BOARD() {
                 readOnly
                 rows="4"
                 cols="50"
+                ref={dialogueBoxRef}
               />
             </DialogueBox>
           </DialogueContainer>
