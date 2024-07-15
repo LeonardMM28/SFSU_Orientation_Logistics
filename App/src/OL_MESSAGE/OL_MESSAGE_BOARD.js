@@ -63,7 +63,11 @@ const characterMapping = {
     monster: "Work_Life_Imbalance_Wraith.png",
     life: 700,
   },
-  "Chris.png": { difficulty: 6, monster: "Student_Debt_Serpent.png", life: 800 },
+  "Chris.png": {
+    difficulty: 6,
+    monster: "Student_Debt_Serpent.png",
+    life: 800,
+  },
   "Miguel.png": { difficulty: 7, monster: "Budget_Cut_Beast.png", life: 900 },
   "Lyn.png": { difficulty: 8, monster: "Tuition_Hike_Hydra.png", life: 1000 },
   "Daniel.png": {
@@ -113,7 +117,11 @@ const characterMapping = {
     monster: "Mental_Health_Monster.png",
     life: 300,
   },
-  "Seth.png": { difficulty: 1, monster: "Mental_Health_Monster.png", life: 300 },
+  "Seth.png": {
+    difficulty: 1,
+    monster: "Mental_Health_Monster.png",
+    life: 300,
+  },
   "Tamanna.png": {
     difficulty: 1,
     monster: "Mental_Health_Monster.png",
@@ -249,13 +257,11 @@ function OL_MESSAGE_BOARD() {
   const [cellSize, setCellSize] = useState(60);
   const [gameStarted, setGameStarted] = useState(false);
 
-  const dialogues = [
-    "Hello there! How can I help you today?",
-    "It seems like you need some assistance.",
-    "Let's work together to solve this problem.",
-    "Thank you for your patience.",
+  const updateDialogues = (username, monster) => [
+    `Heeeeeyy ${username} please help me! The ${monster} has trapped me in here! I need your help.`,
+    "Defeat IT and bring me back to HQ so we can continue with the Orientation",
+    "Click on 'Fight' and hit the monster until you knock it.",
   ];
-
   const updateCellSize = () => {
     if (gridRef.current) {
       const gridWidth = gridRef.current.clientWidth;
@@ -280,6 +286,8 @@ function OL_MESSAGE_BOARD() {
     let typingInterval;
     let talkingInterval;
     if (largePopup.visible && !gameStarted) {
+      const dialogues = updateDialogues(largePopup.name, largePopup.monster);
+
       typingInterval = setInterval(() => {
         setCurrentDialogue((prev) => {
           if (letterIndex < dialogues[dialogueIndex].length) {
