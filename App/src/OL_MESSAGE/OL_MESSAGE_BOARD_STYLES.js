@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { GiCrossedChains } from "react-icons/gi";
 
 export const BoardContainer = styled.div`
@@ -320,4 +320,19 @@ export const Life = styled.div`
   background-color: red;
   width: ${({ width }) => width}%;
   transition: width 0.3s;
+`;
+
+const fadeOut = keyframes`
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
+`;
+
+export const HitWord = styled.div`
+  position: absolute;
+  left: ${({ x }) => x}px;
+  top: ${({ y }) => y}px;
+  font-size: 16px;
+  color: red;
+  animation: ${fadeOut} 1s ease-out forwards;
+  pointer-events: none;
 `;
