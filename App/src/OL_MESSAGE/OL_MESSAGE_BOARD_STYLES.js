@@ -325,9 +325,11 @@ export const Life = styled.div`
 const fadeOut = keyframes`
   0% {
     opacity: 1;
+    font-size: 30px;
   }
   100% {
     opacity: 0;
+    font-size: 0px;
     transform: translateY(-20px);
   }
 `;
@@ -337,6 +339,6 @@ export const HitWord = styled.div`
   color: red;
   font-size: 30px;
   font-weight: bold;
-  animation: ${fadeOut} 1s ease-out forwards;
+  animation: ${fadeOut} 5s ease-out forwards;
   pointer-events: none; // To ensure hits can still be detected through the word animations
 `;
