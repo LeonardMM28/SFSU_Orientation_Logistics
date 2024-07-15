@@ -6,6 +6,7 @@ import {
   Life,
   Monster,
 } from "./OL_MESSAGE_BOARD_STYLES";
+import { NULL } from "mysql/lib/protocol/constants/types";
 
 const MiniGame = ({ gameStarted, setGameStarted, monsterImage }) => {
   const [monsterPosition, setMonsterPosition] = useState({ top: 0, left: 0 });
@@ -13,6 +14,19 @@ const MiniGame = ({ gameStarted, setGameStarted, monsterImage }) => {
   const [life, setLife] = useState(100);
   const gameAreaRef = useRef(null);
   const monsterRef = useRef(null);
+  const [monsterSrc, setMonsterSrc] = useState("");
+
+  useEffect(() => {
+    import(`./Headshots/${monsterImage}`)
+      .then((image) => setMonsterSrc(image.default))
+      .catch((error) => {
+        console.error(
+          `Monster image ${monsterImage} not found. Using default image.`,
+          error
+        );
+        setMonsterSrc(require(NULL).default); // Ensure you have a default image available
+      });
+  }, [monsterImage]);
 
   useEffect(() => {
     let interval;
@@ -55,7 +69,7 @@ const MiniGame = ({ gameStarted, setGameStarted, monsterImage }) => {
           </LifeBar>
           <Monster
             ref={monsterRef}
-            src={require(`./Headshots/${monsterImage}`)}
+            src={monsterSrc}
             alt="Monster"
             style={{
               top: `${monsterPosition.top}px`,
