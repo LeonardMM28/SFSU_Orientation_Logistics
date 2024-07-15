@@ -80,6 +80,11 @@ const characterMapping = {
     monster: "Procrastination_Phantom.png",
     life: 400,
   },
+  "Leo.png": {
+    difficulty: 2,
+    monster: "Procrastination_Phantom.png",
+    life: 400,
+  },
   "Gracie.png": {
     difficulty: 2,
     monster: "Procrastination_Phantom.png",
@@ -180,7 +185,7 @@ const cellImageMapping = [
   "Daniel.png",
   null,
   "Drew.png",
-  null,
+  "Leo.png",
   "Gracie.png",
   null,
   "Giovanna.png",
