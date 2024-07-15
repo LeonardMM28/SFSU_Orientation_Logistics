@@ -262,8 +262,13 @@ function OL_MESSAGE_BOARD() {
   const [cellSize, setCellSize] = useState(60);
   const [gameStarted, setGameStarted] = useState(false);
 
+  const formatMonsterName = (monster) =>
+    monster.replace(/_/g, " ").replace(".png", "");
+
   const updateDialogues = (username, monster) => [
-    `Heeeeeyy ${username} please help me! The ${monster} has trapped me in here! I need your help.`,
+    `Heeeeeyy ${username} please help me! The ${formatMonsterName(
+      monster
+    )} has trapped me in here! I need your help.`,
     "Defeat IT and bring me back to HQ so we can continue with the Orientation",
     "Click on 'Fight' and hit the monster until you knock it.",
   ];
