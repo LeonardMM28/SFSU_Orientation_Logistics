@@ -115,9 +115,9 @@ const MiniGame = ({
   const handleMonsterClick = (e) => {
     setLife((prevLife) => Math.max(prevLife - 10, 0));
 
-    const rect = monsterRef.current.getBoundingClientRect();
-    const hitX = e.clientX - rect.left;
-    const hitY = e.clientY - rect.top;
+    const gameAreaRect = gameAreaRef.current.getBoundingClientRect();
+    const hitX = e.clientX - gameAreaRect.left;
+    const hitY = e.clientY - gameAreaRect.top;
 
     const words = defeatWords[monsterImage];
     const randomWord = words[Math.floor(Math.random() * words.length)];

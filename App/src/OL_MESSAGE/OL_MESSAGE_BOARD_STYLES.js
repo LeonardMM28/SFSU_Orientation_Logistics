@@ -335,7 +335,8 @@ const fadeOut = keyframes`
 export const HitWord = styled.div`
   position: absolute;
   color: red;
-  font-size: 16px;
+  font-size: 30px;
   font-weight: bold;
   animation: ${fadeOut} 1s ease-out forwards;
+  pointer-events: none; // To ensure hits can still be detected through the word animations
 `;
