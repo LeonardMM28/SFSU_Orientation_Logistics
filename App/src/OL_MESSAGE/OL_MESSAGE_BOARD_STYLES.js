@@ -322,17 +322,17 @@ export const Life = styled.div`
   transition: width 0.3s;
 `;
 
-const fadeOut = keyframes`
-  0% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-20px); }
+const fadeOutAndShrink = keyframes`
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-20px) scale(0.5); }
 `;
 
 export const HitWord = styled.div`
   position: absolute;
   left: ${({ x }) => x}px;
   top: ${({ y }) => y}px;
-  font-size: 16px;
+  font-size: 32px;
   color: red;
-  animation: ${fadeOut} 1s ease-out forwards;
+  animation: ${fadeOutAndShrink} 1s ease-out forwards;
   pointer-events: none;
 `;
