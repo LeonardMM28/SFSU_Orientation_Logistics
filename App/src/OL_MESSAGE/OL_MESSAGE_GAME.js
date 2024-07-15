@@ -7,7 +7,7 @@ import {
   Monster,
 } from "./OL_MESSAGE_BOARD_STYLES";
 
-const MiniGame = ({ gameStarted, setGameStarted }) => {
+const MiniGame = ({ gameStarted, setGameStarted, monsterImage }) => {
   const [monsterPosition, setMonsterPosition] = useState({ top: 0, left: 0 });
   const [monsterSize, setMonsterSize] = useState(50);
   const [life, setLife] = useState(100);
@@ -55,7 +55,7 @@ const MiniGame = ({ gameStarted, setGameStarted }) => {
           </LifeBar>
           <Monster
             ref={monsterRef}
-            src={require("./Headshots/Mental_Health_Monster.png")}
+            src={require(`./Headshots/${monsterImage}`)}
             alt="Monster"
             style={{
               top: `${monsterPosition.top}px`,
