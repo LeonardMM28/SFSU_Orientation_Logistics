@@ -8,10 +8,15 @@ import {
 } from "./OL_MESSAGE_BOARD_STYLES";
 import { NULL } from "mysql/lib/protocol/constants/types";
 
-const MiniGame = ({ gameStarted, setGameStarted, monsterImage }) => {
+const MiniGame = ({
+  gameStarted,
+  setGameStarted,
+  monsterImage,
+  monsterLife,
+}) => {
   const [monsterPosition, setMonsterPosition] = useState({ top: 0, left: 0 });
   const [monsterSize, setMonsterSize] = useState(50);
-  const [life, setLife] = useState(100);
+  const [life, setLife] = useState(monsterLife);
   const gameAreaRef = useRef(null);
   const monsterRef = useRef(null);
   const [monsterSrc, setMonsterSrc] = useState("");
@@ -65,7 +70,7 @@ const MiniGame = ({ gameStarted, setGameStarted, monsterImage }) => {
       {gameStarted && (
         <>
           <LifeBar>
-            <Life width={life} />
+            <Life width={(life / monsterLife) * 100} />
           </LifeBar>
           <Monster
             ref={monsterRef}

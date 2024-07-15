@@ -47,34 +47,118 @@ const headshotsTalking = importAll(
 const lockImage = require("./Headshots/lock.png");
 
 const characterMapping = {
-  "Xitali.png": { difficulty: 3, monster: "Information_Overload_Ogre.png" },
-  "Gio.png": { difficulty: 3, monster: "Information_Overload_Ogre.png" },
-  "Matt.png": { difficulty: 4, monster: "Burnout_Beast.png" },
-  "Evan.png": { difficulty: 5, monster: "Work_Life_Imbalance_Wraith.png" },
-  "Chris.png": { difficulty: 6, monster: "Student_Debt_Serpent.png" },
-  "Miguel.png": { difficulty: 7, monster: "Budget_Cut_Beast.png" },
-  "Lyn.png": { difficulty: 8, monster: "Tuition_Hike_Hydra.png" },
-  "Daniel.png": { difficulty: 1, monster: "Mental_Health_Monster.png" },
-  "Drew.png": { difficulty: 2, monster: "Procrastination_Phantom.png" },
-  "Gracie.png": { difficulty: 2, monster: "Procrastination_Phantom.png" },
-  "Giovanna.png": { difficulty: 1, monster: "Mental_Health_Monster.png" },
-  "Hannah.png": { difficulty: 1, monster: "Mental_Health_Monster.png" },
-  "Isabella.png": { difficulty: 1, monster: "Mental_Health_Monster.png" },
-  "Jacob.png": { difficulty: 1, monster: "Mental_Health_Monster.png" },
-  "Jay.png": { difficulty: 1, monster: "Mental_Health_Monster.png" },
-  "Mariah.png": { difficulty: 1, monster: "Mental_Health_Monster.png" },
-  "Mia.png": { difficulty: 1, monster: "Mental_Health_Monster.png" },
-  "Nadia.png": { difficulty: 1, monster: "Mental_Health_Monster.png" },
-  "Seth.png": { difficulty: 1, monster: "Mental_Health_Monster.png" },
-  "Tamanna.png": { difficulty: 1, monster: "Mental_Health_Monster.png" },
-  "Tullah.png": { difficulty: 1, monster: "Mental_Health_Monster.png" },
-  "Tyler.png": { difficulty: 1, monster: "Mental_Health_Monster.png" },
-  "Adrian.png": { difficulty: 1, monster: "Mental_Health_Monster.png" },
-  "Atiksha.png": { difficulty: 1, monster: "Mental_Health_Monster.png" },
-  "Bobbie.png": { difficulty: 1, monster: "Mental_Health_Monster.png" },
-  "Briseyda.png": { difficulty: 1, monster: "Mental_Health_Monster.png" },
-  "Casey.png": { difficulty: 1, monster: "Mental_Health_Monster.png" },
-  "Evelio.png": { difficulty: 1, monster: "Mental_Health_Monster.png" },
+  "Xitali.png": {
+    difficulty: 3,
+    monster: "Information_Overload_Ogre.png",
+    life: 30,
+  },
+  "Gio.png": {
+    difficulty: 3,
+    monster: "Information_Overload_Ogre.png",
+    life: 30,
+  },
+  "Matt.png": { difficulty: 4, monster: "Burnout_Beast.png", life: 40 },
+  "Evan.png": {
+    difficulty: 5,
+    monster: "Work_Life_Imbalance_Wraith.png",
+    life: 50,
+  },
+  "Chris.png": { difficulty: 6, monster: "Student_Debt_Serpent.png", life: 60 },
+  "Miguel.png": { difficulty: 7, monster: "Budget_Cut_Beast.png", life: 70 },
+  "Lyn.png": { difficulty: 8, monster: "Tuition_Hike_Hydra.png", life: 80 },
+  "Daniel.png": {
+    difficulty: 1,
+    monster: "Mental_Health_Monster.png",
+    life: 10,
+  },
+  "Drew.png": {
+    difficulty: 2,
+    monster: "Procrastination_Phantom.png",
+    life: 20,
+  },
+  "Gracie.png": {
+    difficulty: 2,
+    monster: "Procrastination_Phantom.png",
+    life: 20,
+  },
+  "Giovanna.png": {
+    difficulty: 1,
+    monster: "Mental_Health_Monster.png",
+    life: 10,
+  },
+  "Hannah.png": {
+    difficulty: 1,
+    monster: "Mental_Health_Monster.png",
+    life: 10,
+  },
+  "Isabella.png": {
+    difficulty: 1,
+    monster: "Mental_Health_Monster.png",
+    life: 10,
+  },
+  "Jacob.png": {
+    difficulty: 1,
+    monster: "Mental_Health_Monster.png",
+    life: 10,
+  },
+  "Jay.png": { difficulty: 1, monster: "Mental_Health_Monster.png", life: 10 },
+  "Mariah.png": {
+    difficulty: 1,
+    monster: "Mental_Health_Monster.png",
+    life: 10,
+  },
+  "Mia.png": { difficulty: 1, monster: "Mental_Health_Monster.png", life: 10 },
+  "Nadia.png": {
+    difficulty: 1,
+    monster: "Mental_Health_Monster.png",
+    life: 10,
+  },
+  "Seth.png": { difficulty: 1, monster: "Mental_Health_Monster.png", life: 10 },
+  "Tamanna.png": {
+    difficulty: 1,
+    monster: "Mental_Health_Monster.png",
+    life: 10,
+  },
+  "Tullah.png": {
+    difficulty: 1,
+    monster: "Mental_Health_Monster.png",
+    life: 10,
+  },
+  "Tyler.png": {
+    difficulty: 1,
+    monster: "Mental_Health_Monster.png",
+    life: 10,
+  },
+  "Adrian.png": {
+    difficulty: 1,
+    monster: "Mental_Health_Monster.png",
+    life: 10,
+  },
+  "Atiksha.png": {
+    difficulty: 1,
+    monster: "Mental_Health_Monster.png",
+    life: 10,
+  },
+  "Bobbie.png": {
+    difficulty: 1,
+    monster: "Mental_Health_Monster.png",
+    life: 10,
+  },
+  "Briseyda.png": {
+    difficulty: 1,
+    monster: "Mental_Health_Monster.png",
+    life: 10,
+  },
+  "Casey.png": {
+    difficulty: 1,
+    monster: "Mental_Health_Monster.png",
+    life: 10,
+  },
+  "Evelio.png": {
+    difficulty: 1,
+    monster: "Mental_Health_Monster.png",
+    life: 10,
+  },
 };
 
 const cellImageMapping = [
@@ -154,6 +238,7 @@ function OL_MESSAGE_BOARD() {
     visible: false,
     name: "",
     monster: "",
+    life: 0,
   });
   const [currentDialogue, setCurrentDialogue] = useState("");
   const [dialogueIndex, setDialogueIndex] = useState(0);
@@ -264,8 +349,8 @@ function OL_MESSAGE_BOARD() {
 
       if (imageName) {
         const name = imageName.split(".")[0];
-        const difficulty = characterMapping[imageName]?.difficulty || 1;
-        setPopup({ visible: true, name, difficulty });
+        const { difficulty, monster, life } = characterMapping[imageName];
+        setPopup({ visible: true, name, difficulty, monster, life });
       } else {
         setPopup({ visible: false, name: "", difficulty: 0 });
       }
@@ -275,14 +360,17 @@ function OL_MESSAGE_BOARD() {
   };
 
   const handleRescueClick = () => {
-    const monster =
-      characterMapping[`${popup.name}.png`]?.monster || "default_monster.png";
-    setLargePopup({ visible: true, name: popup.name, monster });
+    setLargePopup({
+      visible: true,
+      name: popup.name,
+      monster: popup.monster,
+      life: popup.life,
+    });
     setPopup({ visible: false, name: "", difficulty: 0 });
   };
 
   const closeLargePopup = () => {
-    setLargePopup({ visible: false, name: "", monster: "" });
+    setLargePopup({ visible: false, name: "", monster: "", life: 0 });
     setCurrentDialogue("");
     setDialogueIndex(0);
     setLetterIndex(0);
@@ -372,6 +460,7 @@ function OL_MESSAGE_BOARD() {
             gameStarted={gameStarted}
             setGameStarted={setGameStarted}
             monsterImage={largePopup.monster}
+            monsterLife={largePopup.life}
           />
         </LargePopup>
       )}
