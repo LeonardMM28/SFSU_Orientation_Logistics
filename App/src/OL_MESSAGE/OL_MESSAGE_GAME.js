@@ -70,12 +70,12 @@ const MiniGame = ({
       {gameStarted && (
         <>
           <LifeBar
-            width={(life / monsterLife) * 100}
-            maxWidth={(monsterLife / 80) * 100}
+            width={(life / monsterLife) * 10}
+            maxWidth={(monsterLife / 80) * 8}
           >
             <Life
               width={(life / monsterLife) * 100}
-              maxWidth={(monsterLife / 80) * 100}
+              maxWidth={(monsterLife / 80) * 8}
             />
           </LifeBar>
           <Monster
