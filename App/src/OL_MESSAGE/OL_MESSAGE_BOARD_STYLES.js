@@ -322,17 +322,20 @@ export const Life = styled.div`
   transition: width 0.3s;
 `;
 
-const fadeOutAndShrink = keyframes`
-  0% { opacity: 1; transform: translateY(0) scale(1); }
-  100% { opacity: 0; transform: translateY(-20px) scale(0.5); }
+const fadeOut = keyframes`
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
 `;
 
 export const HitWord = styled.div`
   position: absolute;
-  left: ${({ x }) => x}px;
-  top: ${({ y }) => y}px;
-  font-size: 32px;
   color: red;
-  animation: ${fadeOutAndShrink} 1s ease-out forwards;
-  pointer-events: none;
+  font-size: 16px;
+  font-weight: bold;
+  animation: ${fadeOut} 1s ease-out forwards;
 `;

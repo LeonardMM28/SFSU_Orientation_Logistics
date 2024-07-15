@@ -5,8 +5,61 @@ import {
   LifeBar,
   Life,
   Monster,
+  HitWord,
 } from "./OL_MESSAGE_BOARD_STYLES";
-import { NULL } from "mysql/lib/protocol/constants/types";
+
+const defeatWords = {
+  "Procrastination_Phantom.png": [
+    "Planning",
+    "Responsibility",
+    "Discipline",
+    "Focus",
+    "Time Management",
+  ],
+  "Mental_Health_Monster.png": [
+    "Support",
+    "Therapy",
+    "Exercise",
+    "Meditation",
+    "Sleep",
+  ],
+  "Information_Overload_Ogre.png": [
+    "Organize",
+    "Prioritize",
+    "Breakdown",
+    "Limit",
+    "Focus",
+  ],
+  "Burnout_Beast.png": ["Rest", "Balance", "Break", "Delegation", "Boundaries"],
+  "Work_Life_Imbalance_Wraith.png": [
+    "Balance",
+    "Time Off",
+    "Hobby",
+    "Family",
+    "Rest",
+  ],
+  "Student_Debt_Serpent.png": [
+    "Scholarships",
+    "Grants",
+    "Savings",
+    "Budgeting",
+    "Jobs",
+  ],
+  "Budget_Cut_Beast.png": [
+    "Efficiency",
+    "Innovation",
+    "Savings",
+    "Fundraising",
+    "Grants",
+  ],
+  "Tuition_Hike_Hydra.png": [
+    "Scholarships",
+    "Financial Aid",
+    "Work-Study",
+    "Budgeting",
+    "Savings",
+  ],
+};
 
 const MiniGame = ({
   gameStarted,
@@ -17,6 +70,7 @@ const MiniGame = ({
   const [monsterPosition, setMonsterPosition] = useState({ top: 0, left: 0 });
   const [monsterSize, setMonsterSize] = useState(50);
   const [life, setLife] = useState(monsterLife);
+  const [hitWords, setHitWords] = useState([]);
   const gameAreaRef = useRef(null);
   const monsterRef = useRef(null);
   const [monsterSrc, setMonsterSrc] = useState("");
@@ -29,7 +83,7 @@ const MiniGame = ({
           `Monster image ${monsterImage} not found. Using default image.`,
           error
         );
-        setMonsterSrc(require(NULL).default); // Ensure you have a default image available
+        setMonsterSrc(require(null).default); // Ensure you have a default image available
       });
   }, [monsterImage]);
 
@@ -58,8 +112,20 @@ const MiniGame = ({
     setGameStarted(true);
   };
 
-  const handleMonsterClick = () => {
+  const handleMonsterClick = (e) => {
     setLife((prevLife) => Math.max(prevLife - 10, 0));
+
+    const rect = monsterRef.current.getBoundingClientRect();
+    const hitX = e.clientX - rect.left;
+    const hitY = e.clientY - rect.top;
+
+    const words = defeatWords[monsterImage];
+    const randomWord = words[Math.floor(Math.random() * words.length)];
+
+    setHitWords((prevWords) => [
+      ...prevWords,
+      { word: randomWord, x: hitX, y: hitY, id: Date.now() },
+    ]);
   };
 
   return (
@@ -90,6 +156,11 @@ const MiniGame = ({
             }}
             onClick={handleMonsterClick}
           />
+          {hitWords.map(({ word, x, y, id }) => (
+            <HitWord key={id} style={{ top: `${y}px`, left: `${x}px` }}>
+              {word}
+            </HitWord>
+          ))}
         </>
       )}
     </MiniGameAreaStyle>
