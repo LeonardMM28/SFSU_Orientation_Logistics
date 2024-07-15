@@ -1,6 +1,5 @@
+import { GiCrossedChains, GiSnakeSpiral } from "react-icons/gi";
 import styled, { keyframes } from "styled-components";
-import { GiSnakeSpiral } from "react-icons/gi";
-import { GiCrossedChains } from "react-icons/gi";
 
 export const BoardContainer = styled.div`
   display: flex;
@@ -70,8 +69,8 @@ export const ArrowControls = styled.div`
   align-items: center;
   background: linear-gradient(
     135deg,
-    #7d5ba6 0%, /* Lighter Purple */
-    #fdd835 100%
+    #7d5ba6 0%,
+    /* Lighter Purple */ #fdd835 100%
   ); /* Purple to Gold gradient */
   padding: 10px;
   border-radius: 10px;
@@ -217,7 +216,6 @@ export const DifficultyIndicator = ({ difficulty }) => {
 };
 
 export const LargePopup = styled.div`
-
   position: absolute;
   top: 10%;
   left: 10%;
@@ -247,19 +245,20 @@ export const PopupPicture = styled.img`
 
 export const PopupDialogue = styled.textarea`
   font-family: "VT323", monospace;
-font-size: 35px;
+  font-size: 30px;
   width: 100%;
-  height: 80px;
+  height: 150px;
   background-color: #fff9c4;
   border: none;
 `;
 
 export const MiniGameArea = styled.div`
   width: 100%;
-  height: 300px;
+  height: 430px;
+  top: 30%;
   background-color: #ede7f6;
   border: 2px solid #2c3e50;
-  position: relative; /* Ensure absolute positioning within this container */
+  position: absolute; /* Ensure absolute positioning within this container */
 `;
 
 export const CloseButton = styled.button`
@@ -284,11 +283,12 @@ export const CloseButton = styled.button`
 
 export const DialogueContainer = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  position: relative;
   
+  justify-content: flex-start;
+  width: 95%;
+  position: absolute;
+  top: 2%;
+  left: 0%;
 `;
 
 export const DialogueBox = styled.div`
@@ -323,16 +323,31 @@ export const FightButton = styled.button`
   padding: 20px 40px;
   cursor: pointer;
   font-size: 60px;
-  border-radius: 10px;
   transition: background-color 0.3s;
   position: absolute;
   left: 40%;
   top: 40%;
 
+  /* Custom border shape */
+  border: 4px solid #7b1fa2;
+  border-width: 4px 8px;
+  clip-path: polygon(
+    0% 10%,
+    10% 0%,
+    90% 0%,
+    100% 10%,
+    100% 90%,
+    90% 100%,
+    10% 100%,
+    0% 90%
+  );
+
   &:hover {
     background-color: #7b1fa2;
+    border-color: #4a148c;
   }
 `;
+
 
 const hitAnimation = keyframes`
   0% {

@@ -297,7 +297,7 @@ const MiniGame = ({
               left: "50%",
               transform: "translateX(-50%)",
               top: "5px",
-              color: "white",
+              color: "#6a1b9a",
               fontSize: "25px",
             }}
           >
