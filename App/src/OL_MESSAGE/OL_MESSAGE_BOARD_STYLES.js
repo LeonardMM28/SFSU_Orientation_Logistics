@@ -8,7 +8,7 @@ export const BoardContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: linear-gradient(135deg, #a0acadff 0%, #97d8b2ff 100%);
+  background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
   font-family: "VT323", monospace;
   position: relative;
 `;
@@ -17,10 +17,15 @@ export const Grid = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  background: #ffd449ff;
+  background: linear-gradient(
+    135deg,
+    #6a1b9a 0%,
+    #fdd835 100%
+  ); /* Purple to Gold gradient */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 420px;
   height: 540px;
+  border-radius: 10px;
 `;
 
 export const GridRow = styled.div`
@@ -30,12 +35,18 @@ export const GridRow = styled.div`
 export const GridCell = styled.div`
   width: 60px;
   height: 60px;
-  border: 1px solid #331832ff;
-  background-color: #f9a620ff;
+  border: 1px solid #2c3e50;
+  background: linear-gradient(
+    100deg,
+    #7d5ba6 0%,
+    #fdd835 50%,
+    #7d5ba6 100%
+  ); /* Purple to Gold gradient */
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  border-radius: 5px;
 `;
 
 export const EmptyCell = styled.div`
@@ -45,8 +56,8 @@ export const EmptyCell = styled.div`
 
 export const Player = styled.div`
   position: absolute;
-  background-color: #331832ff;
-  border: 2px solid #97d8b2ff;
+  background-color: #2c3e50;
+  border: 2px solid #ecf0f1;
   border-radius: 50%;
   transition: top 0.3s, left 0.3s;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -57,14 +68,18 @@ export const ArrowControls = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #ffd449ff;
+  background: linear-gradient(
+    135deg,
+    #7d5ba6 0%, /* Lighter Purple */
+    #fdd835 100%
+  ); /* Purple to Gold gradient */
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
 export const ArrowButton = styled.button`
-  background-color: #331832ff;
+  background-color: #2c3e50;
   color: white;
   border: none;
   padding: 10px;
@@ -75,7 +90,7 @@ export const ArrowButton = styled.button`
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: #f9a620ff;
+    background-color: #1abc9c;
   }
 `;
 
@@ -91,6 +106,7 @@ export const HeadshotCell = styled.img`
   object-fit: cover;
   transition: opacity 0.3s ease-in-out;
   opacity: ${({ isTalking }) => (isTalking ? 0.7 : 1)};
+  border-radius: 5px;
 `;
 
 export const OverlayContainer = styled.div`
@@ -125,9 +141,13 @@ export const Popup = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #ffd449ff;
+  background: linear-gradient(
+    135deg,
+    #7d5ba6 0%,
+    #fdd835 100%
+  ); /* Purple to Gold gradient */
   padding: 20px;
-  border: 2px solid #331832ff;
+  border: 2px solid #2c3e50;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 1000;
@@ -147,7 +167,9 @@ export const PopupMessage = styled.div`
 `;
 
 export const PopupButton = styled.button`
-  background-color: #331832ff;
+  font-family: "VT323", monospace;
+
+  background-color: #2c3e50;
   color: white;
   border: none;
   padding: 10px;
@@ -157,7 +179,7 @@ export const PopupButton = styled.button`
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: #f9a620ff;
+    background-color: #1abc9c;
   }
 `;
 
@@ -195,14 +217,19 @@ export const DifficultyIndicator = ({ difficulty }) => {
 };
 
 export const LargePopup = styled.div`
+
   position: absolute;
   top: 10%;
   left: 10%;
   width: 80%;
   height: 80%;
-  background-color: #ffd449ff;
+  background: linear-gradient(
+    135deg,
+    #7d5ba6 0%,
+    #fdd835 100%
+  ); /* Purple to Gold gradient */
   padding: 20px;
-  border: 2px solid #331832ff;
+  border: 2px solid #2c3e50;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 1000;
@@ -220,24 +247,30 @@ export const PopupPicture = styled.img`
 `;
 
 export const PopupDialogue = styled.textarea`
+  font-family: "VT323", monospace;
+
   width: 100%;
   height: 100px;
   margin-bottom: 20px;
+  background-color: #fff9c4;
+  border: none;
 `;
 
 export const MiniGameArea = styled.div`
   width: 100%;
   height: 300px;
-  background-color: white;
-  border: 2px solid #331832ff;
+  background-color: #ede7f6;
+  border: 2px solid #2c3e50;
   position: relative; /* Ensure absolute positioning within this container */
 `;
 
 export const CloseButton = styled.button`
+  font-family: "VT323", monospace;
+
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: #331832ff;
+  background-color: #2c3e50;
   color: white;
   border: none;
   padding: 10px;
@@ -247,7 +280,7 @@ export const CloseButton = styled.button`
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: #f9a620ff;
+    background-color: #1abc9c;
   }
 `;
 
@@ -257,12 +290,13 @@ export const DialogueContainer = styled.div`
   justify-content: flex-start;
   width: 100%;
   position: relative;
+  
 `;
 
 export const DialogueBox = styled.div`
   position: relative;
-  background-color: #ffd449ff;
-  border: 2px solid #331832ff;
+  background-color: #fff9c4;
+  border: 2px solid #2c3e50;
   border-radius: 10px;
   padding: 10px;
   width: calc(100% - 150px);
@@ -278,12 +312,14 @@ export const DialogueBox = styled.div`
     height: 0;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
-    border-right: 20px solid #331832ff;
+    border-right: 20px solid #2c3e50;
   }
 `;
 
 export const FightButton = styled.button`
-  background-color: #331832ff;
+  font-family: "VT323", monospace;
+
+  background-color: #4a148c;
   color: white;
   border: none;
   padding: 20px 40px;
@@ -294,7 +330,7 @@ export const FightButton = styled.button`
   position: absolute;
 
   &:hover {
-    background-color: #f9a620ff;
+    background-color: #7b1fa2;
   }
 `;
 
@@ -326,8 +362,8 @@ export const Monster = styled.img`
 export const LifeBar = styled.div`
   width: ${({ maxWidth }) => maxWidth}%;
   height: 30px;
-  background-color: #ffd449ff;
-  border: 2px solid #331832ff;
+  background-color: #ffffff;
+  border: 2px solid #2c3e50;
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 10px;
