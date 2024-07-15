@@ -1,14 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-  MiniGameArea as MiniGameAreaStyle,
   FightButton,
-  LifeBar,
-  Life,
-  Monster,
   HitWord,
+  Life,
+  LifeBar,
+  MiniGameArea as MiniGameAreaStyle,
+  Monster,
   Symbol,
 } from "./OL_MESSAGE_BOARD_STYLES";
-import { GiSnakeSpiral } from "react-icons/gi";
+
+const formatMonsterName = (monsterImage) =>
+  monsterImage.replace(/_/g, " ").replace(".png", "");
 
 const defeatWords = {
   "Procrastination_Phantom.png": [
@@ -212,6 +214,7 @@ const MiniGame = ({
   const gameAreaRef = useRef(null);
   const monsterRef = useRef(null);
   const [monsterSrc, setMonsterSrc] = useState("");
+  const monsterName = formatMonsterName(monsterImage);
 
   useEffect(() => {
     import(`./Headshots/${monsterImage}`)
@@ -287,6 +290,9 @@ const MiniGame = ({
       )}
       {gameStarted && (
         <>
+          <div style={{ textAlign: "center", position: "absolute", left: "50%", transform: "translateX(-50%)", top: "5px", color: "white", fontSize: "25px" }}>
+            {monsterName}
+          </div>
           <LifeBar
             width={(life / monsterLife) * 10}
             maxWidth={(monsterLife / 80) * 8}
