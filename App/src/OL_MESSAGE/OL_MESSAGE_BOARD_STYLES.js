@@ -342,11 +342,21 @@ export const Life = styled.div`
   transition: width 0.3s;
 `;
 
+const spin = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
 export const Symbol = styled(GiSnakeSpiral)`
   position: absolute;
   font-size: 30px;
   color: #ff0000;
   z-index: 11; /* Ensure it's on top of the monster */
+  animation: ${spin} 2s linear infinite;
 `;
 
 const fadeOut = keyframes`

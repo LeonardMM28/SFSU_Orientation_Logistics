@@ -311,36 +311,17 @@ const MiniGame = ({
           />
           {isDefeated && (
             <>
-              <Symbol
-                style={{
-                  top: `${monsterPosition.top + 50}px`,
-                  left: `${monsterPosition.left + 50}px`,
-                }}
-              />
-              <Symbol
-                style={{
-                  top: `${monsterPosition.top - 20}px`,
-                  left: `${monsterPosition.left + 100}px`,
-                }}
-              />
-              <Symbol
-                style={{
-                  top: `${monsterPosition.top + 120}px`,
-                  left: `${monsterPosition.left + 150}px`,
-                }}
-              />
-              <Symbol
-                style={{
-                  top: `${monsterPosition.top + 80}px`,
-                  left: `${monsterPosition.left - 40}px`,
-                }}
-              />
-              <Symbol
-                style={{
-                  top: `${monsterPosition.top + 50}px`,
-                  left: `${monsterPosition.left + 200}px`,
-                }}
-              />
+              {Array.from({ length: 20 }).map((_, index) => (
+                <Symbol
+                  key={index}
+                  style={{
+                    top: `${monsterPosition.top + Math.random() * 200 - 10}px`,
+                    left: `${
+                      monsterPosition.left + Math.random() * 200 - 10
+                    }px`,
+                  }}
+                />
+              ))}
             </>
           )}
           {hitWords.map(({ word, x, y, id }) => (
