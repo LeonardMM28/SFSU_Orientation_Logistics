@@ -273,10 +273,10 @@ const MiniGame = ({
     if (life - 10 <= 0) {
       setIsDefeated(true);
       setMonsterPosition({
-        top: gameAreaRect.height / 2 - 100,
-        left: gameAreaRect.width / 2 - 100,
+        top: gameAreaRect.height / 2 - 250,
+        left: gameAreaRect.width / 2 - 250,
       });
-      setMonsterSize(200);
+      setMonsterSize(500);
     }
   };
 
@@ -311,13 +311,13 @@ const MiniGame = ({
           />
           {isDefeated && (
             <>
-              {Array.from({ length: 20 }).map((_, index) => (
+              {Array.from({ length: 30 }).map((_, index) => (
                 <Symbol
                   key={index}
                   style={{
-                    top: `${monsterPosition.top + Math.random() * 200 - 10}px`,
+                    top: `${monsterPosition.top + Math.random() * 200 + 150}px`,
                     left: `${
-                      monsterPosition.left + Math.random() * 200 - 10
+                      monsterPosition.left + Math.random() * 200 + 180
                     }px`,
                   }}
                 />
