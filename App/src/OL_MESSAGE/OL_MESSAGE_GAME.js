@@ -7,6 +7,7 @@ import {
   MiniGameArea as MiniGameAreaStyle,
   Monster,
   Symbol,
+  TimerOverlay,
 } from "./OL_MESSAGE_BOARD_STYLES";
 
 const formatMonsterName = (monsterImage) =>
@@ -204,6 +205,8 @@ const MiniGame = ({
   setGameStarted,
   monsterImage,
   monsterLife,
+  onGameRestart,
+  updateDialogue, // Add this prop to update dialogue
 }) => {
   const [monsterPosition, setMonsterPosition] = useState({ top: 0, left: 0 });
   const [monsterSize, setMonsterSize] = useState(50);
@@ -211,6 +214,7 @@ const MiniGame = ({
   const [hitWords, setHitWords] = useState([]);
   const [isHit, setIsHit] = useState(false);
   const [isDefeated, setIsDefeated] = useState(false);
+  const [timer, setTimer] = useState(30);
   const gameAreaRef = useRef(null);
   const monsterRef = useRef(null);
   const [monsterSrc, setMonsterSrc] = useState("");
@@ -262,7 +266,7 @@ const MiniGame = ({
     const hitX = e.clientX - gameAreaRect.left;
     const hitY = e.clientY - gameAreaRect.top;
 
-    const words = defeatWords[monsterImage];
+    const words = defeatWords[monsterImage] || ["Default Word"];
     const randomWord = words[Math.floor(Math.random() * words.length)];
 
     setHitWords((prevWords) => [
@@ -280,7 +284,31 @@ const MiniGame = ({
         left: gameAreaRect.width / 2 - 250,
       });
       setMonsterSize(500);
+      startTimer();
+      updateDialogue(
+        "Amazing! now you must run to me in real world and remind me escape in your digital world"
+      );
     }
+  };
+
+  const startTimer = () => {
+    setTimer(30);
+    const countdown = setInterval(() => {
+      setTimer((prev) => {
+        if (prev === 1) {
+          clearInterval(countdown);
+          restartGame();
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
+  const restartGame = () => {
+    setLife(monsterLife);
+    setIsDefeated(false);
+    setGameStarted(false);
+    onGameRestart(); // Call the restart function in the parent
   };
 
   return (
@@ -294,9 +322,7 @@ const MiniGame = ({
             style={{
               width: "100%",
               textAlign: "center",
-             
               left: "50%",
-              
               top: "5px",
               color: "#6a1b9a",
               fontSize: "25px",
@@ -346,6 +372,11 @@ const MiniGame = ({
               {word}
             </HitWord>
           ))}
+          {isDefeated && (
+            <TimerOverlay>
+              <div>{timer}</div>
+            </TimerOverlay>
+          )}
         </>
       )}
     </MiniGameAreaStyle>

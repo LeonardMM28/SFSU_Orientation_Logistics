@@ -160,7 +160,7 @@ const characterMapping = {
   "Briseyda.png": {
     difficulty: 1,
     monster: "Mental_Health_Monster.png",
-    life: 300,
+    life: 20,
   },
   "Casey.png": {
     difficulty: 1,
@@ -404,6 +404,17 @@ function OL_MESSAGE_BOARD() {
     setGameStarted(false);
   };
 
+  const handleGameRestart = () => {
+    closeLargePopup();
+    // Any other logic to reset the game
+  };
+
+  const updateDialogue = (newDialogue) => {
+    setCurrentDialogue((prev) => prev + "\n" + newDialogue);
+    setDialogueIndex(dialogueIndex + 1);
+    setLetterIndex(0);
+  };
+
   return (
     <BoardContainer>
       <Grid ref={gridRef}>
@@ -488,6 +499,8 @@ function OL_MESSAGE_BOARD() {
             setGameStarted={setGameStarted}
             monsterImage={largePopup.monster}
             monsterLife={largePopup.life}
+            onGameRestart={handleGameRestart}
+            updateDialogue={updateDialogue} // Add this prop
           />
         </LargePopup>
       )}

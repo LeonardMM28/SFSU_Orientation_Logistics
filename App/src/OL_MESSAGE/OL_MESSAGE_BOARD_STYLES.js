@@ -432,3 +432,17 @@ export const HitWord = styled.div`
   animation: ${fadeOut} 5s ease-out forwards;
   pointer-events: none; // To ensure hits can still be detected through the word animations
 `;
+
+export const TimerOverlay = styled.div`
+  position: absolute;
+  top: 10px; // Adjusted to be in the top corner
+  right: 10px; // Adjusted to be in the right corner
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 18px;
+  text-align: center;
+  z-index: 12; // Ensure it's above other elements
+`;
+
