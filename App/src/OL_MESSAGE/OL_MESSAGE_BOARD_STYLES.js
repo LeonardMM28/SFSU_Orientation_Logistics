@@ -267,8 +267,8 @@ export const CloseButton = styled.button`
   font-family: "VT323", monospace;
 
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: -5px;
+  right: -5px;
   background-color: #2c3e50;
   color: white;
   border: none;
@@ -327,7 +327,7 @@ export const FightButton = styled.button`
   font-size: 60px;
   transition: background-color 0.3s;
   position: absolute;
-  left: 40%;
+  left: 8svh;
   top: 40%;
 
   /* Custom border shape */

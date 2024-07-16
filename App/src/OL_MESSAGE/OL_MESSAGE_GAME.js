@@ -292,10 +292,11 @@ const MiniGame = ({
         <>
           <div
             style={{
+              width: "100%",
               textAlign: "center",
-              position: "absolute",
+             
               left: "50%",
-              transform: "translateX(-50%)",
+              
               top: "5px",
               color: "#6a1b9a",
               fontSize: "25px",
