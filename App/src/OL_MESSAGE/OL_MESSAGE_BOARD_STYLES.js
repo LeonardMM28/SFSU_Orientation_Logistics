@@ -433,16 +433,73 @@ export const HitWord = styled.div`
   pointer-events: none; // To ensure hits can still be detected through the word animations
 `;
 
-export const TimerOverlay = styled.div`
-  position: absolute;
-  top: 10px; // Adjusted to be in the top corner
-  right: 10px; // Adjusted to be in the right corner
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 18px;
-  text-align: center;
-  z-index: 12; // Ensure it's above other elements
+const borderShrink = keyframes`
+  0% {
+    border-width: 5px;
+  }
+  100% {
+    border-width: 0;
+  }
 `;
 
+
+
+const dashArray = 283;
+const dashOffset = dashArray;
+
+export const TimerOverlay = ({ timer }) => {
+  const dashOffsetValue = (dashOffset * timer) / 30;
+
+  return (
+    <SvgWrapper>
+      <Svg viewBox="0 0 100 100">
+        <CircleBackground cx="50" cy="50" r="45" />
+        <CircleTimer
+          cx="50"
+          cy="50"
+          r="45"
+          strokeDasharray={dashArray}
+          strokeDashoffset={dashOffsetValue}
+        />
+      </Svg>
+      <TimeText>{timer}s</TimeText>
+    </SvgWrapper>
+  );
+};
+
+const SvgWrapper = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 100px;
+  height: 100px;
+  z-index: 12;
+`;
+
+const Svg = styled.svg`
+  transform: rotate(-90deg);
+`;
+
+const CircleBackground = styled.circle`
+  fill: red;
+  stroke: rgba(0, 0, 0, 0.1);
+  stroke-width: 10;
+`;
+
+const CircleTimer = styled.circle`
+  fill: none;
+  stroke: yellow;
+  stroke-width: 10;
+  transition: stroke-dashoffset 1s linear;
+`;
+
+const TimeText = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+  color: white;
+`;
+
+export { SvgWrapper, Svg, CircleBackground, CircleTimer, TimeText };
