@@ -206,7 +206,8 @@ const MiniGame = ({
   monsterImage,
   monsterLife,
   onGameRestart,
-  updateDialogue, // Add this prop to update dialogue
+  updateDialogue,
+  toggleSpeakingImage,
 }) => {
   const [monsterPosition, setMonsterPosition] = useState({ top: 0, left: 0 });
   const [monsterSize, setMonsterSize] = useState(50);
@@ -266,7 +267,7 @@ const MiniGame = ({
     const hitX = e.clientX - gameAreaRect.left;
     const hitY = e.clientY - gameAreaRect.top;
 
-    const words = defeatWords[monsterImage] || ["Default Word"];
+    const words = defeatWords[monsterImage];
     const randomWord = words[Math.floor(Math.random() * words.length)];
 
     setHitWords((prevWords) => [
@@ -285,8 +286,9 @@ const MiniGame = ({
       });
       setMonsterSize(500);
       startTimer();
+      toggleSpeakingImage(true);
       updateDialogue(
-        "Amazing! now you must run to me in real world and remind me escape in your digital world"
+        "Amazing! Now you must run to me in real world and remind me escape in your digital world."
       );
     }
   };
@@ -308,7 +310,8 @@ const MiniGame = ({
     setLife(monsterLife);
     setIsDefeated(false);
     setGameStarted(false);
-    onGameRestart(); // Call the restart function in the parent
+    toggleSpeakingImage(false);
+    onGameRestart();
   };
 
   return (

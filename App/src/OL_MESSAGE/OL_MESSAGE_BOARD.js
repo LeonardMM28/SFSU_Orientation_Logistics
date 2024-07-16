@@ -415,6 +415,10 @@ function OL_MESSAGE_BOARD() {
     setLetterIndex(0);
   };
 
+  const toggleSpeakingImage = (speaking) => {
+    setIsTalking(speaking);
+  };
+
   return (
     <BoardContainer>
       <Grid ref={gridRef}>
@@ -500,7 +504,8 @@ function OL_MESSAGE_BOARD() {
             monsterImage={largePopup.monster}
             monsterLife={largePopup.life}
             onGameRestart={handleGameRestart}
-            updateDialogue={updateDialogue} // Add this prop
+            updateDialogue={updateDialogue}
+            toggleSpeakingImage={toggleSpeakingImage} // Add this prop
           />
         </LargePopup>
       )}
