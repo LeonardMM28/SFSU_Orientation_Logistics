@@ -410,7 +410,7 @@ function OL_MESSAGE_BOARD() {
   };
 
   const updateDialogue = (newDialogue) => {
-    setCurrentDialogue((prev) => prev + "\n" + newDialogue);
+    setCurrentDialogue(newDialogue); // Clear the previous dialogue and set the new one
     setDialogueIndex(dialogueIndex + 1);
     setLetterIndex(0);
   };
