@@ -245,7 +245,7 @@ export const PopupPicture = styled.img`
 
 export const PopupDialogue = styled.textarea`
   font-family: "VT323", monospace;
-  font-size: 30px;
+  font-size: 16px;
   width: 100%;
   height: 150px;
   background-color: #fff9c4;

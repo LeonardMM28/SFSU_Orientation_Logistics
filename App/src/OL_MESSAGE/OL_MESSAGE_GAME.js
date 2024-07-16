@@ -288,7 +288,7 @@ const MiniGame = ({
       startTimer();
       toggleSpeakingImage(true);
       updateDialogue(
-        "Amazing! Now you must run to me in real world and remind me to escape in your dimension, but do it before the timer runs out! Otherwise the monster will wake up and trap me again."
+        "Amazing! Now you must run to me in the real world and remind me to escape, but do it before the timer runs out! Otherwise the monster will wake up and trap me again!"
       );
     }
   };
