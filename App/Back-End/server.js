@@ -133,6 +133,27 @@ connection.query(
   }
 );
 
+connection.query(
+  `
+  CREATE TABLE IF NOT EXISTS ol_game (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    code CHAR(7) NOT NULL,
+    progress JSON,
+    requests JSON,
+    message VARCHAR(100),
+    tier INT CHECK (tier >= 1 AND tier <= 8)
+  )
+`,
+  (err) => {
+    if (err) {
+      console.error("Error creating ol_game table:", err);
+      return;
+    }
+    console.log("OL Game table created successfully");
+  }
+);
+
 app.use("/", userRouter); // Update the endpoint to use the imported router middleware
 app.use("/", itemsRouter); // Add the product router middleware
 
@@ -151,11 +172,11 @@ app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "../public/index.html")); // Update the path to your index.html file
 });
 
-httpsServer.listen(PORT, () => {
-  console.log(`Server is running on https://sfsulogistics.online:${PORT}`);
-});
-
-// app.listen(PORT, () => {
-//   console.log(`Server listening on port ${PORT}`);
+// httpsServer.listen(PORT, () => {
+//   console.log(`Server is running on https://sfsulogistics.online:${PORT}`);
 // });
+
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
 

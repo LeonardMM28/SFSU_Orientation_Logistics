@@ -1,32 +1,34 @@
 import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import {
   ArrowButton,
   ArrowControls,
   BoardContainer,
   ChainIcon,
+  CloseButton,
+  DialogueBox,
+  DialogueContainer,
+  DifficultyIndicator,
+  DifficultyTag,
   EmptyCell,
   Grid,
   GridCell,
   GridRow,
   HeadshotCell,
   HeadshotWrapper,
+  LargePopup,
   LockImage,
   OverlayContainer,
   Player,
   Popup,
-  PopupMessage,
   PopupButton,
-  DifficultyTag,
-  DifficultyIndicator,
-  LargePopup,
-  PopupPicture,
   PopupDialogue,
-  CloseButton,
-  DialogueContainer,
-  DialogueBox,
+  PopupMessage,
+  PopupPicture,
 } from "./OL_MESSAGE_BOARD_STYLES";
 import MiniGame from "./OL_MESSAGE_GAME";
+import characterMapping from "./characterMapping";
+import validCodes from "./validCodes";
 
 const importAll = (r) => {
   let images = {};
@@ -45,134 +47,6 @@ const headshotsTalking = importAll(
 );
 
 const lockImage = require("./Headshots/lock.png");
-
-const characterMapping = {
-  "Xitali.png": {
-    difficulty: 3,
-    monster: "Information_Overload_Ogre.png",
-    life: 500,
-  },
-  "Gio.png": {
-    difficulty: 3,
-    monster: "Information_Overload_Ogre.png",
-    life: 500,
-  },
-  "Matt.png": { difficulty: 4, monster: "Burnout_Beast.png", life: 600 },
-  "Evan.png": {
-    difficulty: 5,
-    monster: "Work_Life_Imbalance_Wraith.png",
-    life: 700,
-  },
-  "Chris.png": {
-    difficulty: 6,
-    monster: "Student_Debt_Serpent.png",
-    life: 800,
-  },
-  "Miguel.png": { difficulty: 7, monster: "Budget_Cut_Beast.png", life: 900 },
-  "Lyn.png": { difficulty: 8, monster: "Tuition_Hike_Hydra.png", life: 1000 },
-  "Daniel.png": {
-    difficulty: 1,
-    monster: "Mental_Health_Monster.png",
-    life: 300,
-  },
-  "Drew.png": {
-    difficulty: 2,
-    monster: "Procrastination_Phantom.png",
-    life: 400,
-  },
-  "Leo.png": {
-    difficulty: 2,
-    monster: "Procrastination_Phantom.png",
-    life: 400,
-  },
-  "Gracie.png": {
-    difficulty: 2,
-    monster: "Procrastination_Phantom.png",
-    life: 400,
-  },
-  "Giovanna.png": {
-    difficulty: 1,
-    monster: "Mental_Health_Monster.png",
-    life: 300,
-  },
-  "Hannah.png": {
-    difficulty: 1,
-    monster: "Mental_Health_Monster.png",
-    life: 300,
-  },
-  "Isabella.png": {
-    difficulty: 1,
-    monster: "Mental_Health_Monster.png",
-    life: 300,
-  },
-  "Jacob.png": {
-    difficulty: 1,
-    monster: "Mental_Health_Monster.png",
-    life: 300,
-  },
-  "Jay.png": { difficulty: 1, monster: "Mental_Health_Monster.png", life: 300 },
-  "Mariah.png": {
-    difficulty: 1,
-    monster: "Mental_Health_Monster.png",
-    life: 300,
-  },
-  "Mia.png": { difficulty: 1, monster: "Mental_Health_Monster.png", life: 300 },
-  "Nadia.png": {
-    difficulty: 1,
-    monster: "Mental_Health_Monster.png",
-    life: 300,
-  },
-  "Seth.png": {
-    difficulty: 1,
-    monster: "Mental_Health_Monster.png",
-    life: 300,
-  },
-  "Tamanna.png": {
-    difficulty: 1,
-    monster: "Mental_Health_Monster.png",
-    life: 300,
-  },
-  "Tullah.png": {
-    difficulty: 1,
-    monster: "Mental_Health_Monster.png",
-    life: 300,
-  },
-  "Tyler.png": {
-    difficulty: 1,
-    monster: "Mental_Health_Monster.png",
-    life: 300,
-  },
-  "Adrian.png": {
-    difficulty: 1,
-    monster: "Mental_Health_Monster.png",
-    life: 300,
-  },
-  "Atiksha.png": {
-    difficulty: 1,
-    monster: "Mental_Health_Monster.png",
-    life: 300,
-  },
-  "Bobbie.png": {
-    difficulty: 1,
-    monster: "Mental_Health_Monster.png",
-    life: 300,
-  },
-  "Briseyda.png": {
-    difficulty: 1,
-    monster: "Mental_Health_Monster.png",
-    life: 20,
-  },
-  "Casey.png": {
-    difficulty: 1,
-    monster: "Mental_Health_Monster.png",
-    life: 300,
-  },
-  "Evelio.png": {
-    difficulty: 1,
-    monster: "Mental_Health_Monster.png",
-    life: 300,
-  },
-};
 
 const cellImageMapping = [
   "Xitali.png",
@@ -240,7 +114,8 @@ const cellImageMapping = [
   "Evelio.png",
 ];
 
-function OL_MESSAGE_BOARD() {
+const OL_MESSAGE_BOARD = () => {
+  const navigate = useNavigate();
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [popup, setPopup] = useState({
     visible: false,
@@ -262,6 +137,13 @@ function OL_MESSAGE_BOARD() {
   const [cellSize, setCellSize] = useState(60);
   const [gameStarted, setGameStarted] = useState(false);
   const dialogueBoxRef = useRef(null);
+
+  useEffect(() => {
+    const playerCode = localStorage.getItem("playerCode");
+    if (!playerCode || !validCodes.includes(playerCode)) {
+      navigate("/message");
+    }
+  }, [navigate]);
 
   const formatMonsterName = (monster) =>
     monster.replace(/_/g, " ").replace(".png", "");
@@ -511,6 +393,6 @@ function OL_MESSAGE_BOARD() {
       )}
     </BoardContainer>
   );
-}
+};
 
 export default OL_MESSAGE_BOARD;

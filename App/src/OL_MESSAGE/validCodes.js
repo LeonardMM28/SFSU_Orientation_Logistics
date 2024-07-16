@@ -1,0 +1,32 @@
+// validCodes.js
+const validCodes = [
+  "QOVZJTF",
+  "6N3VCWQ",
+  "FN83J3O",
+  "WR4SUBS",
+  "CP79H4M",
+  "UFZ8HHI",
+  "XA23AJO",
+  "3DZRKB4",
+  "32EBO8Q",
+  "Y0CCBJW",
+  "H1028KP",
+  "CMF9OFQ",
+  "785QLH2",
+  "ZAQABXK",
+  "PCZEX37",
+  "PN21SMP",
+  "V16U0T2",
+  "MLAYUQ1",
+  "QUY9TFS",
+  "0F8MMUT",
+  "LPPUW3W",
+  "FVTL4HF",
+  "W9MUGQ0",
+  "GE0BSKX",
+  "7KFPOBA",
+  "ATJESPA",
+  "9999999",
+];
+
+export default validCodes;
