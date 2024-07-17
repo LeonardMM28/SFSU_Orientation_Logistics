@@ -41,7 +41,7 @@ const validCodes = [
   "GE0BSKX",
   "7KFPOBA",
   "ATJESPA",
-  "9999999"
+  "9999999",
 ];
 
 function OL_MESSAGE() {
