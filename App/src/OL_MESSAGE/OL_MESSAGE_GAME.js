@@ -22,6 +22,7 @@ const MiniGame = ({
   onGameRestart,
   updateDialogue,
   toggleSpeakingImage,
+  onMonsterDefeated,
 }) => {
   const [monsterPosition, setMonsterPosition] = useState({ top: 0, left: 0 });
   const [monsterSize, setMonsterSize] = useState(50);
@@ -104,6 +105,7 @@ const MiniGame = ({
       updateDialogue(
         "Amazing! Now you must run to me in the real world and remind me to escape, but do it before the timer runs out! Otherwise the monster will wake up and trap me again!"
       );
+      onMonsterDefeated(); // Call the callback to set the rescue request
     }
   };
 

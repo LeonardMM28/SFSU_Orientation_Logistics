@@ -6,18 +6,19 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const userRouter = require("./routes/userRoutes"); // Updated require statement
 const itemsRouter = require("./routes/itemsRoutes"); // Import the product router
+const gameRouter = require("./routes/gameRoutes");
 const connection = require("./dbConfig"); // Import MySQL connection
 
 const app = express();
 
-require('dotenv').config(); // To load the .env file
+require("dotenv").config(); // To load the .env file
 
-const AWS = require('aws-sdk');
+const AWS = require("aws-sdk");
 // Configure AWS with your access key, secret, and region
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION
+  region: process.env.AWS_REGION,
 });
 
 // Create an S3 instance
@@ -144,6 +145,7 @@ connection.query(
     message VARCHAR(100),
     tier INT CHECK (tier >= 1 AND tier <= 8)
   )
+    
 `,
   (err) => {
     if (err) {
@@ -156,6 +158,7 @@ connection.query(
 
 app.use("/", userRouter); // Update the endpoint to use the imported router middleware
 app.use("/", itemsRouter); // Add the product router middleware
+app.use("/", gameRouter);
 
 const privateKey = fs.readFileSync("./keycertbot.pem", "utf8");
 const certificate = fs.readFileSync("./certificate.pem", "utf8");
@@ -168,9 +171,9 @@ const httpsServer = https.createServer(
   app
 );
 
-app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "../public/index.html")); // Update the path to your index.html file
-});
+// app.get("*", function (req, res) {
+//   res.sendFile(path.join(__dirname, "../public/index.html")); // Update the path to your index.html file
+// });
 
 // httpsServer.listen(PORT, () => {
 //   console.log(`Server is running on https://sfsulogistics.online:${PORT}`);
@@ -179,4 +182,3 @@ app.get("*", function (req, res) {
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
-

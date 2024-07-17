@@ -34,7 +34,7 @@ const userCodeMapping = {
   Adrian: "6N3VCWQ",
   Tullah: "FN83J3O",
   Bobbie: "WR4SUBS",
-  Bri: "CP79H4M",
+  Briseyda: "CP79H4M",
   Casey: "UFZ8HHI",
   Daniel: "XA23AJO",
   Drew: "3DZRKB4",

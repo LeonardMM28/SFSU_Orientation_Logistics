@@ -152,6 +152,18 @@ const OL_MESSAGE_BOARD = () => {
         (cell) => cell === playerImage
       );
       setMappedCellIndex(playerCellIndex);
+
+      fetch(`http://localhost:3000/game/userdata/${playerCode}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data) {
+            // Process any additional data needed from the API response
+            // For example, you might want to set more state here
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching game data:", error);
+        });
     }
   }, [navigate]);
 
@@ -311,6 +323,49 @@ const OL_MESSAGE_BOARD = () => {
     setIsTalking(speaking);
   };
 
+  // Function to set a rescue request
+  const setRescueRequest = (rescuerCode, rescueeCode) => {
+    fetch("http://localhost:3000/game/set/request", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ rescuerCode, rescueeCode, timer: 30 }),
+    });
+  };
+
+  // Function to clear a rescue request
+  const clearRescueRequest = (code) => {
+    fetch("http://localhost:3000/game/clear/request", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ code }),
+    });
+  };
+
+  // Periodically check for rescue requests
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const playerCode = localStorage.getItem("playerCode");
+      fetch(`http://localhost:3000/game/check/request/${playerCode}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data && data.rescuer) {
+            // Show rescue request with timer
+            setLargePopup({
+              visible: true,
+              name: userCodeMapping[data.rescuer],
+              timer: data.timer,
+            });
+          }
+        });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <BoardContainer>
       <Grid ref={gridRef}>
@@ -406,6 +461,12 @@ const OL_MESSAGE_BOARD = () => {
             onGameRestart={handleGameRestart}
             updateDialogue={updateDialogue}
             toggleSpeakingImage={toggleSpeakingImage}
+            onMonsterDefeated={() =>
+              setRescueRequest(
+                localStorage.getItem("playerCode"),
+                userCodeMapping[largePopup.name]
+              )
+            }
           />
         </LargePopup>
       )}
