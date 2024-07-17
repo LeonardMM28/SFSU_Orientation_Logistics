@@ -103,8 +103,11 @@ export const HeadshotWrapper = styled.div`
 `;
 
 export const HeadshotCell = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 110%;
+  top: -10%;
+  left: -5%;
+  position: absolute;
+  height: 110%;
   object-fit: cover;
   transition: opacity 0.3s ease-in-out;
   opacity: ${({ isTalking }) => (isTalking ? 0.7 : 1)};
