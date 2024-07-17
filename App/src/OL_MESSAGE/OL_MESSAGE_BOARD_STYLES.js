@@ -55,12 +55,15 @@ export const EmptyCell = styled.div`
 
 export const Player = styled.div`
   position: absolute;
-  background-color: #2c3e50;
+  background-color: transparent;
   border: 2px solid #ecf0f1;
-  border-radius: 50%;
   transition: top 0.3s, left 0.3s;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.8);
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
 `;
+
 
 export const ArrowControls = styled.div`
   margin-top: 20px;

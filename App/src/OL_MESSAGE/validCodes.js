@@ -1,4 +1,3 @@
-// validCodes.js
 const validCodes = [
   "QOVZJTF",
   "6N3VCWQ",
@@ -29,4 +28,35 @@ const validCodes = [
   "9999999",
 ];
 
-export default validCodes;
+// Mapping user names to codes
+const userCodeMapping = {
+  Atiksha: "QOVZJTF",
+  Adrian: "6N3VCWQ",
+  Tullah: "FN83J3O",
+  Bobbie: "WR4SUBS",
+  Bri: "CP79H4M",
+  Casey: "UFZ8HHI",
+  Daniel: "XA23AJO",
+  Drew: "3DZRKB4",
+  Evelio: "32EBO8Q",
+  Gio: "Y0CCBJW",
+  Giovanna: "H1028KP",
+  Gracie: "CMF9OFQ",
+  Hannah: "785QLH2",
+  Isa: "ZAQABXK",
+  Jacob: "PCZEX37",
+  Jay: "PN21SMP",
+  Mariah: "V16U0T2",
+  Matt: "MLAYUQ1",
+  Mia: "QUY9TFS",
+  Nadia: "0F8MMUT",
+  Seth: "LPPUW3W",
+  Tamanna: "FVTL4HF",
+  Tyler: "W9MUGQ0",
+  Xitali: "GE0BSKX",
+  Evan: "7KFPOBA",
+  Chris: "ATJESPA",
+  Leo: "9999999",
+};
+
+export { validCodes, userCodeMapping };

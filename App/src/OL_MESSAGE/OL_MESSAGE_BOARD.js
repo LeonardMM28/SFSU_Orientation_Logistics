@@ -28,7 +28,7 @@ import {
 } from "./OL_MESSAGE_BOARD_STYLES";
 import MiniGame from "./OL_MESSAGE_GAME";
 import characterMapping from "./characterMapping";
-import validCodes from "./validCodes";
+import { validCodes, userCodeMapping } from "./validCodes";
 
 const importAll = (r) => {
   let images = {};
@@ -137,11 +137,21 @@ const OL_MESSAGE_BOARD = () => {
   const [cellSize, setCellSize] = useState(60);
   const [gameStarted, setGameStarted] = useState(false);
   const dialogueBoxRef = useRef(null);
+  const [mappedCellIndex, setMappedCellIndex] = useState(null);
 
   useEffect(() => {
     const playerCode = localStorage.getItem("playerCode");
     if (!playerCode || !validCodes.includes(playerCode)) {
       navigate("/message");
+    } else {
+      const playerName = Object.keys(userCodeMapping).find(
+        (key) => userCodeMapping[key] === playerCode
+      );
+      const playerImage = `${playerName}.png`;
+      const playerCellIndex = cellImageMapping.findIndex(
+        (cell) => cell === playerImage
+      );
+      setMappedCellIndex(playerCellIndex);
     }
   }, [navigate]);
 
@@ -255,7 +265,7 @@ const OL_MESSAGE_BOARD = () => {
       const cellIndex = rowIndex * 7 + colIndex;
       const imageName = cellImageMapping[cellIndex];
 
-      if (imageName) {
+      if (imageName && cellIndex !== mappedCellIndex) {
         const name = imageName.split(".")[0];
         const { difficulty, monster, life } = characterMapping[imageName];
         setPopup({ visible: true, name, difficulty, monster, life });
@@ -308,7 +318,10 @@ const OL_MESSAGE_BOARD = () => {
           <GridRow key={rowIndex}>
             {Array.from({ length: 7 }).map((_, colIndex) => {
               const cellIndex = rowIndex * 7 + colIndex;
-              const imageName = cellImageMapping[cellIndex];
+              const imageName =
+                cellIndex === mappedCellIndex
+                  ? null
+                  : cellImageMapping[cellIndex];
 
               if (imageName) {
                 return (
@@ -344,6 +357,11 @@ const OL_MESSAGE_BOARD = () => {
           left: `${position.left}px`,
           width: `${cellSize}px`,
           height: `${cellSize}px`,
+          backgroundImage: `url(${
+            headshots[cellImageMapping[mappedCellIndex]]
+          })`,
+          backgroundSize: "cover",
+          borderRadius: "5px",
         }}
       />
       <ArrowControls>
@@ -387,7 +405,7 @@ const OL_MESSAGE_BOARD = () => {
             monsterLife={largePopup.life}
             onGameRestart={handleGameRestart}
             updateDialogue={updateDialogue}
-            toggleSpeakingImage={toggleSpeakingImage} // Add this prop
+            toggleSpeakingImage={toggleSpeakingImage}
           />
         </LargePopup>
       )}
