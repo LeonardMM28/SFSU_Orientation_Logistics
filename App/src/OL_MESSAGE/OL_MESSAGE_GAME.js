@@ -100,7 +100,7 @@ const MiniGame = ({
       setMonsterSize(500);
       toggleSpeakingImage(true);
       updateDialogue(
-        "Amazing! You have saved me! I will be joining your journey in return. Let's go save the rest of the team!"
+        "Amazing! You have saved me, thank you! I will be joining your journey in return. Let's go save the rest of the team!"
       );
       onMonsterDefeated();
     }

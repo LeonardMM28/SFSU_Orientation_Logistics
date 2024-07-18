@@ -334,7 +334,7 @@ const handleRescueClick = () => {
   } else {
     setPopup((prev) => ({
       ...prev,
-      message: "Sorry, you do not have enough OL power yet",
+      message: "Sorry, you do not have enough OL power yet!",
     }));
   }
 };
