@@ -108,7 +108,7 @@ const characterMapping = {
   "Bobbie.png": {
     difficulty: 1,
     monster: "Mental_Health_Monster.png",
-    life: 300,
+    life: 20,
   },
   "Briseyda.png": {
     difficulty: 1,

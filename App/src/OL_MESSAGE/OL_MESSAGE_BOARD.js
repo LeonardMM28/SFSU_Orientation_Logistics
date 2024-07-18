@@ -162,7 +162,8 @@ const OL_MESSAGE_BOARD = () => {
         .then((data) => {
           if (data) {
             console.log("User Data:", data); // Debugging statement
-            const progress = Array.isArray(data.progress) ? data.progress : [];
+            const progress = JSON.parse(data.progress || "[]"); // Parsing progress data
+            console.log("Progress:", progress); // Debugging statement
             setFollowers(progress);
             setCellImageMappingState((prevMapping) =>
               prevMapping.map((cell) =>
