@@ -528,6 +528,50 @@ export const EscapeButton = styled.button`
   }
 `;
 
+export const OLPowerContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+`;
 
+export const OLPowerLabel = styled.div`
+  font-size: 18px;
+  margin-right: 10px;
+`;
+
+export const OLPowerDiamond = styled.div`
+  width: 20px;
+  height: 20px;
+  background-color: ${({ color }) => color};
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); /* Diamond shape */
+  margin: 0 5px;
+`;
+
+export const getOLPowerColors = (maxTier) => {
+  const colors = [
+    "green",
+    "yellowgreen",
+    "yellow",
+    "orange",
+    "orangered",
+    "red",
+    "darkred",
+    "maroon",
+  ];
+  return colors.slice(0, maxTier);
+};
+
+export const OLPowerIndicator = ({ maxTier }) => {
+  const colors = getOLPowerColors(maxTier);
+
+  return (
+    <OLPowerContainer>
+      <OLPowerLabel>OL Power:</OLPowerLabel>
+      {colors.map((color, index) => (
+        <OLPowerDiamond key={index} color={color} />
+      ))}
+    </OLPowerContainer>
+  );
+};
 
 export { SvgWrapper, Svg, CircleBackground, CircleTimer, TimeText };

@@ -25,6 +25,7 @@ import {
   PopupDialogue,
   PopupMessage,
   PopupPicture,
+  OLPowerIndicator
 } from "./OL_MESSAGE_BOARD_STYLES";
 import MiniGame from "./OL_MESSAGE_GAME";
 import characterMapping from "./characterMapping";
@@ -185,8 +186,6 @@ const OL_MESSAGE_BOARD = () => {
     }
   }, [navigate]);
 
-  // The remaining part of the code
-
   const formatMonsterName = (monster) =>
     monster.replace(/_/g, " ").replace(".png", "");
 
@@ -315,29 +314,29 @@ const OL_MESSAGE_BOARD = () => {
     });
   };
 
-const handleRescueClick = () => {
-  const playerCode = localStorage.getItem("playerCode");
-  const progressCount = followers.length;
-  const { tier } = characterMapping[`${popup.name}.png`];
+  const handleRescueClick = () => {
+    const playerCode = localStorage.getItem("playerCode");
+    const progressCount = followers.length;
+    const { tier } = characterMapping[`${popup.name}.png`];
 
-  const tierRequirements = [0, 0, 19, 21, 23, 24, 25, 26, 27];
-  const requiredProgress = tierRequirements[tier];
-  const canBeRescued = tier === 1 || progressCount >= requiredProgress;
+    const tierRequirements = [0, 0, 19, 21, 23, 24, 25, 26, 27];
+    const requiredProgress = tierRequirements[tier];
+    const canBeRescued = tier === 1 || progressCount >= requiredProgress;
 
-  if (canBeRescued) {
-    setLargePopup({
-      visible: true,
-      name: popup.name,
-      monster: popup.monster,
-      life: popup.life,
-    });
-  } else {
-    setPopup((prev) => ({
-      ...prev,
-      message: "Sorry, you do not have enough OL power yet!",
-    }));
-  }
-};
+    if (canBeRescued) {
+      setLargePopup({
+        visible: true,
+        name: popup.name,
+        monster: popup.monster,
+        life: popup.life,
+      });
+    } else {
+      setPopup((prev) => ({
+        ...prev,
+        message: "Sorry, you do not have enough OL power yet!",
+      }));
+    }
+  };
 
   const closeLargePopup = () => {
     setLargePopup({ visible: false, name: "", monster: "", life: 0 });
@@ -389,133 +388,146 @@ const handleRescueClick = () => {
       });
   };
 
+  const calculateMaxTier = () => {
+    const progressCount = followers.length;
+    if (progressCount >= 27) return 8;
+    if (progressCount >= 26) return 7;
+    if (progressCount >= 25) return 6;
+    if (progressCount >= 24) return 5;
+    if (progressCount >= 23) return 4;
+    if (progressCount >= 21) return 3;
+    if (progressCount >= 19) return 2;
+    return 1;
+  };
+
   return (
-  <BoardContainer>
-    <Grid ref={gridRef}>
-      {Array.from({ length: 9 }).map((_, rowIndex) => (
-        <GridRow key={rowIndex}>
-          {Array.from({ length: 7 }).map((_, colIndex) => {
-            const cellIndex = rowIndex * 7 + colIndex;
-            const imageName = cellImageMappingState[cellIndex];
+    <BoardContainer>
+      <Grid ref={gridRef}>
+        {Array.from({ length: 9 }).map((_, rowIndex) => (
+          <GridRow key={rowIndex}>
+            {Array.from({ length: 7 }).map((_, colIndex) => {
+              const cellIndex = rowIndex * 7 + colIndex;
+              const imageName = cellImageMappingState[cellIndex];
 
-            if (imageName && cellIndex !== mappedCellIndex) {
-              const userName = imageName.split(".")[0];
-              const userCode = userCodeMapping[userName];
+              if (imageName && cellIndex !== mappedCellIndex) {
+                const userName = imageName.split(".")[0];
+                const userCode = userCodeMapping[userName];
 
-              return (
-                <GridCell key={colIndex}>
-                  <HeadshotWrapper cellSize={cellSize}>
-                    <HeadshotCell
-                      src={headshots[imageName]}
-                      alt={`Headshot ${cellIndex + 1}`}
-                      cellSize={cellSize}
-                      isTalking={isTalking}
-                    />
-                    <OverlayContainer>
-                      <ChainIcon size={cellSize} />
-                      <LockImage
-                        src={lockImage}
-                        alt="Lock"
+                return (
+                  <GridCell key={colIndex}>
+                    <HeadshotWrapper cellSize={cellSize}>
+                      <HeadshotCell
+                        src={headshots[imageName]}
+                        alt={`Headshot ${cellIndex + 1}`}
                         cellSize={cellSize}
+                        isTalking={isTalking}
                       />
-                    </OverlayContainer>
-                  </HeadshotWrapper>
-                </GridCell>
-              );
-            } else {
-              return <EmptyCell key={colIndex} />;
-            }
-          })}
-        </GridRow>
-      ))}
-    </Grid>
+                      <OverlayContainer>
+                        <ChainIcon size={cellSize} />
+                        <LockImage
+                          src={lockImage}
+                          alt="Lock"
+                          cellSize={cellSize}
+                        />
+                      </OverlayContainer>
+                    </HeadshotWrapper>
+                  </GridCell>
+                );
+              } else {
+                return <EmptyCell key={colIndex} />;
+              }
+            })}
+          </GridRow>
+        ))}
+      </Grid>
 
-    <Player
-      style={{
-        top: `${position.top}px`,
-        left: `${position.left}px`,
-        width: `${cellSize}px`,
-        height: `${cellSize}px`,
-        backgroundImage: `url(${
-          headshots[cellImageMapping[mappedCellIndex]]
-        })`,
-        backgroundSize: "cover",
-        borderRadius: "5px",
-      }}
-    />
+      <Player
+        style={{
+          top: `${position.top}px`,
+          left: `${position.left}px`,
+          width: `${cellSize}px`,
+          height: `${cellSize}px`,
+          backgroundImage: `url(${
+            headshots[cellImageMapping[mappedCellIndex]]
+          })`,
+          backgroundSize: "cover",
+          borderRadius: "5px",
+        }}
+      />
 
-    {trail.map((trailPosition, index) => {
-      const followerName = Object.keys(userCodeMapping).find(
-        (key) => userCodeMapping[key] === followers[index]
-      );
-      return (
-        <Player
-          key={index}
-          style={{
-            top: `${trailPosition.top}px`,
-            left: `${trailPosition.left}px`,
-            width: `${cellSize}px`,
-            height: `${cellSize}px`,
-            backgroundImage: `url(${headshots[`${followerName}.png`]})`,
-            backgroundSize: "cover",
-            borderRadius: "5px",
-          }}
-        />
-      );
-    })}
+      {trail.map((trailPosition, index) => {
+        const followerName = Object.keys(userCodeMapping).find(
+          (key) => userCodeMapping[key] === followers[index]
+        );
+        return (
+          <Player
+            key={index}
+            style={{
+              top: `${trailPosition.top}px`,
+              left: `${trailPosition.left}px`,
+              width: `${cellSize}px`,
+              height: `${cellSize}px`,
+              backgroundImage: `url(${headshots[`${followerName}.png`]})`,
+              backgroundSize: "cover",
+              borderRadius: "5px",
+            }}
+          />
+        );
+      })}
 
-    <ArrowControls>
-      <ArrowButton onClick={() => movePlayer("up")}>↑</ArrowButton>
-      <div>
-        <ArrowButton onClick={() => movePlayer("left")}>←</ArrowButton>
-        <ArrowButton onClick={() => movePlayer("down")}>↓</ArrowButton>
-        <ArrowButton onClick={() => movePlayer("right")}>→</ArrowButton>
-      </div>
-    </ArrowControls>
+      <ArrowControls>
+        <ArrowButton onClick={() => movePlayer("up")}>↑</ArrowButton>
+        <div>
+          <ArrowButton onClick={() => movePlayer("left")}>←</ArrowButton>
+          <ArrowButton onClick={() => movePlayer("down")}>↓</ArrowButton>
+          <ArrowButton onClick={() => movePlayer("right")}>→</ArrowButton>
+        </div>
+      </ArrowControls>
 
-    {popup.visible && (
-      <Popup>
-        <PopupMessage>
-          Do you want to rescue {popup.name}?
-          <DifficultyTag>
-            Difficulty: <DifficultyIndicator difficulty={popup.difficulty} />
-          </DifficultyTag>
-        </PopupMessage>
-        <PopupButton onClick={handleRescueClick}>
-          {popup.message || "YES!"}
-        </PopupButton>
-      </Popup>
-    )}
-    {largePopup.visible && (
-      <LargePopup>
-        <CloseButton onClick={closeLargePopup}>X</CloseButton>
-        <DialogueContainer>
-          <PopupPicture src={currentImage} alt={largePopup.name} />
-          <DialogueBox>
-            <PopupDialogue
-              value={currentDialogue}
-              readOnly
-              rows="4"
-              cols="50"
-              ref={dialogueBoxRef}
-            />
-          </DialogueBox>
-        </DialogueContainer>
-        <MiniGame
-          gameStarted={gameStarted}
-          setGameStarted={setGameStarted}
-          monsterImage={largePopup.monster}
-          monsterLife={largePopup.life}
-          onGameRestart={handleGameRestart}
-          updateDialogue={updateDialogue}
-          toggleSpeakingImage={toggleSpeakingImage}
-          onMonsterDefeated={handleMonsterDefeated}
-        />
-      </LargePopup>
-    )}
-  </BoardContainer>
-);
+      {popup.visible && (
+        <Popup>
+          <PopupMessage>
+            Do you want to rescue {popup.name}?
+            <DifficultyTag>
+              Difficulty: <DifficultyIndicator difficulty={popup.difficulty} />
+            </DifficultyTag>
+          </PopupMessage>
+          <PopupButton onClick={handleRescueClick}>
+            {popup.message || "YES!"}
+          </PopupButton>
+        </Popup>
+      )}
+      {largePopup.visible && (
+        <LargePopup>
+          <CloseButton onClick={closeLargePopup}>X</CloseButton>
+          <DialogueContainer>
+            <PopupPicture src={currentImage} alt={largePopup.name} />
+            <DialogueBox>
+              <PopupDialogue
+                value={currentDialogue}
+                readOnly
+                rows="4"
+                cols="50"
+                ref={dialogueBoxRef}
+              />
+            </DialogueBox>
+          </DialogueContainer>
+          <MiniGame
+            gameStarted={gameStarted}
+            setGameStarted={setGameStarted}
+            monsterImage={largePopup.monster}
+            monsterLife={largePopup.life}
+            onGameRestart={handleGameRestart}
+            updateDialogue={updateDialogue}
+            toggleSpeakingImage={toggleSpeakingImage}
+            onMonsterDefeated={handleMonsterDefeated}
+          />
+        </LargePopup>
+      )}
 
+      <OLPowerIndicator maxTier={calculateMaxTier()} />
+    </BoardContainer>
+  );
 };
 
 export default OL_MESSAGE_BOARD;
