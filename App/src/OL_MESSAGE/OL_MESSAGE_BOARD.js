@@ -25,7 +25,7 @@ import {
   PopupDialogue,
   PopupMessage,
   PopupPicture,
-  OLPowerIndicator
+  OLPowerIndicator,
 } from "./OL_MESSAGE_BOARD_STYLES";
 import MiniGame from "./OL_MESSAGE_GAME";
 import characterMapping from "./characterMapping";
@@ -143,16 +143,18 @@ const OL_MESSAGE_BOARD = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const dialogueBoxRef = useRef(null);
   const [mappedCellIndex, setMappedCellIndex] = useState(null);
+  const [playerName, setPlayerName] = useState("");
 
   useEffect(() => {
     const playerCode = localStorage.getItem("playerCode");
     if (!playerCode || !validCodes.includes(playerCode)) {
       navigate("/message");
     } else {
-      const playerName = Object.keys(userCodeMapping).find(
+      const name = Object.keys(userCodeMapping).find(
         (key) => userCodeMapping[key] === playerCode
       );
-      const playerImage = `${playerName}.png`;
+      setPlayerName(name); // Set the player's name
+      const playerImage = `${name}.png`;
       const playerCellIndex = cellImageMapping.findIndex(
         (cell) => cell === playerImage
       );
@@ -189,8 +191,8 @@ const OL_MESSAGE_BOARD = () => {
   const formatMonsterName = (monster) =>
     monster.replace(/_/g, " ").replace(".png", "");
 
-  const updateDialogues = (username, monster) => [
-    `Heeeeeyy ${username} please help me! The ${formatMonsterName(
+  const updateDialogues = (monster) => [
+    `Heeeeeyy ${playerName} please help me! The ${formatMonsterName(
       monster
     )} has trapped me in here! I need your help.`,
     "Defeat it and bring me back to HQ so we can continue with the Orientation <3",
@@ -221,7 +223,7 @@ const OL_MESSAGE_BOARD = () => {
     let typingInterval;
     let talkingInterval;
     if (largePopup.visible && !gameStarted) {
-      const dialogues = updateDialogues(largePopup.name, largePopup.monster);
+      const dialogues = updateDialogues(largePopup.monster);
 
       typingInterval = setInterval(() => {
         setCurrentDialogue((prev) => {
