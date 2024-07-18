@@ -26,6 +26,8 @@ const validCodes = [
   "7KFPOBA",
   "ATJESPA",
   "9999999",
+  "HNHN2TK",
+  "QDYYH9S",
 ];
 
 // Mapping user names to codes
@@ -57,6 +59,8 @@ const userCodeMapping = {
   Evan: "7KFPOBA",
   Chris: "ATJESPA",
   Leo: "9999999",
+  Miguel: "HNHN2TK",
+  Lyn: "QDYYH9S",
 };
 
-export { validCodes, userCodeMapping };
+export { userCodeMapping, validCodes };
