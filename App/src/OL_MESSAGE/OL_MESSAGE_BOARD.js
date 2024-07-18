@@ -18,6 +18,7 @@ import {
   HeadshotWrapper,
   LargePopup,
   LockImage,
+  OLPowerIndicator,
   OverlayContainer,
   Player,
   Popup,
@@ -25,7 +26,6 @@ import {
   PopupDialogue,
   PopupMessage,
   PopupPicture,
-  OLPowerIndicator,
 } from "./OL_MESSAGE_BOARD_STYLES";
 import MiniGame from "./OL_MESSAGE_GAME";
 import characterMapping from "./characterMapping";
@@ -144,6 +144,9 @@ const OL_MESSAGE_BOARD = () => {
   const dialogueBoxRef = useRef(null);
   const [mappedCellIndex, setMappedCellIndex] = useState(null);
   const [playerName, setPlayerName] = useState("");
+  const happyHeadshots = importAll(
+    require.context("./Headshots/Happy", false, /\.(png|jpe?g|svg)$/)
+  );
   const [secondaryPopup, setSecondaryPopup] = useState({
     visible: false,
     name: "",
@@ -394,8 +397,9 @@ const OL_MESSAGE_BOARD = () => {
           setSecondaryPopup({
             visible: true,
             name: largePopup.name,
-            image: headshots[`${largePopup.name}.png`],
+            image: happyHeadshots[`${largePopup.name}.png`],
           });
+
         }, 10000); // 10 seconds
       })
       .catch((error) => {
