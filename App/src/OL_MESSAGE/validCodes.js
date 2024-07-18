@@ -43,7 +43,7 @@ const userCodeMapping = {
   Giovanna: "H1028KP",
   Gracie: "CMF9OFQ",
   Hannah: "785QLH2",
-  Isa: "ZAQABXK",
+  Isabella: "ZAQABXK",
   Jacob: "PCZEX37",
   Jay: "PN21SMP",
   Mariah: "V16U0T2",
