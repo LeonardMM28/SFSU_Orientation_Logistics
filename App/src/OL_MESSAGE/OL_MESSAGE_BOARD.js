@@ -144,6 +144,11 @@ const OL_MESSAGE_BOARD = () => {
   const dialogueBoxRef = useRef(null);
   const [mappedCellIndex, setMappedCellIndex] = useState(null);
   const [playerName, setPlayerName] = useState("");
+  const [secondaryPopup, setSecondaryPopup] = useState({
+    visible: false,
+    name: "",
+    image: "",
+  });
 
   useEffect(() => {
     const playerCode = localStorage.getItem("playerCode");
@@ -384,6 +389,14 @@ const OL_MESSAGE_BOARD = () => {
             cell && cell.includes(`${largePopup.name}.png`) ? null : cell
           )
         );
+        setTimeout(() => {
+          closeLargePopup();
+          setSecondaryPopup({
+            visible: true,
+            name: largePopup.name,
+            image: headshots[`${largePopup.name}.png`],
+          });
+        }, 10000); // 10 seconds
       })
       .catch((error) => {
         console.error("Error updating progress:", error);
@@ -525,6 +538,25 @@ const OL_MESSAGE_BOARD = () => {
             onMonsterDefeated={handleMonsterDefeated}
           />
         </LargePopup>
+      )}
+
+      {secondaryPopup.visible && (
+        <Popup>
+          <PopupMessage>
+            {secondaryPopup.name} has joined your journey!
+            <PopupPicture
+              src={secondaryPopup.image}
+              alt={secondaryPopup.name}
+            />
+          </PopupMessage>
+          <PopupButton
+            onClick={() =>
+              setSecondaryPopup({ visible: false, name: "", image: "" })
+            }
+          >
+            Close
+          </PopupButton>
+        </Popup>
       )}
 
       <OLPowerIndicator maxTier={calculateMaxTier()} />
