@@ -509,25 +509,6 @@ const TimeText = styled.div`
 `;
 
 
-export const EscapeButton = styled.button`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #c0392b;
-  }
-`;
-
 export const OLPowerContainer = styled.div`
   display: flex;
   align-items: center;
