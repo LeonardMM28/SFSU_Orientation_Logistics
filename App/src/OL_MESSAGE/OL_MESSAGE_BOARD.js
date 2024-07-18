@@ -134,6 +134,9 @@ const OL_MESSAGE_BOARD = () => {
   const [currentImage, setCurrentImage] = useState("");
   const [isTalking, setIsTalking] = useState(false);
   const [followers, setFollowers] = useState([]); // Initialize followers as an empty array
+  const [trail, setTrail] = useState([]); // Initialize trail as an empty array
+  const [cellImageMappingState, setCellImageMappingState] =
+    useState(cellImageMapping);
   const gridRef = useRef(null);
   const [cellSize, setCellSize] = useState(60);
   const [gameStarted, setGameStarted] = useState(false);
@@ -159,7 +162,22 @@ const OL_MESSAGE_BOARD = () => {
         .then((data) => {
           if (data) {
             console.log("User Data:", data); // Debugging statement
-            setFollowers(Array.isArray(data.progress) ? data.progress : []);
+            const progress = Array.isArray(data.progress) ? data.progress : [];
+            setFollowers(progress);
+            setCellImageMappingState((prevMapping) =>
+              prevMapping.map((cell) =>
+                progress.some(
+                  (followerCode) =>
+                    userCodeMapping[
+                      Object.keys(userCodeMapping).find(
+                        (key) => userCodeMapping[key] === followerCode
+                      )
+                    ] === cell?.split(".")[0]
+                )
+                  ? null
+                  : cell
+              )
+            );
           }
         })
         .catch((error) => {
@@ -259,6 +277,7 @@ const OL_MESSAGE_BOARD = () => {
       const gridRect = gridRef.current.getBoundingClientRect();
       let newTop = prevPosition.top;
       let newLeft = prevPosition.left;
+      let newTrail = [...trail, prevPosition];
 
       if (direction === "up" && newTop > gridRect.top) {
         newTop -= cellSize;
@@ -276,7 +295,7 @@ const OL_MESSAGE_BOARD = () => {
       const colIndex = (newLeft - gridRect.left) / cellSize;
       const rowIndex = (newTop - gridRect.top) / cellSize;
       const cellIndex = rowIndex * 7 + colIndex;
-      const imageName = cellImageMapping[cellIndex];
+      const imageName = cellImageMappingState[cellIndex];
 
       if (imageName && cellIndex !== mappedCellIndex) {
         const name = imageName.split(".")[0];
@@ -286,6 +305,11 @@ const OL_MESSAGE_BOARD = () => {
         setPopup({ visible: false, name: "", difficulty: 0 });
       }
 
+      if (newTrail.length > followers.length) {
+        newTrail = newTrail.slice(1);
+      }
+
+      setTrail(newTrail);
       return { top: newTop, left: newLeft };
     });
   };
@@ -339,6 +363,11 @@ const OL_MESSAGE_BOARD = () => {
       .then((data) => {
         console.log("Progress updated:", data);
         setFollowers((prevFollowers) => [...prevFollowers, rescueeCode]);
+        setCellImageMappingState((prevMapping) =>
+          prevMapping.map((cell) =>
+            cell && cell.includes(`${largePopup.name}.png`) ? null : cell
+          )
+        );
       })
       .catch((error) => {
         console.error("Error updating progress:", error);
@@ -352,9 +381,9 @@ const OL_MESSAGE_BOARD = () => {
           <GridRow key={rowIndex}>
             {Array.from({ length: 7 }).map((_, colIndex) => {
               const cellIndex = rowIndex * 7 + colIndex;
-              const imageName = cellImageMapping[cellIndex];
+              const imageName = cellImageMappingState[cellIndex];
 
-              if (imageName) {
+              if (imageName && cellIndex !== mappedCellIndex) {
                 const userName = imageName.split(".")[0];
                 const userCode = userCodeMapping[userName];
 
@@ -400,26 +429,25 @@ const OL_MESSAGE_BOARD = () => {
         }}
       />
 
-      {Array.isArray(followers) &&
-        followers.map((followerCode, index) => {
-          const followerName = Object.keys(userCodeMapping).find(
-            (key) => userCodeMapping[key] === followerCode
-          );
-          return (
-            <Player
-              key={index}
-              style={{
-                top: `${position.top - (index + 1) * cellSize}px`,
-                left: `${position.left}px`,
-                width: `${cellSize}px`,
-                height: `${cellSize}px`,
-                backgroundImage: `url(${headshots[`${followerName}.png`]})`,
-                backgroundSize: "cover",
-                borderRadius: "5px",
-              }}
-            />
-          );
-        })}
+      {trail.map((trailPosition, index) => {
+        const followerName = Object.keys(userCodeMapping).find(
+          (key) => userCodeMapping[key] === followers[index]
+        );
+        return (
+          <Player
+            key={index}
+            style={{
+              top: `${trailPosition.top}px`,
+              left: `${trailPosition.left}px`,
+              width: `${cellSize}px`,
+              height: `${cellSize}px`,
+              backgroundImage: `url(${headshots[`${followerName}.png`]})`,
+              backgroundSize: "cover",
+              borderRadius: "5px",
+            }}
+          />
+        );
+      })}
 
       <ArrowControls>
         <ArrowButton onClick={() => movePlayer("up")}>↑</ArrowButton>
