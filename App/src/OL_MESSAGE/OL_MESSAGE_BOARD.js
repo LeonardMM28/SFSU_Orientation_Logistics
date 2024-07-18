@@ -165,20 +165,18 @@ const OL_MESSAGE_BOARD = () => {
             const progress = JSON.parse(data.progress || "[]"); // Parsing progress data
             console.log("Progress:", progress); // Debugging statement
             setFollowers(progress);
-            setCellImageMappingState((prevMapping) =>
-              prevMapping.map((cell) =>
-                progress.some(
-                  (followerCode) =>
-                    userCodeMapping[
-                      Object.keys(userCodeMapping).find(
-                        (key) => userCodeMapping[key] === followerCode
-                      )
-                    ] === cell?.split(".")[0]
-                )
-                  ? null
-                  : cell
-              )
-            );
+
+            // Updating cellImageMappingState to remove rescued users
+            const updatedMapping = cellImageMapping.map((cell) => {
+              const isRescued = progress.some((followerCode) => {
+                const followerName = Object.keys(userCodeMapping).find(
+                  (key) => userCodeMapping[key] === followerCode
+                );
+                return cell === `${followerName}.png`;
+              });
+              return isRescued ? null : cell;
+            });
+            setCellImageMappingState(updatedMapping);
           }
         })
         .catch((error) => {
@@ -186,6 +184,8 @@ const OL_MESSAGE_BOARD = () => {
         });
     }
   }, [navigate]);
+
+  // The remaining part of the code
 
   const formatMonsterName = (monster) =>
     monster.replace(/_/g, " ").replace(".png", "");
