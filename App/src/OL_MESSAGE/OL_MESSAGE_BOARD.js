@@ -47,6 +47,10 @@ const headshotsTalking = importAll(
   require.context("./Headshots/Talking", false, /\.(png|jpe?g|svg)$/)
 );
 
+const happyHeadshots = importAll(
+  require.context("./Headshots/Happy", false, /\.(png|jpe?g|svg)$/)
+);
+
 const lockImage = require("./Headshots/lock.png");
 
 const cellImageMapping = [
@@ -144,9 +148,6 @@ const OL_MESSAGE_BOARD = () => {
   const dialogueBoxRef = useRef(null);
   const [mappedCellIndex, setMappedCellIndex] = useState(null);
   const [playerName, setPlayerName] = useState("");
-  const happyHeadshots = importAll(
-    require.context("./Headshots/Happy", false, /\.(png|jpe?g|svg)$/)
-  );
   const [secondaryPopup, setSecondaryPopup] = useState({
     visible: false,
     name: "",
@@ -392,6 +393,7 @@ const OL_MESSAGE_BOARD = () => {
             cell && cell.includes(`${largePopup.name}.png`) ? null : cell
           )
         );
+        setPopup({ visible: false, name: "", difficulty: 0 });
         setTimeout(() => {
           closeLargePopup();
           setSecondaryPopup({
@@ -399,7 +401,6 @@ const OL_MESSAGE_BOARD = () => {
             name: largePopup.name,
             image: happyHeadshots[`${largePopup.name}.png`],
           });
-
         }, 10000); // 10 seconds
       })
       .catch((error) => {
@@ -554,9 +555,10 @@ const OL_MESSAGE_BOARD = () => {
             />
           </PopupMessage>
           <PopupButton
-            onClick={() =>
-              setSecondaryPopup({ visible: false, name: "", image: "" })
-            }
+            onClick={() => {
+              setSecondaryPopup({ visible: false, name: "", image: "" });
+              setPopup({ visible: false, name: "", difficulty: 0 });
+            }}
           >
             Close
           </PopupButton>
