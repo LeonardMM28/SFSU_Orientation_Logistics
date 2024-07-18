@@ -20,50 +20,44 @@ router.get("/game/userdata/:code", (req, res) => {
   );
 });
 
-// Endpoint to set a rescue request
-router.post("/game/set/request", (req, res) => {
-  const { rescuerCode, rescueeCode, timer } = req.body;
+// Endpoint to update progress
+router.post("/game/update/progress", (req, res) => {
+  const { rescuerCode, rescueeCode } = req.body;
   connection.query(
-    'UPDATE ol_game SET requests = JSON_OBJECT("rescuer", ?, "timer", ?) WHERE code = ?',
-    [rescuerCode, timer, rescueeCode],
-    (err) => {
-      if (err) {
-        return res.status(500).json({ error: err.message });
-      }
-      res.json({ message: "Rescue request set successfully" });
-    }
-  );
-});
-
-// Endpoint to check for rescue requests
-router.get("/game/check/request/:code", (req, res) => {
-  const { code } = req.params;
-  connection.query(
-    "SELECT requests FROM ol_game WHERE code = ?",
-    [code],
+    "SELECT progress FROM ol_game WHERE code = ?",
+    [rescuerCode],
     (err, results) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
       if (results.length === 0) {
-        return res.status(404).json({ error: "User not found" });
+        return res.status(404).json({ error: "Rescuer not found" });
       }
-      res.json(results[0].requests);
-    }
-  );
-});
 
-// Endpoint to clear a rescue request
-router.post("/game/clear/request", (req, res) => {
-  const { code } = req.body;
-  connection.query(
-    "UPDATE ol_game SET requests = NULL WHERE code = ?",
-    [code],
-    (err) => {
-      if (err) {
-        return res.status(500).json({ error: err.message });
+      let progress = [];
+      try {
+        progress = results[0].progress ? JSON.parse(results[0].progress) : [];
+      } catch (error) {
+        return res.status(500).json({ error: "Failed to parse progress data" });
       }
-      res.json({ message: "Rescue request cleared successfully" });
+
+      // Ensure progress is an array
+      if (!Array.isArray(progress)) {
+        progress = [];
+      }
+
+      progress.push(rescueeCode);
+
+      connection.query(
+        "UPDATE ol_game SET progress = ? WHERE code = ?",
+        [JSON.stringify(progress), rescuerCode],
+        (err) => {
+          if (err) {
+            return res.status(500).json({ error: err.message });
+          }
+          res.json({ message: "Progress updated successfully" });
+        }
+      );
     }
   );
 });

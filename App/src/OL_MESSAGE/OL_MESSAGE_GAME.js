@@ -7,7 +7,6 @@ import {
   MiniGameArea as MiniGameAreaStyle,
   Monster,
   Symbol,
-  TimerOverlay,
 } from "./OL_MESSAGE_BOARD_STYLES";
 import defeatWords from "./defeatWords";
 
@@ -30,7 +29,6 @@ const MiniGame = ({
   const [hitWords, setHitWords] = useState([]);
   const [isHit, setIsHit] = useState(false);
   const [isDefeated, setIsDefeated] = useState(false);
-  const [timer, setTimer] = useState(30);
   const gameAreaRef = useRef(null);
   const monsterRef = useRef(null);
   const [monsterSrc, setMonsterSrc] = useState("");
@@ -100,26 +98,12 @@ const MiniGame = ({
         left: gameAreaRect.width / 2 - 250,
       });
       setMonsterSize(500);
-      startTimer();
       toggleSpeakingImage(true);
       updateDialogue(
-        "Amazing! Now you must run to me in the real world and remind me to escape, but do it before the timer runs out! Otherwise the monster will wake up and trap me again!"
+        "Amazing! You have saved me! I will be joining your journey in return. Let's go save the rest of the team!"
       );
-      onMonsterDefeated(); // Call the callback to set the rescue request
+      onMonsterDefeated();
     }
-  };
-
-  const startTimer = () => {
-    setTimer(30);
-    const countdown = setInterval(() => {
-      setTimer((prev) => {
-        if (prev === 1) {
-          clearInterval(countdown);
-          restartGame();
-        }
-        return prev - 1;
-      });
-    }, 1000);
   };
 
   const restartGame = () => {
@@ -191,7 +175,6 @@ const MiniGame = ({
               {word}
             </HitWord>
           ))}
-          {isDefeated && <TimerOverlay timer={timer} />}
         </>
       )}
     </MiniGameAreaStyle>

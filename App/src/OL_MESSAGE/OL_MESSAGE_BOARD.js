@@ -28,7 +28,7 @@ import {
 } from "./OL_MESSAGE_BOARD_STYLES";
 import MiniGame from "./OL_MESSAGE_GAME";
 import characterMapping from "./characterMapping";
-import { validCodes, userCodeMapping } from "./validCodes";
+import { userCodeMapping, validCodes } from "./validCodes";
 
 const importAll = (r) => {
   let images = {};
@@ -133,6 +133,7 @@ const OL_MESSAGE_BOARD = () => {
   const [letterIndex, setLetterIndex] = useState(0);
   const [currentImage, setCurrentImage] = useState("");
   const [isTalking, setIsTalking] = useState(false);
+  const [followers, setFollowers] = useState([]); // Initialize followers as an empty array
   const gridRef = useRef(null);
   const [cellSize, setCellSize] = useState(60);
   const [gameStarted, setGameStarted] = useState(false);
@@ -157,8 +158,8 @@ const OL_MESSAGE_BOARD = () => {
         .then((response) => response.json())
         .then((data) => {
           if (data) {
-            // Process any additional data needed from the API response
-            // For example, you might want to set more state here
+            console.log("User Data:", data); // Debugging statement
+            setFollowers(Array.isArray(data.progress) ? data.progress : []);
           }
         })
         .catch((error) => {
@@ -323,48 +324,26 @@ const OL_MESSAGE_BOARD = () => {
     setIsTalking(speaking);
   };
 
-  // Function to set a rescue request
-  const setRescueRequest = (rescuerCode, rescueeCode) => {
-    fetch("http://localhost:3000/game/set/request", {
+  const handleMonsterDefeated = () => {
+    const playerCode = localStorage.getItem("playerCode");
+    const rescueeCode = userCodeMapping[largePopup.name];
+
+    fetch("http://localhost:3000/game/update/progress", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ rescuerCode, rescueeCode, timer: 30 }),
-    });
+      body: JSON.stringify({ rescuerCode: playerCode, rescueeCode }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Progress updated:", data);
+        setFollowers((prevFollowers) => [...prevFollowers, rescueeCode]);
+      })
+      .catch((error) => {
+        console.error("Error updating progress:", error);
+      });
   };
-
-  // Function to clear a rescue request
-  const clearRescueRequest = (code) => {
-    fetch("http://localhost:3000/game/clear/request", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ code }),
-    });
-  };
-
-  // Periodically check for rescue requests
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const playerCode = localStorage.getItem("playerCode");
-      fetch(`http://localhost:3000/game/check/request/${playerCode}`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data && data.rescuer) {
-            // Show rescue request with timer
-            setLargePopup({
-              visible: true,
-              name: userCodeMapping[data.rescuer],
-              timer: data.timer,
-            });
-          }
-        });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <BoardContainer>
@@ -373,12 +352,12 @@ const OL_MESSAGE_BOARD = () => {
           <GridRow key={rowIndex}>
             {Array.from({ length: 7 }).map((_, colIndex) => {
               const cellIndex = rowIndex * 7 + colIndex;
-              const imageName =
-                cellIndex === mappedCellIndex
-                  ? null
-                  : cellImageMapping[cellIndex];
+              const imageName = cellImageMapping[cellIndex];
 
               if (imageName) {
+                const userName = imageName.split(".")[0];
+                const userCode = userCodeMapping[userName];
+
                 return (
                   <GridCell key={colIndex}>
                     <HeadshotWrapper cellSize={cellSize}>
@@ -406,6 +385,7 @@ const OL_MESSAGE_BOARD = () => {
           </GridRow>
         ))}
       </Grid>
+
       <Player
         style={{
           top: `${position.top}px`,
@@ -419,6 +399,28 @@ const OL_MESSAGE_BOARD = () => {
           borderRadius: "5px",
         }}
       />
+
+      {Array.isArray(followers) &&
+        followers.map((followerCode, index) => {
+          const followerName = Object.keys(userCodeMapping).find(
+            (key) => userCodeMapping[key] === followerCode
+          );
+          return (
+            <Player
+              key={index}
+              style={{
+                top: `${position.top - (index + 1) * cellSize}px`,
+                left: `${position.left}px`,
+                width: `${cellSize}px`,
+                height: `${cellSize}px`,
+                backgroundImage: `url(${headshots[`${followerName}.png`]})`,
+                backgroundSize: "cover",
+                borderRadius: "5px",
+              }}
+            />
+          );
+        })}
+
       <ArrowControls>
         <ArrowButton onClick={() => movePlayer("up")}>↑</ArrowButton>
         <div>
@@ -461,12 +463,7 @@ const OL_MESSAGE_BOARD = () => {
             onGameRestart={handleGameRestart}
             updateDialogue={updateDialogue}
             toggleSpeakingImage={toggleSpeakingImage}
-            onMonsterDefeated={() =>
-              setRescueRequest(
-                localStorage.getItem("playerCode"),
-                userCodeMapping[largePopup.name]
-              )
-            }
+            onMonsterDefeated={handleMonsterDefeated}
           />
         </LargePopup>
       )}
