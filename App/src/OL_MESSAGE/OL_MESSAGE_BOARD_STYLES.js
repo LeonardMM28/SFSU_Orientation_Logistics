@@ -605,4 +605,63 @@ export const LargePurplePopupPicture = styled.img`
   border-radius: 10%;
 `;
 
+export const InstructionsOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  font-family: "VT323", monospace;
+`;
+
+export const InstructionsBox = styled.div`
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 20px;
+`;
+
+export const InstructionsButton = styled.button`
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  border: none;
+  background-color: #2c3e50;
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #1abc9c;
+  }
+`;
+
+export const InstructionsScreen = ({ onClose, playerName }) => {
+  return (
+    <InstructionsOverlay>
+      <InstructionsBox>
+        <h2>Hi {playerName}, welcome to the OL Adventure game!</h2>
+        <h2>Instructions:</h2>
+        <ul>
+          <li>Use the arrow buttons to move your player.</li>
+          <li>Rescue characters by defeating monsters.</li>
+          <li>Progress through the levels to gain more power.</li>
+          <li>You have to rescue everyone to get your reward</li>
+
+          <li>Good luck and have fun!</li>
+        </ul>
+        <InstructionsButton onClick={onClose}>Got it!</InstructionsButton>
+      </InstructionsBox>
+    </InstructionsOverlay>
+  );
+};
+
 export { CircleBackground, CircleTimer, Svg, SvgWrapper, TimeText };

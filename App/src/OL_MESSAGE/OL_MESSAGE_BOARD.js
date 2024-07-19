@@ -30,6 +30,7 @@ import {
   PopupDialogue,
   PopupMessage,
   PopupPicture,
+  InstructionsScreen
 } from "./OL_MESSAGE_BOARD_STYLES";
 import MiniGame from "./OL_MESSAGE_GAME";
 import characterMapping from "./characterMapping";
@@ -142,8 +143,8 @@ const OL_MESSAGE_BOARD = () => {
   const [letterIndex, setLetterIndex] = useState(0);
   const [currentImage, setCurrentImage] = useState("");
   const [isTalking, setIsTalking] = useState(false);
-  const [followers, setFollowers] = useState([]); // Initialize followers as an empty array
-  const [trail, setTrail] = useState([]); // Initialize trail as an empty array
+  const [followers, setFollowers] = useState([]);
+  const [trail, setTrail] = useState([]);
   const [cellImageMappingState, setCellImageMappingState] =
     useState(cellImageMapping);
   const gridRef = useRef(null);
@@ -157,6 +158,9 @@ const OL_MESSAGE_BOARD = () => {
     name: "",
     image: "",
   });
+  const [showInstructions, setShowInstructions] = useState(
+    !localStorage.getItem("instructionsSeen")
+  );
 
   useEffect(() => {
     const playerCode = localStorage.getItem("playerCode");
@@ -166,7 +170,7 @@ const OL_MESSAGE_BOARD = () => {
       const name = Object.keys(userCodeMapping).find(
         (key) => userCodeMapping[key] === playerCode
       );
-      setPlayerName(name); // Set the player's name
+      setPlayerName(name);
       const playerImage = `${name}.png`;
       const playerCellIndex = cellImageMapping.findIndex(
         (cell) => cell === playerImage
@@ -177,12 +181,11 @@ const OL_MESSAGE_BOARD = () => {
         .then((response) => response.json())
         .then((data) => {
           if (data) {
-            console.log("User Data:", data); // Debugging statement
-            const progress = JSON.parse(data.progress || "[]"); // Parsing progress data
-            console.log("Progress:", progress); // Debugging statement
+            console.log("User Data:", data);
+            const progress = JSON.parse(data.progress || "[]");
+            console.log("Progress:", progress);
             setFollowers(progress);
 
-            // Updating cellImageMappingState to remove rescued users
             const updatedMapping = cellImageMapping.map((cell) => {
               const isRescued = progress.some((followerCode) => {
                 const followerName = Object.keys(userCodeMapping).find(
@@ -369,11 +372,10 @@ const OL_MESSAGE_BOARD = () => {
 
   const handleGameRestart = () => {
     handleCloseLargePopup();
-    // Any other logic to reset the game
   };
 
   const updateDialogue = (newDialogue) => {
-    setCurrentDialogue(newDialogue); // Clear the previous dialogue and set the new one
+    setCurrentDialogue(newDialogue);
     setDialogueIndex(dialogueIndex + 1);
     setLetterIndex(0);
   };
@@ -409,7 +411,7 @@ const OL_MESSAGE_BOARD = () => {
             name: largePopup.name,
             image: happyHeadshots[`${largePopup.name}.png`],
           });
-        }, 4000); // Show the popup after 4 seconds
+        }, 4000);
       })
       .catch((error) => {
         console.error("Error updating progress:", error);
@@ -428,8 +430,19 @@ const OL_MESSAGE_BOARD = () => {
     return 1;
   };
 
+  const handleCloseInstructions = () => {
+    localStorage.setItem("instructionsSeen", "true");
+    setShowInstructions(false);
+  };
+
   return (
     <BoardContainer>
+      {showInstructions && (
+        <InstructionsScreen
+          onClose={handleCloseInstructions}
+          playerName={playerName}
+        />
+      )}
       <Grid ref={gridRef}>
         {Array.from({ length: 9 }).map((_, rowIndex) => (
           <GridRow key={rowIndex}>
