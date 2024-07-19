@@ -56,7 +56,7 @@ export const EmptyCell = styled.div`
 export const Player = styled.div`
   position: absolute;
   background-color: transparent;
- 
+
   transition: top 0.3s, left 0.3s;
   box-shadow: 0 20px 20px rgba(0, 0, 0, 0.8);
   background-size: cover;
@@ -64,35 +64,39 @@ export const Player = styled.div`
   border-radius: 50%;
 `;
 
-
 export const ArrowControls = styled.div`
-  margin-top: 10px;
+  margin-top: 20px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  background: linear-gradient(
-    135deg,
-    #7d5ba6 0%,
-    /* Lighter Purple */ #fdd835 100%
-  ); /* Purple to Gold gradient */
-  padding: 10px;
+  background: linear-gradient(135deg, #5a2d82 0%, #a67c00 100%);
+  padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 `;
 
 export const ArrowButton = styled.button`
-  background-color: #2c3e50;
-  color: white;
+  background-color: #f1c40f;
+  color: #2c3e50;
   border: none;
-  padding: 10px;
-  margin: 5px;
+  height: 70px;
+  width: 70px;
+  padding: 20px;
+  margin: 10px;
   cursor: pointer;
-  font-size: 16px;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+  font-size: 32px;
+  border-radius: 10px;
+  transition: background-color 0.3s, transform 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 
   &:hover {
-    background-color: #1abc9c;
+    background-color: #f39c12;
+    transform: scale(1.1);
+  }
+
+  &:active {
+    background-color: #d35400;
+    transform: scale(0.9);
   }
 `;
 
@@ -251,14 +255,13 @@ export const PopupPicture = styled.img`
 
 export const PopupDialogue = styled.textarea`
   font-family: "VT323", monospace;
-  font-size: 16px;
+  font-size: 18px;
   width: 100%;
   height: 150px;
   background-color: #fff9c4;
   border: none;
   overflow-y: auto; /* Enable vertical scrolling */
 `;
-
 
 export const MiniGameArea = styled.div`
   width: 100%;
@@ -291,7 +294,7 @@ export const CloseButton = styled.button`
 
 export const DialogueContainer = styled.div`
   display: flex;
-  
+
   justify-content: flex-start;
   width: 95%;
   position: absolute;
@@ -355,7 +358,6 @@ export const FightButton = styled.button`
     border-color: #4a148c;
   }
 `;
-
 
 const hitAnimation = keyframes`
   0% {
@@ -448,8 +450,6 @@ const borderShrink = keyframes`
   }
 `;
 
-
-
 const dashArray = 283;
 const dashOffset = dashArray;
 
@@ -507,7 +507,6 @@ const TimeText = styled.div`
   font-size: 40px;
   color: white;
 `;
-
 
 export const OLPowerContainer = styled.div`
   display: flex;
@@ -606,4 +605,4 @@ export const LargePurplePopupPicture = styled.img`
   border-radius: 10%;
 `;
 
-export { SvgWrapper, Svg, CircleBackground, CircleTimer, TimeText };
+export { CircleBackground, CircleTimer, Svg, SvgWrapper, TimeText };

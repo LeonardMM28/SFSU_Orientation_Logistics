@@ -17,6 +17,10 @@ import {
   HeadshotCell,
   HeadshotWrapper,
   LargePopup,
+  LargePurplePopup,
+  LargePurplePopupButton,
+  LargePurplePopupMessage,
+  LargePurplePopupPicture,
   LockImage,
   OLPowerIndicator,
   OverlayContainer,
@@ -26,10 +30,6 @@ import {
   PopupDialogue,
   PopupMessage,
   PopupPicture,
-  LargePurplePopup,
-  LargePurplePopupButton,
-  LargePurplePopupMessage,
-  LargePurplePopupPicture,
 } from "./OL_MESSAGE_BOARD_STYLES";
 import MiniGame from "./OL_MESSAGE_GAME";
 import characterMapping from "./characterMapping";
@@ -503,12 +503,10 @@ const OL_MESSAGE_BOARD = () => {
       })}
       <OLPowerIndicator maxTier={calculateMaxTier()} />
       <ArrowControls>
+        <ArrowButton onClick={() => movePlayer("left")}>←</ArrowButton>
         <ArrowButton onClick={() => movePlayer("up")}>↑</ArrowButton>
-        <div>
-          <ArrowButton onClick={() => movePlayer("left")}>←</ArrowButton>
-          <ArrowButton onClick={() => movePlayer("down")}>↓</ArrowButton>
-          <ArrowButton onClick={() => movePlayer("right")}>→</ArrowButton>
-        </div>
+        <ArrowButton onClick={() => movePlayer("down")}>↓</ArrowButton>
+        <ArrowButton onClick={() => movePlayer("right")}>→</ArrowButton>
       </ArrowControls>
 
       {popup.visible && (
