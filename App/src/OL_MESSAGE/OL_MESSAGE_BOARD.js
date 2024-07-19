@@ -349,8 +349,17 @@ const OL_MESSAGE_BOARD = () => {
     }
   };
 
-  const closeLargePopup = () => {
-    setLargePopup({ visible: false, name: "", monster: "", life: 0 });
+  const handleCloseLargePopup = () => {
+    setLargePopup((prevLargePopup) => {
+      if (prevLargePopup.visible) {
+        setSecondaryPopup({
+          visible: true,
+          name: prevLargePopup.name,
+          image: happyHeadshots[`${prevLargePopup.name}.png`],
+        });
+      }
+      return { visible: false, name: "", monster: "", life: 0 };
+    });
     setCurrentDialogue("");
     setDialogueIndex(0);
     setLetterIndex(0);
@@ -359,7 +368,7 @@ const OL_MESSAGE_BOARD = () => {
   };
 
   const handleGameRestart = () => {
-    closeLargePopup();
+    handleCloseLargePopup();
     // Any other logic to reset the game
   };
 
@@ -395,13 +404,8 @@ const OL_MESSAGE_BOARD = () => {
         );
         setPopup({ visible: false, name: "", difficulty: 0 });
         setTimeout(() => {
-          closeLargePopup();
-          setSecondaryPopup({
-            visible: true,
-            name: largePopup.name,
-            image: happyHeadshots[`${largePopup.name}.png`],
-          });
-        }, 10000); // 10 seconds
+          handleCloseLargePopup();
+        }, 4000); // 10 seconds
       })
       .catch((error) => {
         console.error("Error updating progress:", error);
@@ -519,7 +523,7 @@ const OL_MESSAGE_BOARD = () => {
       )}
       {largePopup.visible && (
         <LargePopup>
-          <CloseButton onClick={closeLargePopup}>X</CloseButton>
+          <CloseButton onClick={handleCloseLargePopup}>X</CloseButton>
           <DialogueContainer>
             <PopupPicture src={currentImage} alt={largePopup.name} />
             <DialogueBox>
