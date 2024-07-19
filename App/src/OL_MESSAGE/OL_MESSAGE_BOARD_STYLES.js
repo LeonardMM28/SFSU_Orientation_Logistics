@@ -555,4 +555,55 @@ export const OLPowerIndicator = ({ maxTier }) => {
   );
 };
 
+export const LargePurplePopup = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #7d5ba6; /* Full purple color */
+  padding: 40px; /* Increased padding for larger size */
+  border: 2px solid #2c3e50;
+  border-radius: 20px; /* Larger border radius for a more distinct look */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%; /* Adjust width and height as needed */
+  height: 80%;
+`;
+
+export const LargePurplePopupMessage = styled.div`
+  font-size: 24px; /* Larger font size */
+  color: white; /* White text color for better contrast */
+  margin-top: 20px;
+  text-align: center; /* Center-align text */
+`;
+
+export const LargePurplePopupButton = styled.button`
+  font-family: "VT323", monospace;
+  background-color: #2c3e50;
+  color: white;
+  border: none;
+  padding: 15px 30px; /* Increased padding for a larger button */
+  cursor: pointer;
+  font-size: 20px; /* Larger font size */
+  border-radius: 10px; /* Larger border radius */
+  transition: background-color 0.3s;
+  margin-top: 20px;
+
+  &:hover {
+    background-color: #1abc9c;
+  }
+`;
+
+export const LargePurplePopupPicture = styled.img`
+  width: 300px; /* Increased size */
+  height: 300px; /* Increased size */
+  object-fit: cover;
+  margin-bottom: 20px;
+  border-radius: 10%;
+`;
+
 export { SvgWrapper, Svg, CircleBackground, CircleTimer, TimeText };

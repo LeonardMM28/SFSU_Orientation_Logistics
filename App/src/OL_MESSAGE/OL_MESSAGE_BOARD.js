@@ -26,6 +26,10 @@ import {
   PopupDialogue,
   PopupMessage,
   PopupPicture,
+  LargePurplePopup,
+  LargePurplePopupButton,
+  LargePurplePopupMessage,
+  LargePurplePopupPicture,
 } from "./OL_MESSAGE_BOARD_STYLES";
 import MiniGame from "./OL_MESSAGE_GAME";
 import characterMapping from "./characterMapping";
@@ -550,23 +554,23 @@ const OL_MESSAGE_BOARD = () => {
       )}
 
       {secondaryPopup.visible && (
-        <Popup>
-          <PopupMessage>
+        <LargePurplePopup>
+          <LargePurplePopupPicture
+            src={secondaryPopup.image}
+            alt={secondaryPopup.name}
+          />
+          <LargePurplePopupMessage>
             {secondaryPopup.name} has joined your journey!
-            <PopupPicture
-              src={secondaryPopup.image}
-              alt={secondaryPopup.name}
-            />
-          </PopupMessage>
-          <PopupButton
+          </LargePurplePopupMessage>
+          <LargePurplePopupButton
             onClick={() => {
               setSecondaryPopup({ visible: false, name: "", image: "" });
               setPopup({ visible: false, name: "", difficulty: 0 });
             }}
           >
             Close
-          </PopupButton>
-        </Popup>
+          </LargePurplePopupButton>
+        </LargePurplePopup>
       )}
 
       <OLPowerIndicator maxTier={calculateMaxTier()} />
