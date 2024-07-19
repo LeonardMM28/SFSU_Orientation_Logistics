@@ -56,7 +56,7 @@ export const EmptyCell = styled.div`
 export const Player = styled.div`
   position: absolute;
   background-color: transparent;
-  border: 2px solid #ecf0f1;
+ 
   transition: top 0.3s, left 0.3s;
   box-shadow: 0 20px 20px rgba(0, 0, 0, 0.8);
   background-size: cover;

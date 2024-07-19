@@ -495,9 +495,9 @@ const OL_MESSAGE_BOARD = () => {
               left: `${trailPosition.left}px`,
               width: `${cellSize}px`,
               height: `${cellSize}px`,
-              backgroundImage: `url(${headshots[`${followerName}.png`]})`,
+              backgroundImage: `url(${happyHeadshots[`${followerName}.png`]})`,
               backgroundSize: "cover",
-              borderRadius: "5px",
+  
             }}
           />
         );
