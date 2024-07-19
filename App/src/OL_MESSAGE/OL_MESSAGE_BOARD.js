@@ -354,15 +354,11 @@ const OL_MESSAGE_BOARD = () => {
   };
 
   const handleCloseLargePopup = () => {
-    setLargePopup((prevLargePopup) => {
-      if (prevLargePopup.visible) {
-        setSecondaryPopup({
-          visible: true,
-          name: prevLargePopup.name,
-          image: happyHeadshots[`${prevLargePopup.name}.png`],
-        });
-      }
-      return { visible: false, name: "", monster: "", life: 0 };
+    setLargePopup({
+      visible: false,
+      name: "",
+      monster: "",
+      life: 0,
     });
     setCurrentDialogue("");
     setDialogueIndex(0);
@@ -408,8 +404,12 @@ const OL_MESSAGE_BOARD = () => {
         );
         setPopup({ visible: false, name: "", difficulty: 0 });
         setTimeout(() => {
-          handleCloseLargePopup();
-        }, 4000); // 10 seconds
+          setSecondaryPopup({
+            visible: true,
+            name: largePopup.name,
+            image: happyHeadshots[`${largePopup.name}.png`],
+          });
+        }, 4000); // Show the popup after 4 seconds
       })
       .catch((error) => {
         console.error("Error updating progress:", error);

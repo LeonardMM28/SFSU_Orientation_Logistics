@@ -142,7 +142,7 @@ connection.query(
     code CHAR(7) NOT NULL,
     progress JSON,
     requests JSON,
-    message VARCHAR(100),
+  message LONGTEXT,
     tier INT CHECK (tier >= 1 AND tier <= 8)
   )
     
