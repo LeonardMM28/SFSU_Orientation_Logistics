@@ -629,6 +629,8 @@ export const InstructionsBox = styled.div`
 `;
 
 export const InstructionsButton = styled.button`
+  font-family: "VT323", monospace;
+
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 18px;
