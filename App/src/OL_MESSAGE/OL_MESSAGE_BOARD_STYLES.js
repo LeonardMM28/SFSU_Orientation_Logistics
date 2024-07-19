@@ -66,7 +66,7 @@ export const Player = styled.div`
 
 
 export const ArrowControls = styled.div`
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -512,7 +512,7 @@ const TimeText = styled.div`
 export const OLPowerContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 5px;
 `;
 
 export const OLPowerLabel = styled.div`

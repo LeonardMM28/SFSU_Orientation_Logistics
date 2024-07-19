@@ -497,12 +497,11 @@ const OL_MESSAGE_BOARD = () => {
               height: `${cellSize}px`,
               backgroundImage: `url(${happyHeadshots[`${followerName}.png`]})`,
               backgroundSize: "cover",
-  
             }}
           />
         );
       })}
-
+      <OLPowerIndicator maxTier={calculateMaxTier()} />
       <ArrowControls>
         <ArrowButton onClick={() => movePlayer("up")}>↑</ArrowButton>
         <div>
@@ -572,8 +571,6 @@ const OL_MESSAGE_BOARD = () => {
           </LargePurplePopupButton>
         </LargePurplePopup>
       )}
-
-      <OLPowerIndicator maxTier={calculateMaxTier()} />
     </BoardContainer>
   );
 };
