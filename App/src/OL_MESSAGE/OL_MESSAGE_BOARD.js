@@ -163,6 +163,7 @@ const OL_MESSAGE_BOARD = () => {
     !localStorage.getItem("instructionsSeen")
   );
 
+
   useEffect(() => {
     const playerCode = localStorage.getItem("playerCode");
     if (!playerCode || !validCodes.includes(playerCode)) {
@@ -420,7 +421,7 @@ const handleMonsterDefeated = () => {
             visible: true,
             message: "Congratulations! You have rescued everyone!",
           });
-        }, 2000);
+        }, 1000);
       } else {
         setTimeout(() => {
           setSecondaryPopup({
