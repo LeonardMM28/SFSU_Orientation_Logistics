@@ -39,7 +39,7 @@ const characterMapping = {
   "Lyn.png": {
     difficulty: 8,
     monster: "Tuition_Hike_Hydra.png",
-    life: 1000,
+    life: 20,
     tier: 8,
   },
   "Daniel.png": {

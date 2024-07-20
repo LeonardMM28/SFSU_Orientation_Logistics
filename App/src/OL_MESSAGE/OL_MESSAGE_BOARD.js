@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import FinalMessagePopup from "./FinalMessagePopup";
 import {
   ArrowButton,
   ArrowControls,
@@ -16,6 +17,7 @@ import {
   GridRow,
   HeadshotCell,
   HeadshotWrapper,
+  InstructionsScreen,
   LargePopup,
   LargePurplePopup,
   LargePurplePopupButton,
@@ -30,7 +32,6 @@ import {
   PopupDialogue,
   PopupMessage,
   PopupPicture,
-  InstructionsScreen
 } from "./OL_MESSAGE_BOARD_STYLES";
 import MiniGame from "./OL_MESSAGE_GAME";
 import characterMapping from "./characterMapping";
@@ -161,6 +162,8 @@ const OL_MESSAGE_BOARD = () => {
   const [showInstructions, setShowInstructions] = useState(
     !localStorage.getItem("instructionsSeen")
   );
+  const [showFinalMessage, setShowFinalMessage] = useState(false);
+  const [finalMessage, setFinalMessage] = useState("");
 
   useEffect(() => {
     const playerCode = localStorage.getItem("playerCode");
@@ -185,6 +188,9 @@ const OL_MESSAGE_BOARD = () => {
             const progress = JSON.parse(data.progress || "[]");
             console.log("Progress:", progress);
             setFollowers(progress);
+            if (data.message) {
+              setFinalMessage(data.message);
+            }
 
             const updatedMapping = cellImageMapping.map((cell) => {
               const isRescued = progress.some((followerCode) => {
@@ -412,6 +418,13 @@ const OL_MESSAGE_BOARD = () => {
             image: happyHeadshots[`${largePopup.name}.png`],
           });
         }, 4000);
+
+        // Show the final message popup if Lyn is rescued
+        if (largePopup.name === "Lyn" && largePopup.difficulty === 8) {
+          setTimeout(() => {
+            setShowFinalMessage(true);
+          }, 6000); // Show final message after Lyn's secondary popup
+        }
       })
       .catch((error) => {
         console.error("Error updating progress:", error);
@@ -435,12 +448,22 @@ const OL_MESSAGE_BOARD = () => {
     setShowInstructions(false);
   };
 
+  const handleCloseFinalMessage = () => {
+    setShowFinalMessage(false);
+  };
+
   return (
     <BoardContainer>
       {showInstructions && (
         <InstructionsScreen
           onClose={handleCloseInstructions}
           playerName={playerName}
+        />
+      )}
+      {showFinalMessage && (
+        <FinalMessagePopup
+          message={finalMessage}
+          onClose={handleCloseFinalMessage}
         />
       )}
       <Grid ref={gridRef}>
