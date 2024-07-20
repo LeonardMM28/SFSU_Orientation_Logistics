@@ -22,6 +22,7 @@ const MiniGame = ({
   updateDialogue,
   toggleSpeakingImage,
   onMonsterDefeated,
+  isFinalRescue,
 }) => {
   const [monsterPosition, setMonsterPosition] = useState({ top: 0, left: 0 });
   const [monsterSize, setMonsterSize] = useState(50);
@@ -99,9 +100,10 @@ const MiniGame = ({
       });
       setMonsterSize(500);
       toggleSpeakingImage(true);
-      updateDialogue(
-        "Amazing! You have saved me, thank you! I will be joining your journey in return. Let's go save the rest of the team!"
-      );
+      const finalMessage = isFinalRescue
+        ? "Amazing! You have saved me, and everyone have been rescued, thank you! Congratulations on completing your mission, now we can continue with the Orientation successfully!"
+        : "Amazing! You have saved me, thank you! I will be joining your journey in return. Let's go save the rest of the team!";
+      updateDialogue(finalMessage);
       onMonsterDefeated();
     }
   };

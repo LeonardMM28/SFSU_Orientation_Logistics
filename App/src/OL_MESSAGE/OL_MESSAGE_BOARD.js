@@ -416,12 +416,27 @@ const handleMonsterDefeated = () => {
 
       // Check if the rescued person is Lyn
       if (largePopup.name === "Lyn") {
-        setTimeout(() => {
-          setFinalPopup({
-            visible: true,
-            message: "Congratulations! You have rescued everyone!",
+        fetch(`http://localhost:3000/game/userdata/${playerCode}`)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("User Data for final message:", data);
+            const finalMessage =
+              data.message || "Congratulations! You have rescued everyone!";
+
+            setTimeout(() => {
+              setFinalPopup({
+                visible: true,
+                message: finalMessage,
+              });
+            }, 1000);
+          })
+          .catch((error) => {
+            console.error("Error fetching final message:", error);
+            setFinalPopup({
+              visible: true,
+              message: "Congratulations! You have rescued everyone!",
+            });
           });
-        }, 1000);
       } else {
         setTimeout(() => {
           setSecondaryPopup({
@@ -578,6 +593,7 @@ const handleMonsterDefeated = () => {
             updateDialogue={updateDialogue}
             toggleSpeakingImage={toggleSpeakingImage}
             onMonsterDefeated={handleMonsterDefeated}
+            isFinalRescue={largePopup.name === "Lyn"}
           />
         </LargePopup>
       )}

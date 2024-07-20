@@ -718,6 +718,13 @@ export const FinalPopupMessage = styled.p`
   color: #333;
 `;
 
+export const FinalPopupMessage2 = styled.p`
+  font-size: 18px;
+  color: #333;
+  margin-top: 20px;
+  text-align: right;
+`;
+
 export const FinalCloseButton = styled.button`
   font-family: "VT323", monospace;
   background-color: #2c3e50;
@@ -738,14 +745,12 @@ export const FinalCloseButton = styled.button`
 export const FinalMessagePopup = ({ message, onClose }) => (
   <FinalPopupOverlay>
     <FinalPopupBox>
-      <FinalPopupTitle>Congratulations!</FinalPopupTitle>
+      <FinalPopupTitle>As a reward, I wrote a message just for you!</FinalPopupTitle>
       <FinalPopupMessage>{message}</FinalPopupMessage>
-      <FinalCloseButton onClick={onClose}>Close</FinalCloseButton>
+      <FinalPopupMessage>Thank you for playing this little game!</FinalPopupMessage>
+      <FinalPopupMessage2>-Your good friend TL Leo 💙</FinalPopupMessage2>
     </FinalPopupBox>
   </FinalPopupOverlay>
 );
-
-
-
 
 export { CircleBackground, CircleTimer, Svg, SvgWrapper, TimeText };
