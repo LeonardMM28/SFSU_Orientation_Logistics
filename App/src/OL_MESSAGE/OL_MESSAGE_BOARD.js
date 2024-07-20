@@ -11,11 +11,13 @@ import {
   DifficultyIndicator,
   DifficultyTag,
   EmptyCell,
+  FinalMessagePopup,
   Grid,
   GridCell,
   GridRow,
   HeadshotCell,
   HeadshotWrapper,
+  InstructionsScreen,
   LargePopup,
   LargePurplePopup,
   LargePurplePopupButton,
@@ -30,8 +32,6 @@ import {
   PopupDialogue,
   PopupMessage,
   PopupPicture,
-  InstructionsScreen,
-  FinalMessagePopup,
 } from "./OL_MESSAGE_BOARD_STYLES";
 import MiniGame from "./OL_MESSAGE_GAME";
 import characterMapping from "./characterMapping";
@@ -163,7 +163,6 @@ const OL_MESSAGE_BOARD = () => {
     !localStorage.getItem("instructionsSeen")
   );
 
-
   useEffect(() => {
     const playerCode = localStorage.getItem("playerCode");
     if (!playerCode || !validCodes.includes(playerCode)) {
@@ -179,7 +178,8 @@ const OL_MESSAGE_BOARD = () => {
       );
       setMappedCellIndex(playerCellIndex);
 
-      fetch(`http://localhost:3000/game/userdata/${playerCode}`)
+      // fetch(`http://localhost:3000/game/userdata/${playerCode}`)
+      fetch(`https://sfsulogistics.online:3000/game/userdata/${playerCode}`)
         .then((response) => response.json())
         .then((data) => {
           if (data) {
@@ -363,7 +363,6 @@ const OL_MESSAGE_BOARD = () => {
     message: "",
   });
 
-
   const handleCloseLargePopup = () => {
     setLargePopup({
       visible: false,
@@ -392,65 +391,67 @@ const OL_MESSAGE_BOARD = () => {
     setIsTalking(speaking);
   };
 
-const handleMonsterDefeated = () => {
-  const playerCode = localStorage.getItem("playerCode");
-  const rescueeCode = userCodeMapping[largePopup.name];
+  const handleMonsterDefeated = () => {
+    const playerCode = localStorage.getItem("playerCode");
+    const rescueeCode = userCodeMapping[largePopup.name];
 
-  fetch("http://localhost:3000/game/update/progress", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ rescuerCode: playerCode, rescueeCode }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Progress updated:", data);
-      setFollowers((prevFollowers) => [...prevFollowers, rescueeCode]);
-      setCellImageMappingState((prevMapping) =>
-        prevMapping.map((cell) =>
-          cell && cell.includes(`${largePopup.name}.png`) ? null : cell
-        )
-      );
-      setPopup({ visible: false, name: "", difficulty: 0 });
+    // fetch("http://localhost:3000/game/update/progress", {
+    fetch("https://sfsulogistics.online:3000/game/update/progress", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ rescuerCode: playerCode, rescueeCode }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Progress updated:", data);
+        setFollowers((prevFollowers) => [...prevFollowers, rescueeCode]);
+        setCellImageMappingState((prevMapping) =>
+          prevMapping.map((cell) =>
+            cell && cell.includes(`${largePopup.name}.png`) ? null : cell
+          )
+        );
+        setPopup({ visible: false, name: "", difficulty: 0 });
 
-      // Check if the rescued person is Lyn
-      if (largePopup.name === "Lyn") {
-        fetch(`http://localhost:3000/game/userdata/${playerCode}`)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("User Data for final message:", data);
-            const finalMessage =
-              data.message || "Congratulations! You have rescued everyone!";
+        // Check if the rescued person is Lyn
+        if (largePopup.name === "Lyn") {
+          // fetch(`http://localhost:3000/game/userdata/${playerCode}`)
+          fetch(`https://sfsulogistics.online:3000/game/userdata/${playerCode}`)
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("User Data for final message:", data);
+              const finalMessage =
+                data.message || "Congratulations! You have rescued everyone!";
 
-            setTimeout(() => {
+              setTimeout(() => {
+                setFinalPopup({
+                  visible: true,
+                  message: finalMessage,
+                });
+              }, 1000);
+            })
+            .catch((error) => {
+              console.error("Error fetching final message:", error);
               setFinalPopup({
                 visible: true,
-                message: finalMessage,
+                message: "Congratulations! You have rescued everyone!",
               });
-            }, 1000);
-          })
-          .catch((error) => {
-            console.error("Error fetching final message:", error);
-            setFinalPopup({
-              visible: true,
-              message: "Congratulations! You have rescued everyone!",
             });
-          });
-      } else {
-        setTimeout(() => {
-          setSecondaryPopup({
-            visible: true,
-            name: largePopup.name,
-            image: happyHeadshots[`${largePopup.name}.png`],
-          });
-        }, 4000);
-      }
-    })
-    .catch((error) => {
-      console.error("Error updating progress:", error);
-    });
-};
+        } else {
+          setTimeout(() => {
+            setSecondaryPopup({
+              visible: true,
+              name: largePopup.name,
+              image: happyHeadshots[`${largePopup.name}.png`],
+            });
+          }, 4000);
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating progress:", error);
+      });
+  };
 
   const calculateMaxTier = () => {
     const progressCount = followers.length;
@@ -626,7 +627,6 @@ const handleMonsterDefeated = () => {
       )}
     </BoardContainer>
   );
-
 };
 
 export default OL_MESSAGE_BOARD;

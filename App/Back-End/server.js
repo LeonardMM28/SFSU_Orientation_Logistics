@@ -175,10 +175,10 @@ const httpsServer = https.createServer(
 //   res.sendFile(path.join(__dirname, "../public/index.html")); // Update the path to your index.html file
 // });
 
-// httpsServer.listen(PORT, () => {
-//   console.log(`Server is running on https://sfsulogistics.online:${PORT}`);
-// });
-
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+httpsServer.listen(PORT, () => {
+  console.log(`Server is running on https://sfsulogistics.online:${PORT}`);
 });
+
+// app.listen(PORT, () => {
+//   console.log(`Server listening on port ${PORT}`);
+// });
