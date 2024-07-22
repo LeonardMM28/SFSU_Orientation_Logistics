@@ -339,7 +339,7 @@ const OL_MESSAGE_BOARD = () => {
     const progressCount = followers.length;
     const { tier } = characterMapping[`${popup.name}.png`];
 
-    const tierRequirements = [0, 0, 19, 21, 23, 24, 25, 26, 27];
+    const tierRequirements = [0, 0, 18, 21, 23, 24, 25, 26, 27];
     const requiredProgress = tierRequirements[tier];
     const canBeRescued = tier === 1 || progressCount >= requiredProgress;
 
