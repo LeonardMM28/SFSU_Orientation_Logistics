@@ -468,6 +468,7 @@ const OL_MESSAGE_BOARD = () => {
   const handleCloseInstructions = () => {
     localStorage.setItem("instructionsSeen", "true");
     setShowInstructions(false);
+    window.location.reload();
   };
 
   return (
