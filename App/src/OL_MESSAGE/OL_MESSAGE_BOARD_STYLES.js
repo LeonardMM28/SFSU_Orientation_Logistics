@@ -656,8 +656,9 @@ export const InstructionsScreen = ({ onClose, playerName }) => {
           <li>Use the arrow buttons to move your player.</li>
           <li>Rescue characters by defeating monsters.</li>
           <li>Progress through the levels to gain more power.</li>
-          <li>You have to rescue everyone to get your reward</li>
 
+          <li>You have to rescue everyone to get your reward</li>
+          <li>If the game is not functioning properly, please reopen your browser and refresh the page!</li>
           <li>Good luck and have fun!</li>
         </ul>
         <InstructionsButton onClick={onClose}>Got it!</InstructionsButton>
