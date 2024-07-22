@@ -461,7 +461,7 @@ const OL_MESSAGE_BOARD = () => {
     if (progressCount >= 24) return 5;
     if (progressCount >= 23) return 4;
     if (progressCount >= 21) return 3;
-    if (progressCount >= 19) return 2;
+    if (progressCount >= 18) return 2;
     return 1;
   };
 
