@@ -701,7 +701,7 @@ export const FinalPopupOverlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2000;
+  z-index: 5000;
   animation: ${fadeIn} 0.5s ease-in-out;
 `;
 
