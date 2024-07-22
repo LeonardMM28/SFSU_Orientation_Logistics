@@ -101,7 +101,7 @@ const MiniGame = ({
       setMonsterSize(500);
       toggleSpeakingImage(true);
       const finalMessage = isFinalRescue
-        ? "Amazing! You have saved me, and everyone have been rescued, thank you! now we can continue with the Orientation successfully!"
+        ? "Amazing! You have saved me, and everyone has been rescued, thank you! now we can continue with the Orientation successfully!"
         : "Amazing! You have saved me, thank you! I will be joining your journey in return. Let's go save the rest of the team!";
       updateDialogue(finalMessage);
       onMonsterDefeated();
