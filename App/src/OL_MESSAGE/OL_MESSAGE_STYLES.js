@@ -76,3 +76,13 @@ export const Button = styled.button`
 export const IconWrapper = styled.div`
   margin-bottom: 20px;
 `;
+
+export const ToggleIcon = styled.div`
+  position: absolute;
+  right: 10px;
+  top: 40%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #4b2e83;
+`;

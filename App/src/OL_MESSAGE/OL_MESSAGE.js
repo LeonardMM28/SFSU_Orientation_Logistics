@@ -1,17 +1,18 @@
 import React, { useState } from "react";
+import { FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import {
   Body,
   Button,
   Container,
   Content,
+  IconWrapper,
   Input,
+  InputWrapper,
   Label,
   Title,
-  IconWrapper,
-  InputWrapper,
+  ToggleIcon,
 } from "./OL_MESSAGE_STYLES";
-import { FaLock } from "react-icons/fa";
 
 // List of valid codes
 const validCodes = [
@@ -47,6 +48,7 @@ const validCodes = [
 function OL_MESSAGE() {
   const [pin, setPin] = useState("");
   const [error, setError] = useState("");
+  const [showPin, setShowPin] = useState(false);
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -66,10 +68,16 @@ function OL_MESSAGE() {
     }
   };
 
+  const togglePinVisibility = () => {
+    setShowPin(!showPin);
+  };
+
   return (
     <Body>
       <Container>
         <Content>
+          <Label>(Look inside your envelope)</Label>
+
           <IconWrapper>
             <FaLock size={40} color="#4b2e83" />
           </IconWrapper>
@@ -77,11 +85,14 @@ function OL_MESSAGE() {
           <Label>Please type your PIN and click Enter</Label>
           <InputWrapper>
             <Input
-              type="password"
+              type={showPin ? "text" : "password"}
               placeholder="Enter your PIN"
               value={pin}
               onChange={handleInputChange}
             />
+            <ToggleIcon onClick={togglePinVisibility}>
+              {showPin ? <FaEyeSlash /> : <FaEye />}
+            </ToggleIcon>
           </InputWrapper>
           {error && <p style={{ color: "red" }}>{error}</p>}
           <Button onClick={handleLogin}>Enter</Button>

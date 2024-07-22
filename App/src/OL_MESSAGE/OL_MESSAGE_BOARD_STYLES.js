@@ -1,6 +1,7 @@
 import { GiCrossedChains, GiSnakeSpiral } from "react-icons/gi";
 import styled, { keyframes } from "styled-components";
 
+
 export const BoardContainer = styled.div`
   display: flex;
   flex-direction: column;
