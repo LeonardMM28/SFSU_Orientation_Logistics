@@ -107,6 +107,7 @@ export const HeadshotWrapper = styled.div`
   position: relative;
   width: ${({ cellSize }) => cellSize}px;
   height: ${({ cellSize }) => cellSize}px;
+  z-index: 1499;
 `;
 
 export const HeadshotCell = styled.img`
@@ -163,7 +164,7 @@ export const Popup = styled.div`
   border: 2px solid #2c3e50;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
+  z-index: 3000;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -177,6 +178,7 @@ export const PopupMessage = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  
 `;
 
 export const PopupButton = styled.button`
