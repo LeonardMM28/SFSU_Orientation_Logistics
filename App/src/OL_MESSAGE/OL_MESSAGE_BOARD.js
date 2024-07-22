@@ -32,7 +32,6 @@ import {
   PopupDialogue,
   PopupMessage,
   PopupPicture,
-  FinalButton, // Import the new styled component
 } from "./OL_MESSAGE_BOARD_STYLES";
 import MiniGame from "./OL_MESSAGE_GAME";
 import characterMapping from "./characterMapping";
@@ -167,7 +166,6 @@ const OL_MESSAGE_BOARD = () => {
     visible: false,
     message: "",
   });
-  const [showFinalButton, setShowFinalButton] = useState(false); // State for the new button
 
   useEffect(() => {
     const playerCode = localStorage.getItem("playerCode");
@@ -183,7 +181,7 @@ const OL_MESSAGE_BOARD = () => {
         (cell) => cell === playerImage
       );
       setMappedCellIndex(playerCellIndex);
-      
+
       // fetch(`http://localhost:3000/game/userdata/${playerCode}`)
       fetch(`https://sfsulogistics.online:3000/game/userdata/${playerCode}`)
         .then((response) => response.json())
@@ -431,7 +429,6 @@ const OL_MESSAGE_BOARD = () => {
                   message: finalMessage,
                 });
               }, 1000);
-              setShowFinalButton(true); // Show the final button
             })
             .catch((error) => {
               console.error("Error fetching final message:", error);
@@ -439,7 +436,6 @@ const OL_MESSAGE_BOARD = () => {
                 visible: true,
                 message: "Congratulations! You have rescued everyone!",
               });
-              setShowFinalButton(true); // Show the final button
             });
         } else {
           setTimeout(() => {
@@ -471,6 +467,8 @@ const OL_MESSAGE_BOARD = () => {
   const handleCloseInstructions = () => {
     localStorage.setItem("instructionsSeen", "true");
     setShowInstructions(false);
+    window.location.reload();
+    window.location.reload();
     window.location.reload();
   };
 
@@ -556,6 +554,8 @@ const OL_MESSAGE_BOARD = () => {
               height: `${cellSize}px`,
               backgroundImage: `url(${happyHeadshots[`${followerName}.png`]})`,
               backgroundSize: "cover",
+              borderStyle: "none",
+              zIndex: "1000",
             }}
           />
         );
@@ -635,12 +635,6 @@ const OL_MESSAGE_BOARD = () => {
           message={finalPopup.message}
           onClose={() => setFinalPopup({ visible: false, message: "" })}
         />
-      )}
-
-      {showFinalButton && (
-        <FinalButton onClick={handleFinalButtonClick}>
-          View Reward Message
-        </FinalButton>
       )}
     </BoardContainer>
   );

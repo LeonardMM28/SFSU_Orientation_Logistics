@@ -63,6 +63,8 @@ export const Player = styled.div`
   background-size: cover;
   background-position: center;
   border-radius: 50%;
+  z-index: 2000;
+  border: 2px double red;
 `;
 
 export const ArrowControls = styled.div`
@@ -667,27 +669,6 @@ export const InstructionsScreen = ({ onClose, playerName }) => {
     </InstructionsOverlay>
   );
 };
-
-export const FinalButton = styled.button`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #4b2e83;
-  color: #fff;
-  border: none;
-  padding: 15px 30px;
-  font-size: 18px;
-  border-radius: 10px;
-  cursor: pointer;
-  z-index: 2000;
-  transition: background-color 0.3s ease, color 0.3s ease;
-
-  &:hover {
-    background-color: #ffcc00;
-    color: #4b2e83;
-  }
-`;
 
 export const fadeIn = keyframes`
   from {
