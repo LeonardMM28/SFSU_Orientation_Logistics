@@ -119,6 +119,7 @@ export const HeadshotCell = styled.img`
   transition: opacity 0.3s ease-in-out;
   opacity: ${({ isTalking }) => (isTalking ? 0.7 : 1)};
   border-radius: 5px;
+  z-index: 1500;
 `;
 
 export const OverlayContainer = styled.div`
