@@ -63,7 +63,7 @@ export const Player = styled.div`
   background-size: cover;
   background-position: center;
   border-radius: 50%;
-  z-index: 2000;
+  z-index: 1999;
   border: 2px double red;
 `;
 
@@ -570,7 +570,7 @@ export const LargePurplePopup = styled.div`
   border: 2px solid #2c3e50;
   border-radius: 20px; /* Larger border radius for a more distinct look */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
+  z-index: 3000;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -621,7 +621,7 @@ export const InstructionsOverlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2000;
+  z-index: 2001;
   font-family: "VT323", monospace;
 `;
 
