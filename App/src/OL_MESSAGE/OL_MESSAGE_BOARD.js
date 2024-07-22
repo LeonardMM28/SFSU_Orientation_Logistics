@@ -428,7 +428,7 @@ const OL_MESSAGE_BOARD = () => {
                   visible: true,
                   message: finalMessage,
                 });
-              }, 1000);
+              }, 2000);
             })
             .catch((error) => {
               console.error("Error fetching final message:", error);

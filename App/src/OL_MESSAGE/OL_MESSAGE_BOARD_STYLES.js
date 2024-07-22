@@ -139,6 +139,7 @@ export const ChainIcon = styled(GiCrossedChains)`
   color: rgba(0, 0, 0, 0.2); /* Less opacity */
   width: 100%;
   height: 100%;
+  z-index: 1600;
 `;
 
 export const LockImage = styled.img`
@@ -148,6 +149,7 @@ export const LockImage = styled.img`
   width: ${({ cellSize }) => cellSize * 0.5}px;
   height: ${({ cellSize }) => cellSize * 0.5}px;
   transform: rotate(20deg); /* Tilt the lock */
+  z-index: 1601;
 `;
 
 export const Popup = styled.div`
