@@ -182,7 +182,6 @@ const OL_MESSAGE_BOARD = () => {
       );
       setMappedCellIndex(playerCellIndex);
 
-      // fetch(`http://localhost:3000/game/userdata/${playerCode}`)
       fetch(`https://sfsulogistics.online:3000/game/userdata/${playerCode}`)
         .then((response) => response.json())
         .then((data) => {
@@ -316,10 +315,12 @@ const OL_MESSAGE_BOARD = () => {
         newLeft += cellSize;
       }
 
-      const colIndex = (newLeft - gridRect.left) / cellSize;
-      const rowIndex = (newTop - gridRect.top) / cellSize;
+      const colIndex = Math.round((newLeft - gridRect.left) / cellSize);
+      const rowIndex = Math.round((newTop - gridRect.top) / cellSize);
       const cellIndex = rowIndex * 7 + colIndex;
       const imageName = cellImageMappingState[cellIndex];
+
+      console.log(`Player moved to cell index: ${cellIndex}`);
 
       if (imageName && cellIndex !== mappedCellIndex) {
         const name = imageName.split(".")[0];
@@ -394,7 +395,6 @@ const OL_MESSAGE_BOARD = () => {
     const playerCode = localStorage.getItem("playerCode");
     const rescueeCode = userCodeMapping[largePopup.name];
 
-    // fetch("http://localhost:3000/game/update/progress", {
     fetch("https://sfsulogistics.online:3000/game/update/progress", {
       method: "POST",
       headers: {
@@ -413,9 +413,7 @@ const OL_MESSAGE_BOARD = () => {
         );
         setPopup({ visible: false, name: "", difficulty: 0 });
 
-        // Check if the rescued person is Lyn
         if (largePopup.name === "Lyn") {
-          // fetch(`http://localhost:3000/game/userdata/${playerCode}`)
           fetch(`https://sfsulogistics.online:3000/game/userdata/${playerCode}`)
             .then((response) => response.json())
             .then((data) => {
@@ -468,15 +466,6 @@ const OL_MESSAGE_BOARD = () => {
     localStorage.setItem("instructionsSeen", "true");
     setShowInstructions(false);
     window.location.reload();
-    window.location.reload();
-    window.location.reload();
-  };
-
-  const handleFinalButtonClick = () => {
-    setFinalPopup({
-      visible: true,
-      message: finalPopup.message,
-    });
   };
 
   return (
