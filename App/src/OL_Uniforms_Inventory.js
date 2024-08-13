@@ -17,7 +17,7 @@ function OL_Uniforms_Inventory() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
   const [currentItem, setCurrentItem] = useState(null);
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
   const [showModal, setShowModal] = useState(false); // State to manage modal visibility
   const [modalImage, setModalImage] = useState(""); // State to store the image URL
   const [modalAltText, setModalAltText] = useState("");
