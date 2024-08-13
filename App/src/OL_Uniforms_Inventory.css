@@ -2,32 +2,31 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: "DM Sans", sans-serif;
 }
 
 /* Dashboard container */
 .uniform-inventory {
   display: flex;
-    font-family: "Orbitron", sans-serif; /* Futuristic font */
-
   flex-direction: column;
   align-items: center;
   width: 100%;
   min-height: 100vh;
-  background-color: #0e0e2c; /* Dark blue background */
-  color: #ffffff;
+  background: linear-gradient(135deg, #1a1a2e, #222248);
+  color: #e0e0e0;
   position: relative;
   padding: 20px;
 }
 
 /* Dashboard title */
 .uniform-inventory .title {
-  font-size: 28px; /* Reduced font size */
-  font-weight: bold;
-  margin: 10px 0; /* Reduced top and bottom margin */
+  font-size: 28px;
+  font-weight: 700;
+  margin: 10px 0;
   text-align: center;
   text-transform: uppercase;
-  letter-spacing: 1px; /* Slightly reduced letter spacing */
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* Adjusted text shadow */
+  letter-spacing: 0.5px;
+  color: #ffffff;
 }
 
 /* Search container */
@@ -39,23 +38,24 @@
 
 .uniform-inventory .search-input {
   width: 300px;
-  background-color: #1f1f4b; /* Dark blue color */
+  background-color: #303057;
   color: #ffffff;
-  border: 2px solid #00d4ff; /* Neon blue border */
-  padding: 10px 20px; /* Adjusted padding */
-  font-size: 16px; /* Adjusted font size */
-  font-weight: bold;
+  border: 2px solid #5cb3fd;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
   margin-right: 10px;
-  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
-  clip-path: polygon(0% 0%, 70% 0%, 100% 30%, 100% 100%, 30% 100%, 0% 70%);
-  animation: border-glow 2s infinite alternate; /* Added animation */
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+}
+
+.uniform-inventory .search-input:focus {
+  border-color: #00d4ff;
 }
 
 /* Button container */
 .uniform-inventory .button-container {
   display: flex;
-      font-family: "Orbitron", sans-serif; /* Futuristic font */
-
   flex-direction: column;
   align-items: center;
   margin-top: 40px;
@@ -64,29 +64,24 @@
 /* Dashboard button */
 .uniform-inventory .button {
   width: 300px;
-      font-family: "Orbitron", sans-serif; /* Futuristic font */
-
-  background-color: #1f1f4b; /* Dark blue color */
+  background-color: #303057;
   color: #ffffff;
-  border: 2px solid #00d4ff; /* Neon blue border */
-  padding: 15px 40px; /* Adjusted padding */
-  font-size: 18px; /* Adjusted font size */
-  font-weight: bold;
+  border: 2px solid #5cb3fd;
+  padding: 15px 40px;
+  font-size: 18px;
+  font-weight: 600;
   cursor: pointer;
-  margin-bottom: 20px;
   text-transform: uppercase;
-  position: relative;
-  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
-  clip-path: polygon(0% 0%, 70% 0%, 100% 30%, 100% 100%, 30% 100%, 0% 70%);
+  border-radius: 8px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
 }
 
 /* Dashboard button hover effect */
 .uniform-inventory .button:hover {
-  background-color: #2a2a5e; /* Slightly lighter dark blue */
-  border-color: #66eaff; /* Lighter neon blue */
-  box-shadow: 0 0 10px #66eaff, 0 0 20px #66eaff, 0 0 30px #66eaff; /* Adjusted box-shadow */
-  transition: background-color 0.3s ease, border-color 0.3s ease,
-    box-shadow 0.5s ease; /* Smooth transition */
+  background-color: #2a2a5e;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .uniform-inventory .back-icon-container {
@@ -96,11 +91,15 @@
 }
 
 .uniform-inventory .back-icon {
-  font-size: 40px;
+  font-size: 36px;
   margin-right: 10px;
   cursor: pointer;
   color: #ffffff;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  transition: color 0.3s ease;
+}
+
+.uniform-inventory .back-icon:hover {
+  color: #00d4ff;
 }
 
 .uniform-inventory .items-container {
@@ -112,11 +111,11 @@
 }
 
 .uniform-inventory .item {
-  background-color: #1f1f4b; /* Dark blue color */
-  border: 2px solid #00d4ff; /* Neon blue border */
+  background-color: #303057;
+  border: 2px solid #5cb3fd;
   padding: 20px;
-  border-radius: 20px 0 20px 0;
-  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 10px #00d4ff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -124,20 +123,18 @@
 
 .uniform-inventory .item-image {
   max-width: 100%;
-  height: 150px; /* Fixed height for the image */
-  object-fit: contain; /* Maintain aspect ratio and fit within the fixed height */
+  height: 150px;
+  object-fit: contain;
   margin-bottom: 10px;
   cursor: pointer;
-  border: 2px solid transparent; /* Transparent border initially */
-  border-radius: 20px 0 20px 0; /* Border radius */
-  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff; /* Glow effect */
-  transition: border-color 0.3s ease; /* Smooth transition for border color */
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .uniform-inventory .item-image:hover {
-  border-color: #66eaff; /* Glow border color on hover */
+  border-color: #00d4ff;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
 }
-
 
 .uniform-inventory .item-details {
   text-align: center;
@@ -180,26 +177,23 @@
 }
 
 .uniform-inventory .edit-button {
-  background-color: #1f1f4b;
-      font-family: "Orbitron", sans-serif; /* Futuristic font */
-
+  background-color: #303057;
   color: #ffffff;
-  border: 2px solid #00d4ff;
+  border: 2px solid #5cb3fd;
   padding: 8px 16px;
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
   text-transform: uppercase;
-  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
-  clip-path: polygon(0% 0%, 70% 0%, 100% 30%, 100% 100%, 30% 100%, 0% 70%);
+  border-radius: 8px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
 }
 
 .uniform-inventory .edit-button:hover {
   background-color: #2a2a5e;
-  border-color: #66eaff;
-  box-shadow: 0 0 10px #66eaff, 0 0 20px #66eaff, 0 0 30px #66eaff;
-  transition: background-color 0.3s ease, border-color 0.3s ease,
-    box-shadow 0.5s ease;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
 }
 
 .uniform-inventory .no-supplies {
@@ -214,7 +208,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6); /* Darkened overlay */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -222,12 +216,12 @@
 }
 
 .uniform-inventory .modal-content {
-  background-color: #1f1f4b;
+  background-color: #303057;
   color: #ffffff;
-  border: 2px solid #00d4ff;
+  border: 2px solid #5cb3fd;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -248,73 +242,76 @@
   padding: 5px;
   margin-bottom: 20px;
   text-align: center;
+  border: 1px solid #5cb3fd;
+  border-radius: 8px;
+  background-color: #303057;
+  color: #ffffff;
+  transition: border-color 0.3s ease;
+}
+
+.uniform-inventory .modal-content input:focus {
+  border-color: #00d4ff;
 }
 
 .uniform-inventory .modal-content .close-button {
   position: absolute;
-  width: auto;
   top: 10px;
   right: 10px;
-      font-family: "Orbitron", sans-serif; /* Futuristic font */
-
   padding: 5px 10px;
   font-size: 16px;
   cursor: pointer;
-  color: white;
+  background-color: #303057;
+  color: #ffffff;
+  border: 2px solid #5cb3fd;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-@keyframes border-glow {
-  0% {
-    box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
-  }
-  50% {
-    box-shadow: 0 0 20px #66eaff, 0 0 40px #66eaff, 0 0 60px #66eaff;
-  }
-  100% {
-    box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
-  }
+.uniform-inventory .modal-content .close-button:hover {
+  background-color: #2a2a5e;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
 }
 
 /* For small screens */
 @media screen and (max-width: 600px) {
   .uniform-inventory .search-input {
-    width: 100%; /* Adjusted width for smaller screens */
-    margin-right: 0; /* Removed right margin */
+    width: 100%;
+    margin-right: 0;
   }
 
   .uniform-inventory .button {
-    width: 100%; /* Adjusted width for smaller screens */
+    width: 100%;
   }
 
   .uniform-inventory .items-container {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjusted grid for smaller screens */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
 
   .uniform-inventory .item {
-    padding: 15px; /* Reduced padding for smaller screens */
-    border-radius: 10px; /* Reduced border radius for smaller screens */
+    padding: 15px;
+    border-radius: 8px;
   }
 
   .uniform-inventory .item-image {
-    height: auto; /* Adjusted height for smaller screens */
+    height: auto;
   }
 }
 
 /* For medium screens */
 @media screen and (min-width: 601px) and (max-width: 900px) {
   .uniform-inventory .search-input {
-    width: 80%; /* Adjusted width for medium screens */
+    width: 80%;
   }
 }
 
 /* For large screens */
 @media screen and (min-width: 901px) {
   .uniform-inventory .search-input {
-    width: 300px; /* Reverted width for large screens */
+    width: 300px;
   }
 
   .uniform-inventory .button {
-    width: 300px; /* Reverted width for large screens */
+    width: 300px;
   }
 }
 
@@ -322,27 +319,26 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #1f1f4b; /* Dark blue color */
+  background-color: #303057;
   color: #ffffff;
-  border: 2px solid #00d4ff; /* Neon blue border */
-  border-radius: 50%; /* Circle shape */
+  border: 2px solid #5cb3fd;
+  border-radius: 50%;
   width: 50px;
   height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff; /* Glow effect */
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
   z-index: 1000;
   opacity: 0.8;
-  transition: opacity 0.3s, transform 0.3s;
+  transition: opacity 0.3s, transform 0.3s, background-color 0.3s ease,
+    border-color 0.3s ease, box-shadow 0.5s ease;
 }
 
 .scroll-to-top-button:hover {
-  background-color: #2a2a5e; /* Slightly lighter dark blue */
-  border-color: #66eaff; /* Lighter neon blue */
-  box-shadow: 0 0 10px #66eaff, 0 0 20px #66eaff, 0 0 30px #66eaff; /* Adjusted box-shadow */
-  transform: translateY(-5px); /* Smooth transition for hover effect */
+  background-color: #2a2a5e;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
+  transform: translateY(-5px);
   opacity: 1;
-  transition: opacity 0.3s, transform 0.3s, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.5s ease;
 }

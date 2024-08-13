@@ -3,30 +3,29 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: "DM Sans", sans-serif;
 }
 
 /* Sessions Container */
 .sessions {
-    font-family: "Orbitron", sans-serif; /* Futuristic font */
-
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #ffffff;
-  background-color: #0e0e2c; /* Dark blue background */
+  color: #e0e0e0;
+  background: linear-gradient(135deg, #1a1a2e, #222248);
   min-height: 100vh;
   padding: 20px;
 }
 
 /* Title */
 .sessions .title {
-  font-size: 28px; /* Reduced font size */
-  font-weight: bold;
-  margin: 10px 0; /* Reduced top and bottom margin */
+  font-size: 28px;
+  font-weight: 700;
+  margin: 10px 0;
   text-align: center;
   text-transform: uppercase;
-  letter-spacing: 1px; /* Slightly reduced letter spacing */
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* Adjusted text shadow */
+  letter-spacing: 0.5px;
+  color: #ffffff;
 }
 
 /* Back Icon Container */
@@ -38,11 +37,15 @@
 }
 
 .sessions .back-icon {
-  font-size: 40px;
+  font-size: 36px;
   margin-right: 10px;
   cursor: pointer;
   color: #ffffff;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  transition: color 0.3s ease;
+}
+
+.sessions .back-icon:hover {
+  color: #00d4ff;
 }
 
 /* Search Container */
@@ -55,38 +58,38 @@
 
 .sessions .search-input {
   width: 60%;
-  padding: 0.5rem;
+  padding: 0.75rem;
   font-size: 1rem;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  background-color: #1f1f4b; /* Dark blue color */
+  border-radius: 8px;
+  border: 1px solid #5cb3fd;
+  background-color: #303057;
   color: #ffffff;
+  transition: border-color 0.3s ease;
+}
+
+.sessions .search-input:focus {
+  border-color: #00d4ff;
 }
 
 .sessions .button {
-      font-family: "Orbitron", sans-serif; /* Futuristic font */
-
   width: 150px;
-  background-color: #1f1f4b; /* Dark blue color */
+  background-color: #303057;
   color: #ffffff;
-  border: 2px solid #00d4ff; /* Neon blue border */
-  padding: 10px 20px; /* Adjusted padding */
-  font-size: 16px; /* Adjusted font size */
-  font-weight: bold;
+  border: 2px solid #5cb3fd;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
   text-transform: uppercase;
-  position: relative;
-  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
-  clip-path: polygon(0% 0%, 70% 0%, 100% 30%, 100% 100%, 30% 100%, 0% 70%);
-  animation: border-glow 2s infinite alternate;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
 }
 
 /* Button Hover Effect */
 .sessions .button:hover {
-  background-color: #2a2a5e; /* Slightly lighter dark blue */
-  border-color: #66eaff; /* Lighter neon blue */
-  box-shadow: 0 0 10px #66eaff, 0 0 20px #66eaff, 0 0 30px #66eaff;
-  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.5s ease;
+  background-color: #2a2a5e;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
 }
 
 /* Sessions Table */
@@ -98,73 +101,68 @@
 .sessions table {
   width: 100%;
   border-collapse: collapse;
-  color: #ffffff;
+  color: #e0e0e0;
 }
 
 .sessions th, td {
   padding: 0.75rem;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #5cb3fd;
 }
 
 .sessions th {
-  background-color: #1f1f4b; /* Dark blue color */
+  background-color: #303057;
 }
 
 .sessions tbody tr:nth-child(even) {
-  background-color: #2a2a5e; /* Slightly lighter dark blue */
+  background-color: #2a2a5e;
 }
 
 .sessions tbody tr:hover {
-  background-color: #333366; /* Lighter dark blue */
+  background-color: #333366;
 }
 
 /* Action Button */
 .sessions .action-button {
-      font-family: "Orbitron", sans-serif; /* Futuristic font */
-
-  background-color: #1f1f4b; /* Dark blue color */
+  background-color: #303057;
   color: #ffffff;
-  border: 2px solid #00d4ff; /* Neon blue border */
-  padding: 5px 10px; /* Adjusted padding */
-  font-size: 14px; /* Adjusted font size */
-  font-weight: bold;
+  border: 2px solid #5cb3fd;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
   text-transform: uppercase;
-  margin: 0 5px;
-  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
-  clip-path: polygon(0% 0%, 70% 0%, 100% 30%, 100% 100%, 30% 100%, 0% 70%);
-  animation: border-glow 2s infinite alternate;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
 }
 
 .sessions .action-button:hover {
-  background-color: #2a2a5e; /* Slightly lighter dark blue */
-  border-color: #66eaff; /* Lighter neon blue */
-  box-shadow: 0 0 10px #66eaff, 0 0 20px #66eaff, 0 0 30px #66eaff;
-  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.5s ease;
+  background-color: #2a2a5e;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
 }
 
 /* Status Dot */
 .sessions .status-dot {
   height: 1rem;
-  width: 0.866rem; /* Width for a perfect hexagon */
+  width: 1rem;
   display: inline-block;
-  background: linear-gradient(145deg, #ff00ff, #00ffff); /* Gradient colors */
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); /* Hexagon shape */
-  box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.5); /* White glow */
-  animation: glow 1.5s infinite alternate; /* Glowing animation */
+  background: linear-gradient(145deg, #ff00ff, #00ffff);
+  border-radius: 50%;
+  box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.5);
+  animation: glow 1.5s infinite alternate;
 }
 
 .sessions .status-dot.red {
-  background: linear-gradient(145deg, #ff0000, #800000); /* Red gradient */
+  background: linear-gradient(145deg, #ff0000, #800000);
 }
 
 .sessions .status-dot.yellow {
-  background: linear-gradient(145deg, #ffff00, #808000); /* Yellow gradient */
+  background: linear-gradient(145deg, #ffff00, #808000);
 }
 
 .sessions .status-dot.green {
-  background: linear-gradient(145deg, #00ff00, #008000); /* Green gradient */
+  background: linear-gradient(145deg, #00ff00, #008000);
 }
 
 /* Animation for Glowing Effect */
@@ -176,7 +174,6 @@
     box-shadow: 0 0 20px 6px rgba(255, 255, 255, 0.8);
   }
 }
-
 
 /* Modal */
 .sessions .modal {
@@ -190,59 +187,59 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .sessions .modal-content {
-  background-color: #1f1f4b; /* Dark blue color */
+  background-color: #303057;
   margin: 10% auto;
   padding: 20px;
-  border: 2px solid #00d4ff; /* Neon blue border */
+  border: 2px solid #5cb3fd;
   width: 80%;
   max-width: 600px;
-  border-radius: 4px;
-  color: #ffffff;
-  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
+  border-radius: 8px;
+  color: #e0e0e0;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
 }
-
 
 .sessions .close {
-  color: #ffffff;
-  float: right;
-  font-size: 1.5rem;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 8px 16px;
+  font-size: 18px;
   font-weight: bold;
+  cursor: pointer;
+  background-color: #303057;
+  color: #ffffff;
+  border: 2px solid #5cb3fd;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.sessions .close:hover,
-.close:focus {
-  color: #66eaff; /* Lighter neon blue */
-  text-decoration: none;
-  cursor: pointer;
+.sessions .close:hover {
+  background-color: #2a2a5e;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
 }
 
 /* Confirm Button */
 .sessions .confirm-button {
-      font-family: "Orbitron", sans-serif; /* Futuristic font */
-
-  background-color: #1f1f4b; /* Dark blue color */
+  background-color: #303057;
   color: #ffffff;
-  border: 2px solid #00d4ff; /* Neon blue border */
-  padding: 10px 20px; /* Adjusted padding */
-  font-size: 16px; /* Adjusted font size */
-  font-weight: bold;
+  border: 2px solid #5cb3fd;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
   text-transform: uppercase;
-  margin: 10px;
-  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
-  clip-path: polygon(0% 0%, 70% 0%, 100% 30%, 100% 100%, 30% 100%, 0% 70%);
-  animation: border-glow 2s infinite alternate;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
 }
 
 .sessions .confirm-button:hover {
-  background-color: #2a2a5e; /* Slightly lighter dark blue */
-  border-color: #66eaff; /* Lighter neon blue */
-  box-shadow: 0 0 10px #66eaff, 0 0 20px #66eaff, 0 0 30px #66eaff;
-  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.5s ease;
+  background-color: #2a2a5e;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
 }
 
 /* Item Details Container */
@@ -250,19 +247,19 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem;
+  padding: 0.75rem;
 }
 
 .sessions .item-image {
   width: 50px;
   height: 50px;
   object-fit: cover;
-  border-radius: 4px;
-  margin-right: 0.5rem;
+  border-radius: 8px;
+  margin-right: 0.75rem;
 }
 
 .sessions .quantity-status {
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .sessions .quantity-status.green {
@@ -273,39 +270,10 @@
   color: #dc3545;
 }
 
-/* Animation for Border Glow */
-@keyframes border-glow {
-  0% {
-    box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
-  }
-  50% {
-    box-shadow: 0 0 20px #66eaff, 0 0 40px #66eaff, 0 0 60px #66eaff;
-  }
-  100% {
-    box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
-  }
-}
-
 /* Preview Image */
 .preview-image {
   max-width: 100%;
   max-height: 80vh;
-  border-radius: 4px;
-  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
-}
-
-.close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    background-color: #1f1f4b;
-    color: #ffffff;
-    border: 2px solid #00d4ff;
-    border-radius: 5px;
-    box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
-    clip-path: polygon(0% 0%, 70% 0%, 100% 30%, 100% 100%, 30% 100%, 0% 70%);
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
 }

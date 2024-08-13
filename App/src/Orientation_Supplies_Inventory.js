@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react"; // Import React hooks
+import { FaArrowUp } from "react-icons/fa"; // Import the arrow up icon
 import {
   PiArrowSquareDownRightFill,
-  PiArrowSquareUpRightFill,
   PiArrowSquareLeftDuotone,
+  PiArrowSquareUpRightFill,
 } from "react-icons/pi";
-import { FaArrowUp } from "react-icons/fa"; // Import the arrow up icon
 
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal"; // Import the Modal component
@@ -69,25 +69,25 @@ function Orientation_Supplies_Inventory() {
     };
   }, [navigate]);
 
-      useEffect(() => {
-        const handleScroll = () => {
-          if (window.pageYOffset > 200) {
-            setShowScrollButton(true);
-          } else {
-            setShowScrollButton(false);
-          }
-        };
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.pageYOffset > 200) {
+        setShowScrollButton(true);
+      } else {
+        setShowScrollButton(false);
+      }
+    };
 
-        window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
-        return () => {
-          window.removeEventListener("scroll", handleScroll);
-        };
-      }, []);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
-      const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      };
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -229,44 +229,42 @@ function Orientation_Supplies_Inventory() {
               )}
               <div className="item-details">
                 <h2 className="item-title">{item.name}</h2>
-                <p className="item-detail">
-                  Location Annex: {item.location_annex}
+                <p className="item-detail">Location: {item.location_annex}</p>
+                <p className="quantity">
+                  Quantity: {item.quantity_annex}
                 </p>
-                <p className="item-detail">Location HQ: {item.location_hq}</p>
+                {/* <p className="item-detail">Location HQ: {item.location_hq}</p> */}
                 {item.consumible === 1 && ( // Check if the item is consumable
                   <p className="item-legend">Consumable</p>
                 )}
               </div>
               <div className="item-actions">
                 <div className="item-buttons">
-                  <button
-                    className="button retrieve-button"
-                    onClick={() => handleActionClick(item, "retrieve")}
-                  >
-                    <div className="button-icon-container">
-                      <PiArrowSquareUpRightFill className="button-icon" />
-                    </div>
-                    RETRIEVE
-                  </button>
+                      <button
+                        className="button store-button"
+                        onClick={() => handleActionClick(item, "store")}
+                      >
+                        <div className="button-icon-container">
+                          <PiArrowSquareDownRightFill className="button-icon" />
+                        </div>
+                        STORE
+                      </button>
                   <div className="item-quantities">
                     <div className="quantities">
-                      <p className="quantity">
+                      {/* <p className="quantity">
                         Quantity at HQ: {item.quantity_hq}
-                      </p>
-                      <p className="quantity">
-                        Quantity at Annex: {item.quantity_annex}
-                      </p>
+                        </p> */}
                     </div>
                   </div>
-                  <button
-                    className="button store-button"
-                    onClick={() => handleActionClick(item, "store")}
-                  >
-                    <div className="button-icon-container">
-                      <PiArrowSquareDownRightFill className="button-icon" />
-                    </div>
-                    STORE
-                  </button>
+                        <button
+                          className="button retrieve-button"
+                          onClick={() => handleActionClick(item, "retrieve")}
+                        >
+                          <div className="button-icon-container">
+                            <PiArrowSquareUpRightFill className="button-icon" />
+                          </div>
+                          RETRIEVE
+                        </button>
                 </div>
                 <button
                   onClick={() => goToEdit(item.id)}
