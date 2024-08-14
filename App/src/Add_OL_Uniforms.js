@@ -11,8 +11,6 @@ function Add_OL_Uniforms() {
   const category = "UNIFORMS";
   const [locationAnnex, setLocationAnnex] = useState("");
   const [quantityAnnex, setQuantityAnnex] = useState(0);
-  const [locationHQ, setLocationHQ] = useState("");
-  const [quantityHQ, setQuantityHQ] = useState(0);
   const [imagePreview, setImagePreview] = useState(null);
   const [showModal, setShowModal] = useState(false); // State to manage modal visibility
   const [modalImage, setModalImage] = useState(""); // State to store the image URL
@@ -26,7 +24,6 @@ function Add_OL_Uniforms() {
 
     const checkAuthorization = async () => {
       try {
-        // const response = await fetch("http://localhost:3000/auth-check", {
         const response = await fetch(
           "https://sfsulogistics.online:3000/auth-check",
           {
@@ -37,20 +34,16 @@ function Add_OL_Uniforms() {
           }
         );
         if (response.status === 401 && isMounted) {
-          // Invalid or expired token, show unauthorized message and delete session
           alert("Your session has expired, please log in again.");
-
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
-            // await axios.post("http://localhost:3000/logout", null, {
             await axios.post("https://sfsulogistics.online:3000/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
             });
           }
-
           navigate("/");
         } else if (response.status === 200 && isMounted) {
           setIsAuthorized(true);
@@ -94,11 +87,10 @@ function Add_OL_Uniforms() {
     formData.append("category", category);
     formData.append("locationAnnex", locationAnnex);
     formData.append("quantityAnnex", quantityAnnex);
-    formData.append("locationHQ", locationHQ);
-    formData.append("quantityHQ", quantityHQ);
+    formData.append("locationHQ", ""); // Send as blank
+    formData.append("quantityHQ", 0); // Send as blank
 
     try {
-      // await axios.post("http://localhost:3000/add/items", formData, {
       await axios.post(
         "https://sfsulogistics.online:3000/add/items",
         formData,
@@ -190,28 +182,6 @@ function Add_OL_Uniforms() {
                 name="quantityAnnex"
                 value={quantityAnnex}
                 onChange={(e) => setQuantityAnnex(e.target.value)}
-                required
-              />
-            </label>
-          </div>
-          <div className="location-quantity">
-            <label>
-              Location HQ:
-              <input
-                type="text"
-                name="locationHQ"
-                value={locationHQ}
-                onChange={(e) => setLocationHQ(e.target.value)}
-                required
-              />
-            </label>
-            <label>
-              Quantity:
-              <input
-                type="number"
-                name="quantityHQ"
-                value={quantityHQ}
-                onChange={(e) => setQuantityHQ(e.target.value)}
                 required
               />
             </label>

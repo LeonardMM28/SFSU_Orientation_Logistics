@@ -12,8 +12,6 @@ function Add_Orientation_Supplies() {
   const category = "SUPPLIES";
   const [locationAnnex, setLocationAnnex] = useState("");
   const [quantityAnnex, setQuantityAnnex] = useState(0);
-  const [locationHQ, setLocationHQ] = useState("");
-  const [quantityHQ, setQuantityHQ] = useState(0);
   const [imagePreview, setImagePreview] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalImage, setModalImage] = useState("");
@@ -27,7 +25,6 @@ function Add_Orientation_Supplies() {
 
     const checkAuthorization = async () => {
       try {
-        // const response = await fetch("http://localhost:3000/auth-check", {
         const response = await fetch(
           "https://sfsulogistics.online/auth-check",
           {
@@ -43,7 +40,6 @@ function Add_Orientation_Supplies() {
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
-            // await axios.post("http://localhost:3000/logout", null, {
             await axios.post("https://sfsulogistics.online:3000/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -94,15 +90,13 @@ function Add_Orientation_Supplies() {
     formData.append("category", category);
     formData.append("locationAnnex", locationAnnex);
     formData.append("quantityAnnex", quantityAnnex);
-    formData.append("locationHQ", locationHQ);
-    formData.append("quantityHQ", quantityHQ);
+    formData.append("locationHQ", ""); // Send as blank
+    formData.append("quantityHQ", 0); // Send as blank
     formData.append("consumible", Number(consumible));
 
     try {
       const response = await axios.post(
-        // "http://localhost:3000/add/items",
         "https://sfsulogistics.online:3000/add/items",
-
         formData,
         {
           headers: {
@@ -206,28 +200,6 @@ function Add_Orientation_Supplies() {
               />
             </label>
           </div>
-          <div className="location-quantity">
-            <label>
-              Location HQ:
-              <input
-                type="text"
-                name="locationHQ"
-                value={locationHQ}
-                onChange={(e) => setLocationHQ(e.target.value)}
-                required
-              />
-            </label>
-            <label>
-              Quantity:
-              <input
-                type="number"
-                name="quantityHQ"
-                value={quantityHQ}
-                onChange={(e) => setQuantityHQ(e.target.value)}
-                required
-              />
-            </label>
-          </div>
           <div className="consumable-label">
             <input
               type="checkbox"
@@ -252,4 +224,5 @@ function Add_Orientation_Supplies() {
     </div>
   );
 }
+
 export default Add_Orientation_Supplies;
