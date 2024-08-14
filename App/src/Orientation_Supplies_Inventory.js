@@ -229,46 +229,32 @@ function Orientation_Supplies_Inventory() {
               )}
               <div className="item-details">
                 <h2 className="item-title">{item.name}</h2>
-                <p className="item-detail">Location: {item.location_annex}</p>
-                <p className="quantity">
-                  Quantity: {item.quantity_annex}
-                </p>
-                {/* <p className="item-detail">Location HQ: {item.location_hq}</p> */}
-                {item.consumible === 1 && ( // Check if the item is consumable
-                  <p className="item-legend">Consumable</p>
-                )}
+                <div className="item-info">
+                  <p className="item-detail">Location: {item.location_annex}</p>
+                  <p className="quantity">Quantity: {item.quantity_annex}</p>
+                  {item.consumible === 1 && (
+                    <p className="item-legend">Consumable</p>
+                  )}
+                </div>
               </div>
               <div className="item-actions">
-                <div className="item-buttons">
-                      <button
-                        className="button store-button"
-                        onClick={() => handleActionClick(item, "store")}
-                      >
-                        <div className="button-icon-container">
-                          <PiArrowSquareDownRightFill className="button-icon" />
-                        </div>
-                        STORE
-                      </button>
-                  <div className="item-quantities">
-                    <div className="quantities">
-                      {/* <p className="quantity">
-                        Quantity at HQ: {item.quantity_hq}
-                        </p> */}
-                    </div>
-                  </div>
-                        <button
-                          className="button retrieve-button"
-                          onClick={() => handleActionClick(item, "retrieve")}
-                        >
-                          <div className="button-icon-container">
-                            <PiArrowSquareUpRightFill className="button-icon" />
-                          </div>
-                          RETRIEVE
-                        </button>
-                </div>
+                <button
+                  className="button small-button store-button"
+                  onClick={() => handleActionClick(item, "store")}
+                >
+                  <PiArrowSquareDownRightFill className="button-icon" />
+                  STORE
+                </button>
+                <button
+                  className="button small-button retrieve-button"
+                  onClick={() => handleActionClick(item, "retrieve")}
+                >
+                  <PiArrowSquareUpRightFill className="button-icon" />
+                  RETRIEVE
+                </button>
                 <button
                   onClick={() => goToEdit(item.id)}
-                  className="edit-button"
+                  className="button small-button edit-button"
                 >
                   Edit
                 </button>
