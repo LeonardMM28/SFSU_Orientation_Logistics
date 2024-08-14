@@ -30,7 +30,6 @@ function Orientation_Supplies_Inventory() {
 
     const checkAuthorization = async () => {
       try {
-        // const response = await fetch("http://localhost:3000/auth-check", {
         const response = await fetch(
           "https://sfsulogistics.online:3000/auth-check",
           {
@@ -41,13 +40,11 @@ function Orientation_Supplies_Inventory() {
           }
         );
         if (response.status === 401 && isMounted) {
-          // Invalid or expired token, show unauthorized message and delete session
           alert("Your session has expired, please log in again.");
 
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
-            // await axios.post("http://localhost:3000/logout", null, {
             await axios.post("https://sfsulogistics.online:3000/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -93,9 +90,7 @@ function Orientation_Supplies_Inventory() {
     const fetchItems = async () => {
       try {
         const response = await axios.get(
-          // "http://localhost:3000/items/supplies",
           "https://sfsulogistics.online:3000/items/supplies",
-
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming token is stored in localStorage
@@ -132,13 +127,12 @@ function Orientation_Supplies_Inventory() {
   const handleAmountChange = (e) => {
     setAmount(e.target.value);
   };
+
   const handleActionConfirm = async () => {
     try {
       const endpoint = modalType === "store" ? "store/item" : "retrieve/item";
       const response = await axios.post(
-        // `http://localhost:3000/${endpoint}`,
         `https://sfsulogistics.online:3000/${endpoint}`,
-
         { itemId: currentItem.id, amount: Number(amount) },
         {
           headers: {
@@ -148,19 +142,14 @@ function Orientation_Supplies_Inventory() {
       );
       alert(response.data.message);
 
-      // Log the action
       const actionDescription =
         modalType === "store"
           ? `Stored ${amount} of item ${currentItem.name} into the Annex`
           : `Retrieved ${amount} of item ${currentItem.name} to the HQ`;
 
       await axios.post(
-        // `http://localhost:3000/logAction`,
         `https://sfsulogistics.online:3000/logAction`,
-
-        {
-          action: actionDescription,
-        },
+        { action: actionDescription },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -190,8 +179,10 @@ function Orientation_Supplies_Inventory() {
     setSearchQuery(e.target.value);
   };
 
-  const filteredItems = items.filter((item) =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredItems = items.filter(
+    (item) =>
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.location_annex.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
