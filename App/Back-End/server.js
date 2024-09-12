@@ -163,6 +163,10 @@ app.use("/", gameRouter);
 // Create HTTP server and listen on port 80
 const httpServer = http.createServer(app);
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the home page!");
+});
+
 httpServer.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
