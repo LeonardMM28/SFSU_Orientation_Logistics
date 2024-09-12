@@ -31,7 +31,7 @@ function Orientation_Supplies_Inventory() {
     const checkAuthorization = async () => {
       try {
         const response = await fetch(
-          "https://sfsulogistics.online:3000/auth-check",
+          "https://sfsulogistics.online/auth-check",
           {
             method: "GET",
             headers: {
@@ -45,7 +45,7 @@ function Orientation_Supplies_Inventory() {
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
-            await axios.post("https://sfsulogistics.online:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -90,7 +90,7 @@ function Orientation_Supplies_Inventory() {
     const fetchItems = async () => {
       try {
         const response = await axios.get(
-          "https://sfsulogistics.online:3000/items/supplies",
+          "https://sfsulogistics.online/items/supplies",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming token is stored in localStorage
@@ -132,7 +132,7 @@ function Orientation_Supplies_Inventory() {
     try {
       const endpoint = modalType === "store" ? "store/item" : "retrieve/item";
       const response = await axios.post(
-        `https://sfsulogistics.online:3000/${endpoint}`,
+        `https://sfsulogistics.online/${endpoint}`,
         { itemId: currentItem.id, amount: Number(amount) },
         {
           headers: {
@@ -148,7 +148,7 @@ function Orientation_Supplies_Inventory() {
           : `Retrieved ${amount} of item ${currentItem.name} to the HQ`;
 
       await axios.post(
-        `https://sfsulogistics.online:3000/logAction`,
+        `https://sfsulogistics.online/logAction`,
         { action: actionDescription },
         {
           headers: {

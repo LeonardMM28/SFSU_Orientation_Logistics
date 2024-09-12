@@ -21,7 +21,7 @@ function Planner_Inventory() {
     const checkAuthorization = async () => {
       try {
         const response = await fetch(
-          "https://sfsulogistics.online:3000/auth-check",
+          "https://sfsulogistics.online/auth-check",
           {
             method: "GET",
             headers: {
@@ -35,7 +35,7 @@ function Planner_Inventory() {
           if (token) {
             localStorage.removeItem("token");
             // await axios.post("http://localhost:3000/logout", null, {
-            await axios.post("https://sfsulogistics.online:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -61,7 +61,7 @@ function Planner_Inventory() {
         // const response = await axios.get("http://localhost:3000/sessions", {
 
         const response = await axios.get(
-          "https://sfsulogistics.online:3000/sessions",
+          "https://sfsulogistics.online/sessions",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -74,7 +74,7 @@ function Planner_Inventory() {
           const response = await axios.get(
             // `http://localhost:3000/session/${session.id}`,
 
-            `https://sfsulogistics.online:3000/session/${session.id}`,
+            `https://sfsulogistics.online/session/${session.id}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -88,7 +88,7 @@ function Planner_Inventory() {
             const itemResponse = await axios.get(
               // `http://localhost:3000/items/${item.id}`,
 
-              `https://sfsulogistics.online:3000/items/${item.id}`,
+              `https://sfsulogistics.online/items/${item.id}`,
               {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -109,7 +109,7 @@ function Planner_Inventory() {
               await axios.put(
                 // `http://localhost:3000/update-session-ES/${session.id}`,
 
-                `https://sfsulogistics.online:3000/update-session-ES/${session.id}`,
+                `https://sfsulogistics.online/update-session-ES/${session.id}`,
                 {},
                 {
                   headers: {
@@ -122,7 +122,7 @@ function Planner_Inventory() {
               await axios.put(
                 // `http://localhost:3000/update-session-NES/${session.id}`,
 
-                `https://sfsulogistics.online:3000/update-session-NES/${session.id}`,
+                `https://sfsulogistics.online/update-session-NES/${session.id}`,
                 {},
                 {
                   headers: {
@@ -181,7 +181,7 @@ function Planner_Inventory() {
       const response = await axios.get(
         // `http://localhost:3000/session/${sessionId}`,
 
-        `https://sfsulogistics.online:3000/session/${sessionId}`,
+        `https://sfsulogistics.online/session/${sessionId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -194,7 +194,7 @@ function Planner_Inventory() {
           const itemResponse = await axios.get(
             // `http://localhost:3000/items/${item.id}`,
 
-            `https://sfsulogistics.online:3000/items/${item.id}`,
+            `https://sfsulogistics.online/items/${item.id}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -253,7 +253,7 @@ function Planner_Inventory() {
       await axios.put(
         // `http://localhost:3000/update-session-READY/${currentSessionId}`,
 
-        `https://sfsulogistics.online:3000/update-session-READY/${currentSessionId}`,
+        `https://sfsulogistics.online/update-session-READY/${currentSessionId}`,
         {},
         {
           headers: {

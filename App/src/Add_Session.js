@@ -40,7 +40,7 @@ function Add_Session() {
           if (token) {
             localStorage.removeItem("token");
             // await axios.post("http://localhost:3000/logout", null, {
-            await axios.post("https://sfsulogistics.online:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -68,7 +68,7 @@ function Add_Session() {
       try {
         const response = await axios.get(
           // "http://localhost:3000/items/supplies",
-          "https://sfsulogistics.online:3000/items/supplies",
+          "https://sfsulogistics.online/items/supplies",
 
           {
             headers: {
@@ -126,7 +126,7 @@ function Add_Session() {
     try {
       const response = await axios.post(
         // "http://localhost:3000/add/session",
-        "https://sfsu/logistics.online:3000/add/session",
+        "https://sfsu/logistics.online/add/session",
 
         { date, type, attendees, checklist: itemsChecklist },
         {

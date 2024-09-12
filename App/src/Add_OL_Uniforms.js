@@ -25,7 +25,7 @@ function Add_OL_Uniforms() {
     const checkAuthorization = async () => {
       try {
         const response = await fetch(
-          "https://sfsulogistics.online:3000/auth-check",
+          "https://sfsulogistics.online/auth-check",
           {
             method: "GET",
             headers: {
@@ -38,7 +38,7 @@ function Add_OL_Uniforms() {
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
-            await axios.post("https://sfsulogistics.online:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -92,7 +92,7 @@ function Add_OL_Uniforms() {
 
     try {
       await axios.post(
-        "https://sfsulogistics.online:3000/add/items",
+        "https://sfsulogistics.online/add/items",
         formData,
         {
           headers: {

@@ -25,7 +25,7 @@ function Edit_OL_Uniforms() {
     const checkAuthorization = async () => {
       try {
         const response = await fetch(
-          "https://sfsulogistics.online:3000/auth-check",
+          "https://sfsulogistics.online/auth-check",
           {
             method: "GET",
             headers: {
@@ -39,7 +39,7 @@ function Edit_OL_Uniforms() {
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
-            await axios.post("https://sfsulogistics.online:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -66,7 +66,7 @@ function Edit_OL_Uniforms() {
     const fetchItem = async () => {
       try {
         const response = await axios.get(
-          `https://sfsulogistics.online:3000/items/${itemId}`,
+          `https://sfsulogistics.online/items/${itemId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -118,7 +118,7 @@ function Edit_OL_Uniforms() {
 
     try {
       await axios.put(
-        `https://sfsulogistics.online:3000/edit/item/${itemId}`,
+        `https://sfsulogistics.online/edit/item/${itemId}`,
         formData,
         {
           headers: {

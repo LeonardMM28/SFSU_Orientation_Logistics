@@ -40,7 +40,7 @@ function Add_Orientation_Supplies() {
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
-            await axios.post("https://sfsulogistics.online:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -96,7 +96,7 @@ function Add_Orientation_Supplies() {
 
     try {
       const response = await axios.post(
-        "https://sfsulogistics.online:3000/add/items",
+        "https://sfsulogistics.online/add/items",
         formData,
         {
           headers: {

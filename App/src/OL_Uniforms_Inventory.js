@@ -33,7 +33,7 @@ function OL_Uniforms_Inventory() {
       try {
         // const response = await fetch("http://localhost:3000/auth-check", {
         const response = await fetch(
-          "https://sfsulogistics.online:3000/auth-check",
+          "https://sfsulogistics.online/auth-check",
           {
             method: "GET",
             headers: {
@@ -49,7 +49,7 @@ function OL_Uniforms_Inventory() {
           if (token) {
             localStorage.removeItem("token");
             // await axios.post("http://localhost:3000/logout", null, {
-            await axios.post("https://sfsulogistics.online:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -95,7 +95,7 @@ function OL_Uniforms_Inventory() {
       try {
         const response = await axios.get(
           // "http://localhost:3000/items/uniforms",
-          "https://sfsulogistics.online:3000/items/uniforms",
+          "https://sfsulogistics.online/items/uniforms",
 
           {
             headers: {
@@ -138,7 +138,7 @@ function OL_Uniforms_Inventory() {
       const endpoint = modalType === "store" ? "store/item" : "retrieve/item";
       const response = await axios.post(
         // `http://localhost:3000/${endpoint}`,
-        `https://sfsulogistics.online:3000/${endpoint}`,
+        `https://sfsulogistics.online/${endpoint}`,
 
         { itemId: currentItem.id, amount: Number(amount) },
         {
@@ -157,7 +157,7 @@ function OL_Uniforms_Inventory() {
 
       await axios.post(
         // `http://localhost:3000/logAction`,
-        `https://sfsulogistics.online:3000/logAction`,
+        `https://sfsulogistics.online/logAction`,
 
         {
           action: actionDescription,

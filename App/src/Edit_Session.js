@@ -30,7 +30,7 @@ function Edit_Session() {
       try {
         // const response = await fetch("http://localhost:3000/auth-check", {
         const response = await fetch(
-          "https://sfsulogistics.online:3000/auth-check",
+          "https://sfsulogistics.online/auth-check",
           {
             method: "GET",
             headers: {
@@ -46,7 +46,7 @@ function Edit_Session() {
           if (token) {
             localStorage.removeItem("token");
             // await axios.post("http://localhost:3000/logout", null, {
-            await axios.post("https://sfsulogistics.online:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -74,7 +74,7 @@ function Edit_Session() {
       try {
         // const response = await fetch("http://localhost:3000/auth-check", {
         const response = await fetch(
-          "https://sfsulogistics.online:3000/auth-check",
+          "https://sfsulogistics.online/auth-check",
           {
             method: "GET",
             headers: {
@@ -90,7 +90,7 @@ function Edit_Session() {
           if (token) {
             localStorage.removeItem("token");
             // await axios.post("http://localhost:3000/logout", null, {
-            await axios.post("https://sfsulogistics.online:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -112,7 +112,7 @@ function Edit_Session() {
       try {
         const response = await axios.get(
           // `http://localhost:3000/session/${sessionId}`,
-          `https://sfsulogistics.online:3000/session/${sessionId}`,
+          `https://sfsulogistics.online/session/${sessionId}`,
 
           {
             headers: {
@@ -157,7 +157,7 @@ function Edit_Session() {
       try {
         const response = await axios.get(
           // "http://localhost:3000/items/supplies",
-          "https://sfsulogistics.online:3000/items/supplies",
+          "https://sfsulogistics.online/items/supplies",
 
           {
             headers: {
@@ -222,7 +222,7 @@ function Edit_Session() {
     try {
       const response = await axios.put(
         // `http://localhost:3000/edit/session/${sessionId}`,
-        `https://sfsulogistics.online:3000/edit/session/${sessionId}`,
+        `https://sfsulogistics.online/edit/session/${sessionId}`,
 
         { date, type, attendees, checklist: itemsChecklist },
         {

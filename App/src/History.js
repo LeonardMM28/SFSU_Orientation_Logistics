@@ -21,7 +21,7 @@ function History() {
       try {
         // const response = await fetch("http://localhost:3000/auth-check", {
         const response = await fetch(
-          "https://sfsulogistics.online:3000/auth-check",
+          "https://sfsulogistics.online/auth-check",
           {
             method: "GET",
             headers: {
@@ -37,7 +37,7 @@ function History() {
           if (token) {
             localStorage.removeItem("token");
             // await axios.post("http://localhost:3000/logout", null, {
-            await axios.post("https://sfsulogistics.online:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -70,7 +70,7 @@ function History() {
           setUserId(decodedToken.userId);
           const response = await axios.get(
             // `http://localhost:3000/getUser/${decodedToken.userId}`
-            `https://sfsulogistics.online:3000/getUser/${decodedToken.userId}`
+            `https://sfsulogistics.online/getUser/${decodedToken.userId}`
           );
           setUserTier(response.data.tier);
         } catch (error) {
@@ -90,7 +90,7 @@ function History() {
     const fetchTransactions = async () => {
       try {
         // const response = await fetch("http://localhost:3000/transactions", {
-        const response = await fetch("https://sfsulogistics.online:3000/transactions", {
+        const response = await fetch("https://sfsulogistics.online/transactions", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
