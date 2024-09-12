@@ -1,13 +1,12 @@
 const express = require("express");
-const https = require("https"); // Include the https module
-const fs = require("fs");
+const http = require("http"); // Use the HTTP module, not HTTPS
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const userRouter = require("./routes/userRoutes"); // Updated require statement
-const itemsRouter = require("./routes/itemsRoutes"); // Import the product router
+const userRouter = require("./routes/userRoutes");
+const itemsRouter = require("./routes/itemsRoutes");
 const gameRouter = require("./routes/gameRoutes");
-const connection = require("./dbConfig"); // Import MySQL connection
+const connection = require("./dbConfig");
 
 const app = express();
 
@@ -156,16 +155,14 @@ connection.query(
   }
 );
 
-// Use the routers for the different routes
-app.use("/", userRouter); 
-app.use("/", itemsRouter); 
+// Use routers
+app.use("/", userRouter);
+app.use("/", itemsRouter);
 app.use("/", gameRouter);
 
-// Listen on HTTP port 80
-app.listen(PORT, () => {
+// Create HTTP server and listen on port 80
+const httpServer = http.createServer(app);
+
+httpServer.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
-// app.listen(PORT, () => {
-//   console.log(`Server listening on port ${PORT}`);
-// });
