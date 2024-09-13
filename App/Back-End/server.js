@@ -26,7 +26,14 @@ const s3 = new AWS.S3();
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
-app.use(cors());
+const corsOptions = {
+  origin: "*", // Adjust this as needed for security. For example, limit it to your CloudFront domain.
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
+
 
 // Create the users table if it doesn't exist
 connection.query(
