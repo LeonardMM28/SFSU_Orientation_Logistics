@@ -35,8 +35,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, "public")));
+// Serve static files from the 'build' directory
+app.use(express.static(path.join(__dirname, "..", "build")));
 
 // Create the users table if it doesn't exist
 connection.query(
@@ -174,13 +174,13 @@ app.get("/health", (req, res) => {
   res.status(200).send("OK");
 });
 
-// Catch-all route to serve index.html for any other requests
+// Catch-all route to serve index.html for client-side routing
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
 });
 
 // Start HTTP server
 const httpServer = http.createServer(app);
-httpServer.listen(PORT, "0.0.0.0", () => {
+httpServer.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
