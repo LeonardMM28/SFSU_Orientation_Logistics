@@ -7,6 +7,7 @@ const userRouter = require("./routes/userRoutes");
 const itemsRouter = require("./routes/itemsRoutes");
 const gameRouter = require("./routes/gameRoutes");
 const connection = require("./dbConfig");
+const path = require("path"); // Added to handle file paths
 
 const app = express();
 
@@ -34,6 +35,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, "public")));
 
 // Create the users table if it doesn't exist
 connection.query(
@@ -75,7 +78,7 @@ connection.query(
   }
 );
 
-// Create the products table if it doesn't exist
+// Create the items table if it doesn't exist
 connection.query(
   `
   CREATE TABLE IF NOT EXISTS items (
@@ -90,16 +93,16 @@ connection.query(
       consumible BOOLEAN DEFAULT FALSE
   )
   `,
-  (error, results, fields) => {
+  (error) => {
     if (error) {
-      console.error("Error creating products table:", error);
+      console.error("Error creating items table:", error);
     } else {
-      console.log("Products table created successfully");
+      console.log("Items table created successfully");
     }
   }
 );
 
-// Create the OLsessions table if it doesn't exist
+// Create the OLSessions table if it doesn't exist
 connection.query(
   `
   CREATE TABLE IF NOT EXISTS OLSessions (
@@ -113,14 +116,14 @@ connection.query(
 `,
   (err) => {
     if (err) {
-      console.error("Error creating Sessions table:", err);
+      console.error("Error creating OLSessions table:", err);
       return;
     }
-    console.log("Sessions table created successfully");
+    console.log("OLSessions table created successfully");
   }
 );
 
-//CREATE A TABLE NAMED 'history' WITH THE FOLLOWING COLUMNS: id, date, action, user_id, AND THE user_is is a foreign key from the users table
+// Create the history table if it doesn't exist
 connection.query(
   `
   CREATE TABLE IF NOT EXISTS history (
@@ -140,6 +143,7 @@ connection.query(
   }
 );
 
+// Create the ol_game table if it doesn't exist
 connection.query(
   `
   CREATE TABLE IF NOT EXISTS ol_game (
@@ -148,17 +152,16 @@ connection.query(
     code CHAR(7) NOT NULL,
     progress JSON,
     requests JSON,
-  message LONGTEXT,
+    message LONGTEXT,
     tier INT CHECK (tier >= 1 AND tier <= 8)
   )
-    
 `,
   (err) => {
     if (err) {
       console.error("Error creating ol_game table:", err);
       return;
     }
-    console.log("OL Game table created successfully");
+    console.log("ol_game table created successfully");
   }
 );
 
@@ -171,8 +174,13 @@ app.get("/health", (req, res) => {
   res.status(200).send("OK");
 });
 
+// Catch-all route to serve index.html for any other requests
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 // Start HTTP server
 const httpServer = http.createServer(app);
-httpServer.listen(PORT, () => {
+httpServer.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
