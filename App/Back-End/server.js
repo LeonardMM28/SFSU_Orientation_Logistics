@@ -27,7 +27,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 const corsOptions = {
-  origin: "*", // Adjust this as needed for security. For example, limit it to your CloudFront domain.
+  origin: "https://d62x0j8v9vpe1.cloudfront.net", // Replace this with your CloudFront domain or set multiple allowed origins as needed.
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };

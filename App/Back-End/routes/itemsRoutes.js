@@ -34,7 +34,9 @@ const uploadFileToS3 = async (file) => {
     Bucket: process.env.AWS_S3_BUCKET_NAME,
     Key: `${Date.now()}_${file.originalname}`,
     Body: file.buffer,
+    ACL: "public-read", // Make the file publicly readable via CloudFront
   };
+
   const upload = new Upload({
     client: s3,
     params,
