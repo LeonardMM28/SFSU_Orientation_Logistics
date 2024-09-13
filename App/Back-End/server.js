@@ -27,13 +27,20 @@ const s3 = new AWS.S3();
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
+// Updated CORS configuration
 const corsOptions = {
-  origin: ["https://d62x0j8v9vpe1.cloudfront.net", "http://localhost:3000"],
+  origin: [
+    "https://sfsulogistics.online",
+    "https://www.sfsulogistics.online",
+    "http://localhost:3000"
+  ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 // Serve static files from the 'build' directory
 app.use(express.static(path.join(__dirname, "..", "build")));
