@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.2c3e348a.css",
-    "main.js": "/static/js/main.08a1972d.js",
+    "main.js": "/static/js/main.3f199276.js",
     "static/js/206.80103c56.chunk.js": "/static/js/206.80103c56.chunk.js",
     "static/media/Tuition_Hike_Hydra.png": "/static/media/Tuition_Hike_Hydra.3557bbe9f78cad7eff85.png",
     "static/media/Mental_Health_Monster.png": "/static/media/Mental_Health_Monster.78b2deee2b23c1448a31.png",
@@ -45,6 +45,6 @@
   },
   "entrypoints": [
     "static/css/main.2c3e348a.css",
-    "static/js/main.08a1972d.js"
+    "static/js/main.3f199276.js"
   ]
 }

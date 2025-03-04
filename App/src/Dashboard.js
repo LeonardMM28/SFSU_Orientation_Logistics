@@ -129,7 +129,7 @@ function Dashboard() {
         Logout
       </button>
       <h1>Welcome Back, {username}.</h1>
-      <h1>Summer Orientation 2024</h1>
+      <h1>Summer Orientation</h1>
       <h1>Logistics Dashboard</h1>
       <div className="button-container">
         {userTier === "2" && (
