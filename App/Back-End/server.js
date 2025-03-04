@@ -6,12 +6,12 @@ const dotenv = require("dotenv");
 const userRouter = require("./routes/userRoutes");
 const itemsRouter = require("./routes/itemsRoutes");
 const gameRouter = require("./routes/gameRoutes");
-const connection = require("./dbConfig");
+const pool = require("./dbConfig");
 const path = require("path"); // Added to handle file paths
 
 const app = express();
 
-require("dotenv").config(); // To load the .env file
+dotenv.config();
 
 const AWS = require("aws-sdk");
 // Configure AWS with your access key, secret, and region
@@ -45,8 +45,9 @@ app.options("*", cors(corsOptions));
 // Serve static files from the 'build' directory
 app.use(express.static(path.join(__dirname, "..", "build")));
 
-// Create the users table if it doesn't exist
-connection.query(
+// --- Create Tables If They Don't Exist ---
+
+pool.query(
   `
   CREATE TABLE IF NOT EXISTS users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -59,14 +60,13 @@ connection.query(
   (err) => {
     if (err) {
       console.error("Error creating Users table:", err);
-      return;
+    } else {
+      console.log("Users table created successfully");
     }
-    console.log("Users table created successfully");
   }
 );
 
-// Create the sessions table if it doesn't exist
-connection.query(
+pool.query(
   `
   CREATE TABLE IF NOT EXISTS sessions (
     session_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -79,38 +79,36 @@ connection.query(
   (err) => {
     if (err) {
       console.error("Error creating Sessions table:", err);
-      return;
+    } else {
+      console.log("Sessions table created successfully");
     }
-    console.log("Sessions table created successfully");
   }
 );
 
-// Create the items table if it doesn't exist
-connection.query(
+pool.query(
   `
   CREATE TABLE IF NOT EXISTS items (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      name VARCHAR(255) NOT NULL,
-      image VARCHAR(255),
-      category VARCHAR(255) NOT NULL,
-      location_annex VARCHAR(255),
-      quantity_annex INT,
-      location_hq VARCHAR(255),
-      quantity_hq INT,
-      consumible BOOLEAN DEFAULT FALSE
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    image VARCHAR(255),
+    category VARCHAR(255) NOT NULL,
+    location_annex VARCHAR(255),
+    quantity_annex INT,
+    location_hq VARCHAR(255),
+    quantity_hq INT,
+    consumible BOOLEAN DEFAULT FALSE
   )
   `,
-  (error) => {
-    if (error) {
-      console.error("Error creating items table:", error);
+  (err) => {
+    if (err) {
+      console.error("Error creating Items table:", err);
     } else {
       console.log("Items table created successfully");
     }
   }
 );
 
-// Create the OLSessions table if it doesn't exist
-connection.query(
+pool.query(
   `
   CREATE TABLE IF NOT EXISTS OLSessions (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -120,18 +118,17 @@ connection.query(
     checklist JSON,
     status ENUM('NES', 'ES', 'READY') NOT NULL DEFAULT 'NES'
   )
-`,
+  `,
   (err) => {
     if (err) {
       console.error("Error creating OLSessions table:", err);
-      return;
+    } else {
+      console.log("OLSessions table created successfully");
     }
-    console.log("OLSessions table created successfully");
   }
 );
 
-// Create the history table if it doesn't exist
-connection.query(
+pool.query(
   `
   CREATE TABLE IF NOT EXISTS history (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -140,18 +137,17 @@ connection.query(
     user_id INT,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
   )
-`,
+  `,
   (err) => {
     if (err) {
-      console.error("Error creating history table:", err);
-      return;
+      console.error("Error creating History table:", err);
+    } else {
+      console.log("History table created successfully");
     }
-    console.log("History table created successfully");
   }
 );
 
-// Create the ol_game table if it doesn't exist
-connection.query(
+pool.query(
   `
   CREATE TABLE IF NOT EXISTS ol_game (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -162,13 +158,13 @@ connection.query(
     message LONGTEXT,
     tier INT CHECK (tier >= 1 AND tier <= 8)
   )
-`,
+  `,
   (err) => {
     if (err) {
       console.error("Error creating ol_game table:", err);
-      return;
+    } else {
+      console.log("ol_game table created successfully");
     }
-    console.log("ol_game table created successfully");
   }
 );
 
