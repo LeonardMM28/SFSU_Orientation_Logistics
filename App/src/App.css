@@ -1,10 +1,12 @@
 .App {
   text-align: center;
+  font-family: "DM Sans", sans-serif;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  transition: transform 0.3s ease;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -13,19 +15,31 @@
   }
 }
 
+.App-logo:hover {
+  transform: scale(1.05); /* Slightly scale up on hover for a subtle effect */
+}
+
 .App-header {
-  background-color: #282c34;
+  background: linear-gradient(135deg, #1a1a2e, #222248);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #e0e0e0;
+  padding: 20px;
 }
 
 .App-link {
-  color: #61dafb;
+  color: #00d4ff;
+  text-decoration: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.App-link:hover {
+  color: #66eaff;
+  text-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
 }
 
 @keyframes App-logo-spin {

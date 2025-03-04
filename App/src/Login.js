@@ -13,7 +13,7 @@ function Login() {
       try {
         // const response = await fetch("http://localhost:3000/auth-check", {
         const response = await fetch(
-          "https://sfsulogistics.online:3000/auth-check",
+          "https://sfsulogistics.online/auth-check",
           {
             method: "GET",
             headers: {
@@ -50,7 +50,7 @@ function Login() {
     e.preventDefault();
     try {
       // const response = await axios.post("http://localhost:3000/login", {
-      const response = await axios.post("https://sfsulogistics.online:3000/login", {
+      const response = await axios.post("https://sfsulogistics.online/login", {
         username: formData.username,
         password: formData.password,
       });

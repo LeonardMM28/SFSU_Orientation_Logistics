@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react"; // Import React hooks
-import { FiArrowLeftCircle } from "react-icons/fi";
+import { FaArrowUp } from "react-icons/fa"; // Import the arrow up icon
 import {
   PiArrowSquareDownRightFill,
+  PiArrowSquareLeftDuotone,
   PiArrowSquareUpRightFill,
 } from "react-icons/pi";
+
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal"; // Import the Modal component
 import "./Orientation_Supplies_Inventory.css";
@@ -14,11 +16,13 @@ function Orientation_Supplies_Inventory() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
   const [currentItem, setCurrentItem] = useState(null);
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
   const [showModal, setShowModal] = useState(false); // State to manage modal visibility
   const [modalImage, setModalImage] = useState(""); // State to store the image URL
   const [modalAltText, setModalAltText] = useState("");
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
+  const [showScrollButton, setShowScrollButton] = useState(false); // State to show or hide scroll button
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,9 +30,8 @@ function Orientation_Supplies_Inventory() {
 
     const checkAuthorization = async () => {
       try {
-        // const response = await fetch("http://localhost:3000/auth-check", {
         const response = await fetch(
-          "https://sfsulogistics.online:3000/auth-check",
+          "https://sfsulogistics.online/auth-check",
           {
             method: "GET",
             headers: {
@@ -37,14 +40,12 @@ function Orientation_Supplies_Inventory() {
           }
         );
         if (response.status === 401 && isMounted) {
-          // Invalid or expired token, show unauthorized message and delete session
           alert("Your session has expired, please log in again.");
 
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
-            // await axios.post("http://localhost:3000/logout", null, {
-            await axios.post("https://sfsulogistics.online:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -66,12 +67,30 @@ function Orientation_Supplies_Inventory() {
   }, [navigate]);
 
   useEffect(() => {
+    const handleScroll = () => {
+      if (window.pageYOffset > 200) {
+        setShowScrollButton(true);
+      } else {
+        setShowScrollButton(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
     const fetchItems = async () => {
       try {
         const response = await axios.get(
-          // "http://localhost:3000/items/supplies",
-          "https://sfsulogistics.online:3000/items/supplies",
-
+          "https://sfsulogistics.online/items/supplies",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming token is stored in localStorage
@@ -108,13 +127,12 @@ function Orientation_Supplies_Inventory() {
   const handleAmountChange = (e) => {
     setAmount(e.target.value);
   };
+
   const handleActionConfirm = async () => {
     try {
       const endpoint = modalType === "store" ? "store/item" : "retrieve/item";
       const response = await axios.post(
-        // `http://localhost:3000/${endpoint}`,
-        `https://sfsulogistics.online:3000/${endpoint}`,
-
+        `https://sfsulogistics.online/${endpoint}`,
         { itemId: currentItem.id, amount: Number(amount) },
         {
           headers: {
@@ -124,19 +142,14 @@ function Orientation_Supplies_Inventory() {
       );
       alert(response.data.message);
 
-      // Log the action
       const actionDescription =
         modalType === "store"
           ? `Stored ${amount} of item ${currentItem.name} into the Annex`
           : `Retrieved ${amount} of item ${currentItem.name} to the HQ`;
 
       await axios.post(
-        // `http://localhost:3000/logAction`,
-        `https://sfsulogistics.online:3000/logAction`,
-
-        {
-          action: actionDescription,
-        },
+        `https://sfsulogistics.online/logAction`,
+        { action: actionDescription },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -166,14 +179,19 @@ function Orientation_Supplies_Inventory() {
     setSearchQuery(e.target.value);
   };
 
-  const filteredItems = items.filter((item) =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredItems = items.filter(
+    (item) =>
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.location_annex.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
     <div className="orientation-inventory">
       <div className="back-icon-container">
-        <FiArrowLeftCircle onClick={goToDashboard} className="back-icon" />
+        <PiArrowSquareLeftDuotone
+          onClick={goToDashboard}
+          className="back-icon"
+        />
         <h1 className="title">ORIENTATION SUPPLIES</h1>
       </div>
       <div className="search-container">
@@ -202,48 +220,32 @@ function Orientation_Supplies_Inventory() {
               )}
               <div className="item-details">
                 <h2 className="item-title">{item.name}</h2>
-                <p className="item-detail">
-                  Location Annex: {item.location_annex}
-                </p>
-                <p className="item-detail">Location HQ: {item.location_hq}</p>
-                {item.consumible === 1 && ( // Check if the item is consumable
-                  <p className="item-legend">Consumable</p>
-                )}
+                <div className="item-info">
+                  <p className="item-detail">Location: {item.location_annex}</p>
+                  <p className="quantity">Quantity: {item.quantity_annex}</p>
+                  {item.consumible === 1 && (
+                    <p className="item-legend">Consumable</p>
+                  )}
+                </div>
               </div>
               <div className="item-actions">
-                <div className="item-buttons">
-                  <button
-                    className="button retrieve-button"
-                    onClick={() => handleActionClick(item, "retrieve")}
-                  >
-                    <div className="button-icon-container">
-                      <PiArrowSquareUpRightFill className="button-icon" />
-                    </div>
-                    RETRIEVE
-                  </button>
-                  <div className="item-quantities">
-                    <div className="quantities">
-                      <p className="quantity">
-                        Quantity at HQ: {item.quantity_hq}
-                      </p>
-                      <p className="quantity">
-                        Quantity at Annex: {item.quantity_annex}
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    className="button store-button"
-                    onClick={() => handleActionClick(item, "store")}
-                  >
-                    <div className="button-icon-container">
-                      <PiArrowSquareDownRightFill className="button-icon" />
-                    </div>
-                    STORE
-                  </button>
-                </div>
+                <button
+                  className="button small-button store-button"
+                  onClick={() => handleActionClick(item, "store")}
+                >
+                  <PiArrowSquareDownRightFill className="button-icon" />
+                  STORE
+                </button>
+                <button
+                  className="button small-button retrieve-button"
+                  onClick={() => handleActionClick(item, "retrieve")}
+                >
+                  <PiArrowSquareUpRightFill className="button-icon" />
+                  RETRIEVE
+                </button>
                 <button
                   onClick={() => goToEdit(item.id)}
-                  className="edit-button"
+                  className="button small-button edit-button"
                 >
                   Edit
                 </button>
@@ -277,6 +279,11 @@ function Orientation_Supplies_Inventory() {
             </button>
           </div>
         </div>
+      )}
+      {showScrollButton && (
+        <button className="scroll-to-top-button" onClick={scrollToTop}>
+          <FaArrowUp />
+        </button>
       )}
       {showModal && (
         <Modal

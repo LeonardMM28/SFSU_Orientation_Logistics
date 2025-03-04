@@ -4,19 +4,18 @@
   position: relative;
   min-height: 100vh;
   padding: 20px;
-  background-color: #0e0e2c; /* Dark blue background */
-  color: #ffffff; /* White text color */
+  background: linear-gradient(135deg, #1a1a2e, #222248);
+  color: #e0e0e0;
 }
 
 .history-page .title {
   font-size: 28px;
-  font-weight: bold;
-  color: #ffffff; /* White text color */
+  font-weight: 700;
+  color: #ffffff;
   margin-left: 10px;
   text-align: center;
-  text-transform: uppercase; /* Uppercase text */
-  letter-spacing: 1px; /* Slightly increased letter spacing */
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* Adjusted text shadow */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .history-page .back-icon-container {
@@ -25,10 +24,15 @@
 }
 
 .history-page .back-icon {
-  font-size: 40px;
-  cursor: pointer;
-  color: #00d4ff; /* Neon blue color */
+  font-size: 36px;
   margin-right: 10px;
+  cursor: pointer;
+  color: #ffffff;
+  transition: color 0.3s ease;
+}
+
+.history-page .back-icon:hover {
+  color: #00d4ff;
 }
 
 .history-page .search-container {
@@ -36,14 +40,19 @@
 }
 
 .history-page .search-input {
-  background-color: #1f1f4b; /* Dark blue color */
+  background-color: #303057;
   width: 50%;
-  padding: 10px;
+  padding: 12px;
   font-size: 16px;
-  border: 1px solid #5c6672ff;
-  border-radius: 10px;
+  border: 1px solid #5cb3fd;
+  border-radius: 8px;
   margin-bottom: 20px;
-  color: #ffffff; /* White text color */
+  color: #ffffff;
+  transition: border-color 0.3s ease;
+}
+
+.history-page .search-input:focus {
+  border-color: #00d4ff;
 }
 
 .history-page .transactions-container {
@@ -60,36 +69,37 @@
   display: flex;
   justify-content: space-between;
   padding: 15px;
-  border-bottom: 2px solid #5c6672ff;
-  font-weight: bold;
-  color: #ffffff; /* White text color */
+  border-bottom: 2px solid #5cb3fd;
+  font-weight: 600;
+  color: #ffffff;
 }
 
 .history-page .transaction-item {
   display: flex;
   justify-content: space-between;
   padding: 15px;
-  border-bottom: 1px solid #5c6672ff;
+  border-bottom: 1px solid #5cb3fd;
+  transition: background-color 0.3s ease;
+}
+
+.history-page .transaction-item:hover {
+  background-color: #2a2a5e;
 }
 
 .history-page .transaction-date {
   flex: 1;
-  color: #ffffff; /* White text color */
+  color: #ffffff;
   text-align: left;
 }
 
 .history-page .transaction-username {
   flex: 1;
-  color: #ffffff; /* White text color */
+  color: #ffffff;
   text-align: center;
 }
 
 .history-page .transaction-action {
   flex: 2;
-  color: #ffffff; /* White text color */
+  color: #ffffff;
   text-align: right;
-}
-
-.history-page .transaction-item:hover {
-  background-color: #333366; /* Lighter dark blue */
 }

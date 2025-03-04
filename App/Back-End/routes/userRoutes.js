@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const connection = require("../dbConfig");
+const pool = require("../dbConfig");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const moment = require("moment-timezone");
@@ -11,7 +11,7 @@ function authenticateToken(req, res, next) {
   const token = authHeader && authHeader.split(" ")[1];
   if (token == null) return res.sendStatus(401);
 
-  connection.query(
+  pool.query(
     "SELECT * FROM sessions WHERE token = ?",
     [token],
     (error, results) => {
@@ -29,7 +29,7 @@ function authenticateToken(req, res, next) {
       const now = new Date().getTime();
       if (now > expiration) {
         // Delete expired session from the database
-        connection.query(
+        pool.query(
           "DELETE FROM sessions WHERE token = ?",
           [token],
           (deleteError) => {
@@ -69,7 +69,7 @@ router.post("/newUser", (req, res, next) => {
       return res.status(500).json({ error: "Sign up failed" });
     }
 
-    connection.query(
+    pool.query(
       "INSERT INTO users (username, password) VALUES (?, ?)",
       [username, hash],
       (error, results) => {
@@ -89,7 +89,7 @@ router.post("/newUser", (req, res, next) => {
 router.post("/login", (req, res) => {
   const { username, password } = req.body;
 
-  connection.query(
+  pool.query(
     "SELECT * FROM users WHERE username = ?",
     [username],
     (error, results) => {
@@ -124,8 +124,8 @@ router.post("/login", (req, res) => {
           { expiresIn: "1h" }
         );
 
-        const expiresAt = new Date(Date.now() + 1 * 60 * 60 * 1000);
-        connection.query(
+        const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
+        pool.query(
           "INSERT INTO sessions (user_id, token, expires_at) VALUES (?, ?, ?)",
           [user.user_id, token, expiresAt],
           (err) => {
@@ -145,11 +145,10 @@ router.post("/login", (req, res) => {
 router.get("/getUser/:userId", (req, res) => {
   const userId = req.params.userId;
 
-  // Query to select information about the specific user based on user_id
-  connection.query(
+  pool.query(
     "SELECT * FROM users WHERE user_id = ?",
     [userId],
-    (error, results, fields) => {
+    (error, results) => {
       if (error) {
         console.error("Error retrieving user:", error);
         return res.status(500).json({ error: "Failed to retrieve user" });
@@ -172,14 +171,17 @@ router.post("/logAction", authenticateToken, (req, res) => {
   const userId = req.user.userId;
   const date = moment().tz("America/Los_Angeles").format("YYYY-MM-DD HH:mm:ss");
 
-  const query = "INSERT INTO history (date, action, user_id) VALUES (?, ?, ?)";
-  connection.query(query, [date, action, userId], (error, results) => {
-    if (error) {
-      console.error("Error logging action:", error);
-      return res.status(500).json({ message: "Internal server error" });
+  pool.query(
+    "INSERT INTO history (date, action, user_id) VALUES (?, ?, ?)",
+    [date, action, userId],
+    (error, results) => {
+      if (error) {
+        console.error("Error logging action:", error);
+        return res.status(500).json({ message: "Internal server error" });
+      }
+      res.status(200).json({ message: "Action logged successfully" });
     }
-    res.status(200).json({ message: "Action logged successfully" });
-  });
+  );
 });
 
 router.get("/transactions", authenticateToken, (req, res) => {
@@ -190,21 +192,18 @@ router.get("/transactions", authenticateToken, (req, res) => {
     ORDER BY h.date DESC
   `;
 
-  connection.query(query, (error, results) => {
+  pool.query(query, (error, results) => {
     if (error) {
       console.error("Error retrieving transactions:", error);
       return res.status(500).json({ message: "Internal server error" });
     }
 
-    // Format the date for each transaction
-    const formattedResults = results.map((transaction) => {
-      return {
-        ...transaction,
-        date: moment(transaction.date)
-          .tz("America/Los_Angeles")
-          .format("YYYY-MM-DD hh:mm A"),
-      };
-    });
+    const formattedResults = results.map((transaction) => ({
+      ...transaction,
+      date: moment(transaction.date)
+        .tz("America/Los_Angeles")
+        .format("YYYY-MM-DD hh:mm A"),
+    }));
 
     res.status(200).json(formattedResults);
   });
@@ -212,8 +211,8 @@ router.get("/transactions", authenticateToken, (req, res) => {
 
 
 router.post("/logout", (req, res) => {
-  const token = req.headers["authorization"].split(" ")[1]; // Extract the token from the Authorization header
-  connection.query("DELETE FROM sessions WHERE token = ?", [token], (err) => {
+  const token = req.headers["authorization"].split(" ")[1];
+  pool.query("DELETE FROM sessions WHERE token = ?", [token], (err) => {
     if (err) {
       console.error("Error deleting session:", err);
       return res.status(500).json({ message: "Internal server error" });
@@ -226,8 +225,7 @@ router.post("/changePassword", authenticateToken, (req, res) => {
   const { oldPassword, newPassword } = req.body;
   const userId = req.user.userId;
 
-  // Retrieve the user's current password from the database
-  connection.query(
+  pool.query(
     "SELECT password FROM users WHERE user_id = ?",
     [userId],
     (error, results) => {
@@ -261,8 +259,7 @@ router.post("/changePassword", authenticateToken, (req, res) => {
             return res.status(500).json({ message: "Internal server error" });
           }
 
-          // Update the user's password in the database
-          connection.query(
+          pool.query(
             "UPDATE users SET password = ? WHERE user_id = ?",
             [newHash, userId],
             (updateError) => {

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react"; // Import React hooks
-import { FiArrowLeftCircle } from "react-icons/fi";
+import { PiArrowSquareLeftDuotone } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import "./CreateUser.css";
 
@@ -19,7 +19,7 @@ function CreateUser() {
       try {
         const response = await fetch(
           // "http://localhost:3000/auth-check",
-          "https://sfsulogistics.online:3000/auth-check",
+          "https://sfsulogistics.online/auth-check",
           {
             method: "GET",
             headers: {
@@ -35,7 +35,7 @@ function CreateUser() {
           if (token) {
             localStorage.removeItem("token");
             // await axios.post("http://localhost:3000/logout", null, {
-            await axios.post("https://sfsulogistics.online:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -52,7 +52,7 @@ function CreateUser() {
 
           const userResponse = await axios.get(
             // `http://localhost:3000/getUser/${decodedToken.userId}`
-            `https://sfsulogistics.online:3000/getUser/${decodedToken.userId}`
+            `https://sfsulogistics.online/getUser/${decodedToken.userId}`
           );
           setUserTier(userResponse.data.tier);
 
@@ -65,7 +65,7 @@ function CreateUser() {
               localStorage.removeItem("token");
               await axios.post(
                 // "http://localhost:3000/logout",
-                "https://sfsulogistics.online:3000/logout",
+                "https://sfsulogistics.online/logout",
                 null,
                 {
                   headers: {
@@ -115,7 +115,7 @@ function CreateUser() {
     try {
       // const response = await axios.post("http://localhost:3000/newUser", {
       const response = await axios.post(
-        "https://sfsulogistics.online:3000/newUser",
+        "https://sfsulogistics.online/newUser",
         {
           username,
           password,
@@ -140,7 +140,7 @@ function CreateUser() {
 
   return (
     <div className="create-user-page">
-      <FiArrowLeftCircle onClick={goBack} className="back-icon" />
+      <PiArrowSquareLeftDuotone onClick={goBack} className="back-icon" />
       <div className="create-user-form-container">
         <img src="/NSFPlogo.png" alt="NSFP logo" />
         <h2>Create a new account</h2>

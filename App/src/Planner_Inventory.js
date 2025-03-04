@@ -1,16 +1,18 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FiArrowLeftCircle } from "react-icons/fi";
+import { PiArrowSquareLeftDuotone } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import "./Planner_Inventory.css";
 
 function Planner_Inventory() {
   const [sessions, setSessions] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [showChecklistModal, setShowChecklistModal] = useState(false);
+  const [showImageModal, setShowImageModal] = useState(false);
   const [modalContent, setModalContent] = useState([]);
   const [currentSessionId, setCurrentSessionId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [modalImage, setModalImage] = useState(""); // State to store the image URL
+  const [modalAltText, setModalAltText] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,9 +20,8 @@ function Planner_Inventory() {
 
     const checkAuthorization = async () => {
       try {
-        // const response = await fetch("http://localhost:3000/auth-check", {
         const response = await fetch(
-          "https://sfsulogistics.online:3000/auth-check",
+          "https://sfsulogistics.online/auth-check",
           {
             method: "GET",
             headers: {
@@ -34,7 +35,7 @@ function Planner_Inventory() {
           if (token) {
             localStorage.removeItem("token");
             // await axios.post("http://localhost:3000/logout", null, {
-            await axios.post("https://sfsulogistics.online:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -58,8 +59,9 @@ function Planner_Inventory() {
     const fetchSessions = async () => {
       try {
         // const response = await axios.get("http://localhost:3000/sessions", {
+
         const response = await axios.get(
-          "https://sfsulogistics.online:3000/sessions",
+          "https://sfsulogistics.online/sessions",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -71,8 +73,8 @@ function Planner_Inventory() {
         for (const session of sessionsData) {
           const response = await axios.get(
             // `http://localhost:3000/session/${session.id}`,
-            `https://sfsulogistics.online:3000/session/${session.id}`,
 
+            `https://sfsulogistics.online/session/${session.id}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -85,8 +87,8 @@ function Planner_Inventory() {
           for (const item of checklist) {
             const itemResponse = await axios.get(
               // `http://localhost:3000/items/${item.id}`,
-              `https://sfsulogistics.online:3000/items/${item.id}`,
 
+              `https://sfsulogistics.online/items/${item.id}`,
               {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -106,8 +108,8 @@ function Planner_Inventory() {
             if (allItemsInStock && session.status !== "ES") {
               await axios.put(
                 // `http://localhost:3000/update-session-ES/${session.id}`,
-                `https://sfsulogistics.online:3000/update-session-ES/${session.id}`,
 
+                `https://sfsulogistics.online/update-session-ES/${session.id}`,
                 {},
                 {
                   headers: {
@@ -119,8 +121,8 @@ function Planner_Inventory() {
             } else if (!allItemsInStock && session.status !== "NES") {
               await axios.put(
                 // `http://localhost:3000/update-session-NES/${session.id}`,
-                `https://sfsulogistics.online:3000/update-session-NES/${session.id}`,
 
+                `https://sfsulogistics.online/update-session-NES/${session.id}`,
                 {},
                 {
                   headers: {
@@ -131,7 +133,6 @@ function Planner_Inventory() {
               session.status = "NES";
             }
           } else {
-            // If session is READY, skip the other checks
             continue;
           }
         }
@@ -179,8 +180,8 @@ function Planner_Inventory() {
     try {
       const response = await axios.get(
         // `http://localhost:3000/session/${sessionId}`,
-        `https://sfsulogistics.online:3000/session/${sessionId}`,
 
+        `https://sfsulogistics.online/session/${sessionId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -192,8 +193,8 @@ function Planner_Inventory() {
         checklist.map(async (item) => {
           const itemResponse = await axios.get(
             // `http://localhost:3000/items/${item.id}`,
-            `https://sfsulogistics.online:3000/items/${item.id}`,
 
+            `https://sfsulogistics.online/items/${item.id}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -213,22 +214,30 @@ function Planner_Inventory() {
         })
       );
       setModalContent(itemDetails);
-      setShowModal(true);
+      setShowChecklistModal(true);
     } catch (error) {
       console.error("Error fetching session details:", error);
     }
   };
 
-  // Inside the handleCloseModal function
-  const handleCloseModal = () => {
-    // Reset the currentSessionId state and close the modal
+  const handleCloseChecklistModal = () => {
     setCurrentSessionId(null);
-    setShowModal(false);
+    setShowChecklistModal(false);
+  };
+
+  const handleCloseImageModal = () => {
+    setShowImageModal(false);
+  };
+
+  const handleOpenImageModal = (imageUrl, altText) => {
+    setModalImage(imageUrl);
+    setModalAltText(altText);
+    setShowImageModal(true);
   };
 
   const handlePrepareButtonClick = (sessionId) => {
     setCurrentSessionId(sessionId);
-    setShowModal(true);
+    setShowChecklistModal(true);
   };
 
   const filteredSessions = sessions.filter(
@@ -237,16 +246,14 @@ function Planner_Inventory() {
       formatDate(session.date).includes(searchQuery)
   );
 
-  // Inside the handleConfirmPrep function
   const handleConfirmPrep = async () => {
     try {
       console.log("Confirm prep for session ID:", currentSessionId);
 
-      // Update session status to READY and handle consumable item deduction
       await axios.put(
         // `http://localhost:3000/update-session-READY/${currentSessionId}`,
-        `https://sfsulogistics.online:3000/update-session-READY/${currentSessionId}`,
 
+        `https://sfsulogistics.online/update-session-READY/${currentSessionId}`,
         {},
         {
           headers: {
@@ -255,7 +262,6 @@ function Planner_Inventory() {
         }
       );
 
-      // Update the session status in the state
       setSessions((prevSessions) =>
         prevSessions.map((session) =>
           session.id === currentSessionId
@@ -266,10 +272,8 @@ function Planner_Inventory() {
 
       console.log("Session status updated to 'READY' successfully");
 
-      // Close the modal
-      setShowModal(false);
+      setShowChecklistModal(false);
 
-      // Refresh the page
       window.location.reload();
     } catch (error) {
       console.error("Error updating session status or deducting items:", error);
@@ -279,7 +283,10 @@ function Planner_Inventory() {
   return (
     <div className="sessions">
       <div className="back-icon-container">
-        <FiArrowLeftCircle onClick={goToDashboard} className="back-icon" />
+        <PiArrowSquareLeftDuotone
+          onClick={goToDashboard}
+          className="back-icon"
+        />
         <h1 className="title">SESSION PLANNER</h1>
       </div>
       <div className="search-container">
@@ -300,7 +307,7 @@ function Planner_Inventory() {
             <tr>
               <th>Date</th>
               <th>Type</th>
-              <th>Attendees</th>
+              <th>Students | Guests</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -339,10 +346,10 @@ function Planner_Inventory() {
           </tbody>
         </table>
       </div>
-      {showModal && (
+      {showChecklistModal && (
         <div className="modal">
           <div className="modal-content">
-            <span className="close" onClick={handleCloseModal}>
+            <span className="close" onClick={handleCloseChecklistModal}>
               &times;
             </span>
             {currentSessionId ? (
@@ -351,7 +358,10 @@ function Planner_Inventory() {
                 <button className="confirm-button" onClick={handleConfirmPrep}>
                   YES
                 </button>
-                <button className="confirm-button" onClick={handleCloseModal}>
+                <button
+                  className="confirm-button"
+                  onClick={handleCloseChecklistModal}
+                >
                   NOT YET
                 </button>
               </>
@@ -366,6 +376,12 @@ function Planner_Inventory() {
                           src={item.details.image}
                           alt={item.details.name}
                           className="item-image"
+                          onClick={() =>
+                            handleOpenImageModal(
+                              item.details.image,
+                              item.details.name
+                            )
+                          }
                         />
                         <span>{item.details.name}</span>
                         <span
@@ -379,6 +395,20 @@ function Planner_Inventory() {
                 </ul>
               </>
             )}
+          </div>
+        </div>
+      )}
+      {showImageModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={handleCloseImageModal}>
+              &times;
+            </span>
+            <img
+              src={modalImage}
+              alt={modalAltText}
+              className="preview-image"
+            />
           </div>
         </div>
       )}

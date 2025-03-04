@@ -1,25 +1,25 @@
 * {
-  font-family: "Orbitron", sans-serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: "DM Sans", sans-serif;
 }
 
 .add-edit-orientation-resources {
   position: relative;
   min-height: 100vh;
   padding: 20px;
-  background-color: #0e0e2c;
-  color: #ffffff;
+  background: linear-gradient(135deg, #1a1a2e, #222248);
+  color: #e0e0e0;
 }
 
 .add-edit-orientation-resources .title {
   font-size: 28px;
-  font-weight: bold;
+  font-weight: 700;
   margin-left: 10px;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.5px;
+  color: #ffffff;
 }
 
 .add-edit-orientation-resources .form-container {
@@ -32,11 +32,15 @@
 }
 
 .add-edit-orientation-resources .back-icon {
-  font-size: 40px;
+  font-size: 36px;
+  margin-right: 10px;
   cursor: pointer;
   color: #ffffff;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-  margin-right: 10px;
+  transition: color 0.3s ease;
+}
+
+.add-edit-orientation-resources .back-icon:hover {
+  color: #00d4ff;
 }
 
 .add-edit-orientation-resources .form-group {
@@ -56,18 +60,26 @@
   flex-direction: column;
   margin-bottom: 20px;
   font-size: 18px;
+  color: #d1d1d1;
 }
 
 .add-edit-orientation-resources input[type="text"],
 .add-edit-orientation-resources input[type="file"],
 .add-edit-orientation-resources input[type="number"] {
-  padding: 10px;
+  padding: 12px;
   font-size: 16px;
   margin-top: 5px;
-  border: 1px solid #00d4ff;
-  border-radius: 5px;
-  background-color: #1f1f4b;
+  border: 1px solid #5cb3fd;
+  border-radius: 8px;
+  background-color: #303057;
   color: #ffffff;
+  transition: border-color 0.3s ease;
+}
+
+.add-edit-orientation-resources input[type="text"]:focus,
+.add-edit-orientation-resources input[type="file"]:focus,
+.add-edit-orientation-resources input[type="number"]:focus {
+  border-color: #00d4ff;
 }
 
 .add-edit-orientation-resources .image-preview {
@@ -75,14 +87,14 @@
   width: auto;
   height: 150px;
   object-fit: cover;
-  border: 2px solid transparent;
-  border-radius: 5px;
-  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
-  transition: border-color 0.3s ease;
+  border: 2px solid #5cb3fd;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .add-edit-orientation-resources .image-preview:hover {
-  border-color: #66eaff;
+  border-color: #00d4ff;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
 }
 
 .add-edit-orientation-resources .location-quantity {
@@ -98,22 +110,21 @@
 
 .add-edit-orientation-resources button[type="submit"] {
   width: 100%;
-  background-color: #1f1f4b;
+  background-color: #303057;
   color: #ffffff;
-  border: 2px solid #00d4ff;
-  border-radius: 10px;
-  padding: 20px 0;
+  border: 2px solid #5cb3fd;
+  border-radius: 8px;
+  padding: 15px 0;
   font-size: 20px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
-  clip-path: polygon(0% 0%, 70% 0%, 100% 30%, 100% 100%, 30% 100%, 0% 70%);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
 }
 
 .add-edit-orientation-resources button[type="submit"]:hover {
   background-color: #2a2a5e;
-  border-color: #66eaff;
-  box-shadow: 0 0 10px #66eaff, 0 0 20px #66eaff, 0 0 30px #66eaff;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
 }
 
 @media (min-width: 600px) {
@@ -135,10 +146,11 @@
   display: flex;
   align-items: center;
   margin-bottom: 20px;
-  background-color: #1f1f4b;
-  padding: 10px;
-  border-radius: 5px;
+  background-color: #303057;
+  padding: 12px;
+  border-radius: 8px;
   width: fit-content;
+  color: #d1d1d1;
 }
 
 .add-edit-orientation-resources .consumable-label input[type="checkbox"] {

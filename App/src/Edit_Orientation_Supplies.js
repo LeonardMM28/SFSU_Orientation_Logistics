@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FiArrowLeftCircle } from "react-icons/fi";
+import { PiArrowSquareLeftDuotone } from "react-icons/pi";
 import { useNavigate, useParams } from "react-router-dom";
 import "./Add_Edit_Orientation_Supplies.css";
 import Modal from "./Modal"; // Import the Modal component
@@ -9,13 +9,11 @@ function Edit_Orientation_Supplies() {
   const { itemId } = useParams();
   const [name, setName] = useState("");
   const [picture, setPicture] = useState(null);
-  const [consumible, setConsumible] = useState(false); // Add consumable state
+  const [consumible, setConsumible] = useState(false); // Add consumible state
 
   const category = "SUPPLIES";
   const [locationAnnex, setLocationAnnex] = useState("");
   const [quantityAnnex, setQuantityAnnex] = useState(0);
-  const [locationHQ, setLocationHQ] = useState("");
-  const [quantityHQ, setQuantityHQ] = useState(0);
   const [imagePreview, setImagePreview] = useState(null);
   const [showModal, setShowModal] = useState(false); // State to manage modal visibility
   const [modalImage, setModalImage] = useState(""); // State to store the image URL
@@ -29,9 +27,8 @@ function Edit_Orientation_Supplies() {
 
     const checkAuthorization = async () => {
       try {
-        // const response = await fetch("http://localhost:3000/auth-check", {
         const response = await fetch(
-          "https://sfsulogistics.online:3000/auth-check",
+          "https://sfsulogistics.online/auth-check",
           {
             method: "GET",
             headers: {
@@ -40,14 +37,12 @@ function Edit_Orientation_Supplies() {
           }
         );
         if (response.status === 401 && isMounted) {
-          // Invalid or expired token, show unauthorized message and delete session
           alert("Your session has expired, please log in again.");
 
           const token = localStorage.getItem("token");
           if (token) {
             localStorage.removeItem("token");
-            // await axios.post("http://localhost:3000/logout", null, {
-            await axios.post("https://sfsulogistics.online:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -74,9 +69,7 @@ function Edit_Orientation_Supplies() {
     const fetchItem = async () => {
       try {
         const response = await axios.get(
-          //   `http://localhost:3000/items/${itemId}`,
-          `https://sfsulogistics.online:3000/items/${itemId}`,
-
+          `https://sfsulogistics.online/items/${itemId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -88,8 +81,6 @@ function Edit_Orientation_Supplies() {
         setConsumible(Boolean(item.consumible)); // Convert to boolean
         setLocationAnnex(item.location_annex);
         setQuantityAnnex(item.quantity_annex);
-        setLocationHQ(item.location_hq);
-        setQuantityHQ(item.quantity_hq);
         setImagePreview(item.image);
       } catch (error) {
         console.error("Error fetching item:", error);
@@ -126,18 +117,21 @@ function Edit_Orientation_Supplies() {
     formData.append("category", category);
     formData.append("locationAnnex", locationAnnex);
     formData.append("quantityAnnex", quantityAnnex);
-    formData.append("locationHQ", locationHQ);
-    formData.append("quantityHQ", quantityHQ);
+    formData.append("locationHQ", ""); // Send as blank
+    formData.append("quantityHQ", 0); // Send as blank
     formData.append("consumible", consumible ? 1 : 0); // Append consumible state
 
     try {
-      //   await axios.put(`http://localhost:3000/edit/item/${itemId}`, formData, {
-      await axios.put(`https://sfsulogistics.online:3000/edit/item/${itemId}`, formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.put(
+        `https://sfsulogistics.online/edit/item/${itemId}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       navigate("/orientation-supplies-inventory");
     } catch (error) {
       console.error("Error updating item:", error);
@@ -161,7 +155,10 @@ function Edit_Orientation_Supplies() {
   return (
     <div className="add-edit-orientation-resources">
       <div className="back-icon-container">
-        <FiArrowLeftCircle onClick={goToInventory} className="back-icon" />
+        <PiArrowSquareLeftDuotone
+          onClick={goToInventory}
+          className="back-icon"
+        />
         <h1 className="title">Edit Orientation Supplies</h1>
       </div>
       <div className="form-container">
@@ -218,28 +215,6 @@ function Edit_Orientation_Supplies() {
               />
             </label>
           </div>
-          <div className="location-quantity">
-            <label>
-              Location HQ:
-              <input
-                type="text"
-                name="locationHQ"
-                value={locationHQ}
-                onChange={(e) => setLocationHQ(e.target.value)}
-                required
-              />
-            </label>
-            <label>
-              Quantity:
-              <input
-                type="number"
-                name="quantityHQ"
-                value={quantityHQ}
-                onChange={(e) => setQuantityHQ(e.target.value)}
-                required
-              />
-            </label>
-          </div>
           <div className="consumable-label">
             <input
               type="checkbox"
@@ -248,7 +223,6 @@ function Edit_Orientation_Supplies() {
               checked={consumible} // Check if consumible state is true
               onChange={(e) => setConsumible(e.target.checked)} // Set consumible state directly
             />
-
             <span>Consumable</span>
           </div>
           <button type="submit">Confirm</button>

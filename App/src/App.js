@@ -15,6 +15,8 @@ import ChangePass from "./ChangePass";
 import OLUniformsInventory from "./OL_Uniforms_Inventory";
 import OrientationResourcesInventory from "./Orientation_Supplies_Inventory";
 import PlannerInventory from "./Planner_Inventory";
+import Message from "./OL_MESSAGE/OL_MESSAGE";
+import Mission_board from "./OL_MESSAGE/OL_MESSAGE_BOARD";
 // import Registration from "./Registration";
 
 function App() {
@@ -41,6 +43,8 @@ function App() {
         <Route path="/create-user" element={<CreateUser />} />
         <Route path="/history" element={<History />} />
         <Route path="/change-pass" element={<ChangePass />} />
+        <Route path="/message" element={<Message />} />
+        <Route path="/mission-board" element={<Mission_board />} />
 
         {/* <Route path="/register" element={<Registration />} /> */}
       </Routes>

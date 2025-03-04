@@ -35,6 +35,7 @@ const uploadFileToS3 = async (file) => {
     Key: `${Date.now()}_${file.originalname}`,
     Body: file.buffer,
   };
+
   const upload = new Upload({
     client: s3,
     params,

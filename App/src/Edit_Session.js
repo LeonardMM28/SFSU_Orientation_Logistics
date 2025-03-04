@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FiArrowLeftCircle } from "react-icons/fi";
+import { PiArrowSquareLeftDuotone } from "react-icons/pi";
 import { useNavigate, useParams } from "react-router-dom";
-import "./Add_Session.css";
+import "./Add_Edit_Session.css";
 import Modal from "./Modal"; // Import the Modal component
 
 function Edit_Session() {
@@ -30,7 +30,7 @@ function Edit_Session() {
       try {
         // const response = await fetch("http://localhost:3000/auth-check", {
         const response = await fetch(
-          "https://sfsulogistics.online:3000/auth-check",
+          "https://sfsulogistics.online/auth-check",
           {
             method: "GET",
             headers: {
@@ -46,7 +46,7 @@ function Edit_Session() {
           if (token) {
             localStorage.removeItem("token");
             // await axios.post("http://localhost:3000/logout", null, {
-            await axios.post("https://sfsulogistics.online:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -74,7 +74,7 @@ function Edit_Session() {
       try {
         // const response = await fetch("http://localhost:3000/auth-check", {
         const response = await fetch(
-          "https://sfsulogistics.online:3000/auth-check",
+          "https://sfsulogistics.online/auth-check",
           {
             method: "GET",
             headers: {
@@ -90,7 +90,7 @@ function Edit_Session() {
           if (token) {
             localStorage.removeItem("token");
             // await axios.post("http://localhost:3000/logout", null, {
-            await axios.post("https://sfsulogistics.online:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -112,7 +112,7 @@ function Edit_Session() {
       try {
         const response = await axios.get(
           // `http://localhost:3000/session/${sessionId}`,
-          `http://localhost:3000/session/${sessionId}`,
+          `https://sfsulogistics.online/session/${sessionId}`,
 
           {
             headers: {
@@ -157,7 +157,7 @@ function Edit_Session() {
       try {
         const response = await axios.get(
           // "http://localhost:3000/items/supplies",
-          "https://sfsulogistics.online:3000/items/supplies",
+          "https://sfsulogistics.online/items/supplies",
 
           {
             headers: {
@@ -222,7 +222,7 @@ function Edit_Session() {
     try {
       const response = await axios.put(
         // `http://localhost:3000/edit/session/${sessionId}`,
-        `https://sfsulogistics.online:3000/edit/session/${sessionId}`,
+        `https://sfsulogistics.online/edit/session/${sessionId}`,
 
         { date, type, attendees, checklist: itemsChecklist },
         {
@@ -260,7 +260,10 @@ function Edit_Session() {
   return (
     <div className="add-edit-sessions">
       <div className="back-icon-container">
-        <FiArrowLeftCircle onClick={goToInventory} className="back-icon" />
+        <PiArrowSquareLeftDuotone
+          onClick={goToInventory}
+          className="back-icon"
+        />
         <h1 className="title">Edit Session</h1>
       </div>
       <div className="main-content">
@@ -301,7 +304,7 @@ function Edit_Session() {
                 <label>
                   Attendees:
                   <input
-                    type="number"
+                    type="text"
                     name="attendees"
                     value={formData.attendees || ""}
                     onChange={handleInputChange}
@@ -318,29 +321,33 @@ function Edit_Session() {
                 onChange={handleSearchQueryChange}
                 placeholder="Search items..."
               />
-              <div className="supplies-list">
-                {filteredSupplies.map((item) => (
-                  <div key={item.id} className="supply-item">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="item-image"
-                      onClick={() => handleOpenModal(item.image, item.name)}
-                    />
-                    <div className="item-details">
-                      <span>{item.name}</span>
-                      <input
-                        type="number"
-                        min="1"
-                        placeholder="Amount"
-                        value={formData.checklist[item.id] || ""}
-                        onChange={(e) =>
-                          handleChecklistChange(item.id, e.target.value)
-                        }
+              <div className="scrollable-container-supplies">
+                <div className="supplies-list">
+                  {filteredSupplies.map((item) => (
+                    <div key={item.id} className="supply-item">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="item-image"
+                        onClick={() => handleOpenModal(item.image, item.name)}
                       />
+                      <div className="item-details">
+                        <div className="item-name-container">
+                          <span>{item.name}</span>
+                        </div>
+                        <input
+                          type="number"
+                          min="1"
+                          placeholder="Amount"
+                          value={formData.checklist[item.id] || ""}
+                          onChange={(e) =>
+                            handleChecklistChange(item.id, e.target.value)
+                          }
+                        />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </label>
             <button type="submit" className="submit-button">

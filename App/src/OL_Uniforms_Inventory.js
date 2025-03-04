@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FiArrowLeftCircle } from "react-icons/fi";
+import { FaArrowUp } from "react-icons/fa"; // Import the arrow up icon
 import {
   PiArrowSquareDownRightFill,
+  PiArrowSquareLeftDuotone,
   PiArrowSquareUpRightFill,
 } from "react-icons/pi";
+
 import Modal from "./Modal"; // Import the Modal component
 
 import { useNavigate } from "react-router-dom";
@@ -15,11 +17,12 @@ function OL_Uniforms_Inventory() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
   const [currentItem, setCurrentItem] = useState(null);
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
   const [showModal, setShowModal] = useState(false); // State to manage modal visibility
   const [modalImage, setModalImage] = useState(""); // State to store the image URL
   const [modalAltText, setModalAltText] = useState("");
   const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
+  const [showScrollButton, setShowScrollButton] = useState(false); // State to show or hide scroll button
 
   const navigate = useNavigate();
 
@@ -30,7 +33,7 @@ function OL_Uniforms_Inventory() {
       try {
         // const response = await fetch("http://localhost:3000/auth-check", {
         const response = await fetch(
-          "https://sfsulogistics.online:3000/auth-check",
+          "https://sfsulogistics.online/auth-check",
           {
             method: "GET",
             headers: {
@@ -46,7 +49,7 @@ function OL_Uniforms_Inventory() {
           if (token) {
             localStorage.removeItem("token");
             // await axios.post("http://localhost:3000/logout", null, {
-            await axios.post("https://sfsulogistics.online:3000/logout", null, {
+            await axios.post("https://sfsulogistics.online/logout", null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -68,11 +71,31 @@ function OL_Uniforms_Inventory() {
   }, [navigate]);
 
   useEffect(() => {
+    const handleScroll = () => {
+      if (window.pageYOffset > 200) {
+        setShowScrollButton(true);
+      } else {
+        setShowScrollButton(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
     const fetchItems = async () => {
       try {
         const response = await axios.get(
           // "http://localhost:3000/items/uniforms",
-          "https://sfsulogistics.online:3000/items/uniforms",
+          "https://sfsulogistics.online/items/uniforms",
 
           {
             headers: {
@@ -115,7 +138,7 @@ function OL_Uniforms_Inventory() {
       const endpoint = modalType === "store" ? "store/item" : "retrieve/item";
       const response = await axios.post(
         // `http://localhost:3000/${endpoint}`,
-        `https://sfsulogistics.online:3000/${endpoint}`,
+        `https://sfsulogistics.online/${endpoint}`,
 
         { itemId: currentItem.id, amount: Number(amount) },
         {
@@ -134,7 +157,7 @@ function OL_Uniforms_Inventory() {
 
       await axios.post(
         // `http://localhost:3000/logAction`,
-        `https://sfsulogistics.online:3000/logAction`,
+        `https://sfsulogistics.online/logAction`,
 
         {
           action: actionDescription,
@@ -175,7 +198,10 @@ function OL_Uniforms_Inventory() {
   return (
     <div className="uniform-inventory">
       <div className="back-icon-container">
-        <FiArrowLeftCircle onClick={goToDashboard} className="back-icon" />
+        <PiArrowSquareLeftDuotone
+          onClick={goToDashboard}
+          className="back-icon"
+        />
         <h1 className="title">OL UNIFORMS</h1>
       </div>
       <div className="search-container">
@@ -204,48 +230,30 @@ function OL_Uniforms_Inventory() {
               )}
               <div className="item-details">
                 <h2 className="item-title">{item.name}</h2>
-                <p className="item-detail">
-                  Location Annex: {item.location_annex}
-                </p>
-                <p className="item-detail">Location HQ: {item.location_hq}</p>
-                {item.consumible === 1 && ( // Check if the item is consumable
+                <p className="item-detail">Location: {item.location_annex}</p>
+                <p className="quantity">Quantity: {item.quantity_annex}</p>
+                {item.consumible === 1 && (
                   <p className="item-legend">Consumable</p>
                 )}
               </div>
               <div className="item-actions">
-                <div className="item-buttons">
-                  <button
-                    className="button retrieve-button"
-                    onClick={() => handleActionClick(item, "retrieve")}
-                  >
-                    <div className="button-icon-container">
-                      <PiArrowSquareUpRightFill className="button-icon" />
-                    </div>
-                    RETRIEVE
-                  </button>
-                  <div className="item-quantities">
-                    <div className="quantities">
-                      <p className="quantity">
-                        Quantity at HQ: {item.quantity_hq}
-                      </p>
-                      <p className="quantity">
-                        Quantity at Annex: {item.quantity_annex}
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    className="button store-button"
-                    onClick={() => handleActionClick(item, "store")}
-                  >
-                    <div className="button-icon-container">
-                      <PiArrowSquareDownRightFill className="button-icon" />
-                    </div>
-                    STORE
-                  </button>
-                </div>
+                <button
+                  className="button small-button store-button"
+                  onClick={() => handleActionClick(item, "store")}
+                >
+                  <PiArrowSquareDownRightFill className="button-icon" />
+                  STORE
+                </button>
+                <button
+                  className="button small-button retrieve-button"
+                  onClick={() => handleActionClick(item, "retrieve")}
+                >
+                  <PiArrowSquareUpRightFill className="button-icon" />
+                  RETRIEVE
+                </button>
                 <button
                   onClick={() => goToEdit(item.id)}
-                  className="edit-button"
+                  className="button small-button edit-button"
                 >
                   Edit
                 </button>
@@ -279,6 +287,11 @@ function OL_Uniforms_Inventory() {
             </button>
           </div>
         </div>
+      )}
+      {showScrollButton && (
+        <button className="scroll-to-top-button" onClick={scrollToTop}>
+          <FaArrowUp />
+        </button>
       )}
       {showModal && (
         <Modal
