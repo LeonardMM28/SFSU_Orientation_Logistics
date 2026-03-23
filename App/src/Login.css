@@ -1,0 +1,101 @@
+/* Login.css */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "DM Sans", sans-serif;
+}
+
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e, #222248);
+  color: #e0e0e0;
+}
+
+.login-form-container {
+  width: 300px;
+  padding: 20px;
+  border: 2px solid #5cb3fd;
+  background-color: #303057;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+  border-radius: 8px;
+}
+
+.login-form-container h2 {
+  font-size: 24px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.login-form-container .form-group {
+  margin-bottom: 20px;
+}
+
+.login-form-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 18px;
+  color: #d1d1d1;
+}
+
+.login-form-container input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #5cb3fd;
+  border-radius: 8px;
+  background-color: #303057;
+  color: #ffffff;
+  transition: border-color 0.3s ease;
+}
+
+.login-form-container input:focus {
+  border-color: #00d4ff;
+}
+
+.login-form-container button {
+  width: 100%;
+  padding: 15px 0;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+  background-color: #303057;
+  color: #ffffff;
+  border: 2px solid #5cb3fd;
+  border-radius: 8px;
+  font-size: 20px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-form-container button:hover {
+  background-color: #2a2a5e;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+
+.login-form-container img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 200px;
+  margin-bottom: 20px;
+}
+
+@keyframes border-glow {
+  0% {
+    box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
+  }
+  50% {
+    box-shadow: 0 0 20px #66eaff, 0 0 40px #66eaff, 0 0 60px #66eaff;
+  }
+  100% {
+    box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
+  }
+}

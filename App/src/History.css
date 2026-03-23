@@ -1,0 +1,105 @@
+/* History.css */
+
+.history-page {
+  position: relative;
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(135deg, #1a1a2e, #222248);
+  color: #e0e0e0;
+}
+
+.history-page .title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-left: 10px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.history-page .back-icon-container {
+  display: flex;
+  align-items: center;
+}
+
+.history-page .back-icon {
+  font-size: 36px;
+  margin-right: 10px;
+  cursor: pointer;
+  color: #ffffff;
+  transition: color 0.3s ease;
+}
+
+.history-page .back-icon:hover {
+  color: #00d4ff;
+}
+
+.history-page .search-container {
+  margin-top: 20px;
+}
+
+.history-page .search-input {
+  background-color: #303057;
+  width: 50%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #5cb3fd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  color: #ffffff;
+  transition: border-color 0.3s ease;
+}
+
+.history-page .search-input:focus {
+  border-color: #00d4ff;
+}
+
+.history-page .transactions-container {
+  margin-top: 20px;
+}
+
+.history-page .transactions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-page .transaction-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  border-bottom: 2px solid #5cb3fd;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.history-page .transaction-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  border-bottom: 1px solid #5cb3fd;
+  transition: background-color 0.3s ease;
+}
+
+.history-page .transaction-item:hover {
+  background-color: #2a2a5e;
+}
+
+.history-page .transaction-date {
+  flex: 1;
+  color: #ffffff;
+  text-align: left;
+}
+
+.history-page .transaction-username {
+  flex: 1;
+  color: #ffffff;
+  text-align: center;
+}
+
+.history-page .transaction-action {
+  flex: 2;
+  color: #ffffff;
+  text-align: right;
+}

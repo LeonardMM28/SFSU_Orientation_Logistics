@@ -1,0 +1,90 @@
+html {
+  background: linear-gradient(135deg, #1a1a2e, #222248);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "DM Sans", sans-serif;
+}
+
+/* Dashboard container */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e, #222248);
+  color: #e0e0e0;
+  position: relative;
+  margin-top: 20px;
+}
+
+/* Dashboard title */
+.dashboard h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 10px 0;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+}
+
+/* Button container */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+/* Dashboard button */
+.dashboard .button {
+  width: 300px;
+  background-color: #303057;
+  color: #ffffff;
+  border: 2px solid #5cb3fd;
+  padding: 15px 40px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+
+/* Dashboard button hover effect */
+.dashboard .button:hover {
+  background-color: #2a2a5e;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logout-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #303057;
+  color: #ffffff;
+  border: 2px solid #5cb3fd;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+
+/* Logout button hover effect */
+.logout-button:hover {
+  background-color: #2a2a5e;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}

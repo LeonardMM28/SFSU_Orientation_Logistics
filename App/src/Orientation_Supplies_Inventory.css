@@ -1,0 +1,339 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "DM Sans", sans-serif;
+}
+
+/* Dashboard container */
+.orientation-inventory {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e, #222248);
+  color: #e0e0e0;
+  position: relative;
+  padding: 20px;
+}
+
+/* Dashboard title */
+.orientation-inventory .title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 10px 0;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+}
+
+/* Search container */
+.orientation-inventory .search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.orientation-inventory .search-input {
+  width: 80%;
+  max-width: 300px;
+  background-color: #303057;
+  color: #ffffff;
+  border: 2px solid #5cb3fd;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+}
+
+.orientation-inventory .search-input:focus {
+  border-color: #00d4ff;
+}
+
+/* Button container */
+.orientation-inventory .button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+/* Dashboard button */
+.orientation-inventory .button {
+  background-color: #303057;
+  color: #ffffff;
+  border: 2px solid #5cb3fd;
+  padding: 15px 40px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+
+.orientation-inventory .button:hover {
+  background-color: #2a2a5e;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Back icon container */
+.orientation-inventory .back-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.orientation-inventory .back-icon {
+  font-size: 36px;
+  margin-right: 10px;
+  cursor: pointer;
+  color: #ffffff;
+  transition: color 0.3s ease;
+}
+
+.orientation-inventory .back-icon:hover {
+  color: #00d4ff;
+}
+
+/* Items container */
+.orientation-inventory .items-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Individual item */
+.orientation-inventory .item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #303057;
+  border: 2px solid #5cb3fd;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+  width: 100%;
+  flex-wrap: nowrap; /* Prevents wrapping of buttons */
+  height: auto; /* Adjust this to a fixed height if necessary */
+}
+
+.orientation-inventory .item-image {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin-right: 20px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.orientation-inventory .item-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 20px;
+  white-space: nowrap; /* Prevents the text from wrapping */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Adds ellipsis for long text */
+}
+
+.orientation-inventory .item-legend {
+  font-size: 14px;
+  color: #66eaff;
+}
+
+.orientation-inventory .item-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* Button styling */
+.orientation-inventory .button.small-button {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  min-width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orientation-inventory .button-icon {
+  margin-right: 5px;
+}
+
+/* Edit button */
+.orientation-inventory .edit-button {
+  background-color: #303057;
+  color: #ffffff;
+  border: 2px solid #5cb3fd;
+  font-size: 14px;
+  cursor: pointer;
+  text-transform: uppercase;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+
+.orientation-inventory .edit-button:hover {
+  background-color: #2a2a5e;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
+}
+
+/* No supplies message */
+.orientation-inventory .no-supplies {
+  font-size: 18px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* Modal styling */
+.orientation-inventory .modal-overlay-uniform {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.orientation-inventory .modal-content {
+  background-color: #303057;
+  color: #ffffff;
+  border: 2px solid #5cb3fd;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.orientation-inventory .modal-content h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.orientation-inventory .modal-content p {
+  margin-bottom: 10px;
+}
+
+.orientation-inventory .modal-content input {
+  width: 80px;
+  padding: 5px;
+  margin-bottom: 20px;
+  text-align: center;
+  border: 1px solid #5cb3fd;
+  border-radius: 8px;
+  background-color: #303057;
+  color: #ffffff;
+  transition: border-color 0.3s ease;
+}
+
+.orientation-inventory .modal-content input:focus {
+  border-color: #00d4ff;
+}
+
+.orientation-inventory .modal-content .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  font-size: 16px;
+  width: 40px;
+  cursor: pointer;
+  background-color: #303057;
+  color: #ffffff;
+  border: 2px solid #5cb3fd;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.orientation-inventory .modal-content .close-button:hover {
+  background-color: #2a2a5e;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
+}
+
+/* Scroll to top button */
+.scroll-to-top-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #303057;
+  color: #ffffff;
+  border: 2px solid #5cb3fd;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+  z-index: 1000;
+  opacity: 0.8;
+  transition: opacity 0.3s, transform 0.3s, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.5s ease;
+}
+
+.scroll-to-top-button:hover {
+  background-color: #2a2a5e;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
+  transform: translateY(-5px);
+  opacity: 1;
+}
+
+/* Small screen adjustments */
+@media screen and (max-width: 600px) {
+  .orientation-inventory .item {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .orientation-inventory .item-details {
+    margin-right: 10px;
+    flex: 1;
+    white-space: normal; /* Allows text to wrap on small screens */
+  }
+
+  .orientation-inventory .item-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 0;
+    flex: none;
+  }
+
+  .orientation-inventory .search-container {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .orientation-inventory .search-input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .orientation-inventory .button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,95 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "DM Sans", sans-serif;
+}
+
+.change-pass-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e, #222248);
+  color: #e0e0e0;
+}
+
+.change-pass-form-container {
+  width: 300px;
+  padding: 20px;
+  border: 2px solid #5cb3fd;
+  background-color: #303057;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+  border-radius: 8px;
+}
+
+.change-pass-form-container h2 {
+  font-size: 24px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  text-align: left;
+  color: #ffffff;
+}
+
+.change-pass-form-container .form-group {
+  margin-bottom: 20px;
+}
+
+.change-pass-form-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 18px;
+  color: #d1d1d1;
+}
+
+.change-pass-form-container input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #5cb3fd;
+  border-radius: 8px;
+  background-color: #303057;
+  color: #ffffff;
+  transition: border-color 0.3s ease;
+}
+
+.change-pass-form-container input:focus {
+  border-color: #00d4ff;
+}
+
+.change-pass-form-container .error-message {
+  color: #ff4d4d;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.change-pass-form-container button {
+  width: 100%;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+  padding: 15px 0;
+  background-color: #303057;
+  color: #ffffff;
+  border: 2px solid #5cb3fd;
+  border-radius: 8px;
+  font-size: 20px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.change-pass-form-container button:hover {
+  background-color: #2a2a5e;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+
+.change-pass-page .back-icon {
+  font-size: 2.8rem;
+  color: #ffffff;
+  margin-right: 10px;
+  transition: color 0.3s ease;
+}
+
+.change-pass-page .back-icon:hover {
+  color: #00d4ff;
+}
